@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* RESET GERAL */
+        /* RESET & BASE */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,9 +20,9 @@
         }
 
         :root {
-            --navy: #081321;    /* NOVO: Azul Marinho Oficial do Logo */
-            --silver: #C1C8D1;  /* NOVO: Prata Oficial do Logo */
-            --gold: #C5A059;    /* Mantido apenas para o botão principal de CTA */
+            --navy: #081321;    /* Azul Marinho Oficial */
+            --silver: #C1C8D1;  /* Prata Oficial */
+            --gold: #C5A059;    /* Dourado para CTAs */
             --white: #FFFFFF;
             --bg-light: #F8FAFC; 
         }
@@ -35,7 +35,7 @@
             line-height: 1.6;
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             font-family: 'Montserrat', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -48,33 +48,28 @@
             width: 100%;
         }
 
-        /* NAVBAR */
+        /* NAVBAR SÓLIDA */
         header {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 100;
-            background-color: var(--navy); /* Aplica a cor do logo na barra toda */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Uma linha sutil para separar da foto */
+            background-color: var(--navy);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 20px;
+            padding: 15px 20px;
         }
 
-        /* Ajuste para o Logo em Imagem */
         .logo-img {
-            height: 110px; /* Altura controlada para não quebrar o menu */
+            height: 70px;
             width: auto;
             transition: transform 0.3s;
-        }
-
-        .logo-img:hover {
-            transform: scale(1.05);
         }
 
         .nav-links {
@@ -90,7 +85,6 @@
             font-weight: 400;
             letter-spacing: 2px;
             transition: color 0.3s;
-            text-transform: uppercase;
         }
 
         .nav-links a:hover {
@@ -105,7 +99,6 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            /* Fundo atualizado para mesclar com o novo tom de Navy */
             background: linear-gradient(rgba(8, 19, 33, 0.85), rgba(8, 19, 33, 0.95)), 
                         url('https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
         }
@@ -130,7 +123,6 @@
             max-width: 700px;
             margin: 0 auto 40px auto; 
             font-size: 1.1rem;
-            color: var(--white);
         }
 
         .btn-gold {
@@ -140,10 +132,11 @@
             text-decoration: none;
             font-weight: 700;
             border-radius: 2px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            transition: transform 0.3s, background-color 0.3s;
+            transition: all 0.3s;
+            display: inline-block;
         }
 
         .btn-gold:hover {
@@ -151,7 +144,7 @@
             transform: translateY(-2px);
         }
 
-        /* ECOSYSTEM (SOLUTIONS) */
+        /* ECOSYSTEM */
         .solutions {
             background-color: var(--white);
             color: var(--navy);
@@ -159,21 +152,11 @@
             text-align: center;
         }
 
-        .solutions h2 {
-            margin-bottom: 20px;
-            font-size: 2rem;
-        }
-
-        .solutions-subtitle {
-            color: #64748b;
-            max-width: 700px;
-            margin: 0 auto 60px auto;
-        }
-
         .solutions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
+            margin-top: 60px;
         }
 
         .card {
@@ -185,43 +168,51 @@
         }
 
         .card:hover {
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            border-left: 4px solid var(--silver);
+            border-left: 4px solid var(--navy);
+            transform: translateY(-5px);
         }
 
-        .card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            color: var(--navy);
-        }
-
-        .card p {
-            font-size: 0.9rem;
-            color: #475569;
-        }
-
-        /* LABS (PLACEHOLDER) */
+        /* PERFORMANCE LABS - CASE STUDY STYLE */
         .labs {
             padding: 120px 0;
-            text-align: center;
             background-color: #050b14;
         }
 
-        .labs h2 {
-            color: var(--silver);
-            margin-bottom: 30px;
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 60px;
+            align-items: flex-start;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            background: #000;
+            border: 1px solid rgba(193, 200, 209, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .dashboard-wrapper {
+            position: relative;
+            padding-top: 73.8%; /* Proporção baseada no seu Iframe (443/600) */
+            height: 0;
+        }
+
+        .dashboard-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
         /* METHODOLOGY */
         .methodology {
             padding: 120px 0;
             text-align: center;
-            background-color: var(--navy);
-        }
-
-        .methodology h2 {
-            margin-bottom: 60px;
-            color: var(--silver);
         }
 
         .timeline {
@@ -229,6 +220,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
+            margin-top: 60px;
         }
 
         .step {
@@ -237,35 +229,14 @@
             background-color: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(193, 200, 209, 0.1);
             padding: 40px 25px;
-            transition: border 0.3s;
         }
 
-        .step:hover {
-            border: 1px solid var(--silver);
-        }
-
-        .step h3 {
-            color: var(--silver);
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
-
-        .step p {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* CONTACT SECTION */
+        /* CONTACT */
         .contact {
             background-color: var(--silver);
             color: var(--navy);
             padding: 100px 0;
             text-align: center;
-        }
-
-        .contact h2 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
         }
 
         .btn-navy {
@@ -279,55 +250,22 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 0.9rem;
-            transition: opacity 0.3s;
-        }
-        
-        .btn-navy:hover {
-            opacity: 0.85;
         }
 
-        /* FOOTER */
         footer {
             padding: 40px 0;
             background-color: #03080e;
             color: rgba(255, 255, 255, 0.3);
             text-align: center;
             font-size: 0.75rem;
-            letter-spacing: 1px;
         }
-        /* RESPONSIVIDADE (CELULARES E TABLETS) */
+
+        /* RESPONSIVIDADE */
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 20px;
-                padding: 20px;
-            }
-            
-            .nav-links {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem; /* Diminui o título principal */
-                letter-spacing: 4px;
-            }
-
-            .hero h2 {
-                font-size: 0.9rem;
-                letter-spacing: 2px;
-            }
-
-            .hero p {
-                font-size: 0.9rem;
-                padding: 0 15px;
-            }
-
-            .btn-gold {
-                padding: 15px 30px;
-                font-size: 0.8rem;
-            }
+            .navbar { flex-direction: column; gap: 20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .case-grid { grid-template-columns: 1fr; }
+            .hero { padding-top: 100px; }
         }
     </style>
 </head>
@@ -335,9 +273,7 @@
 
     <header>
         <div class="container navbar">
-            <a href="#">
-                <img src="Gemini_Generated_Image_.png" alt="Meridian Logo" class="logo-img">
-            </a>
+            <a href="#"><img src="logo.jpg" alt="Meridian Logo" class="logo-img"></a>
             <ul class="nav-links">
                 <li><a href="#solutions">Ecosystem</a></li>
                 <li><a href="#labs">Labs</a></li>
@@ -350,9 +286,7 @@
         <div class="container">
             <h1>MERIDIAN</h1>
             <h2>Transforming Evidence into Performance</h2>
-            <p>
-                We don’t sell IT. We sell your business’s profitable future through data intelligence and AI.
-            </p>
+            <p>We don’t sell IT. We sell your business’s profitable future through data intelligence and AI.</p>
             <a href="#contact" class="btn-gold">Get a Free Diagnostic</a>
         </div>
     </section>
@@ -360,33 +294,52 @@
     <section id="solutions" class="solutions">
         <div class="container">
             <h2>The Meridian Ecosystem</h2>
-            <p class="solutions-subtitle">Scalable software and predictive intelligence that solve operational problems and generate high-quality structured data.</p>
-            
+            <p style="color: #64748b; max-width: 700px; margin: 0 auto;">Scalable software and predictive intelligence that solve operational problems and generate high-quality structured data.</p>
             <div class="solutions-grid">
-                <div class="card">
-                    <h3>Point Retail</h3>
-                    <p>Full inventory, sales, and KPI management tailored for physical and digital retail operations.</p>
-                </div>
-                <div class="card">
-                    <h3>Point Commerce</h3>
-                    <p>E-commerce platform focused on conversion optimization and complete data traceability.</p>
-                </div>
-                <div class="card">
-                    <h3>Point Booking</h3>
-                    <p>Intelligent scheduling system designed for clinics, barbershops, and service-based businesses.</p>
-                </div>
-                <div class="card">
-                    <h3>Performance Consulting</h3>
-                    <p>Data architecture, executive 360° dashboards, and AI/ML models for demand and LTV forecasting.</p>
-                </div>
+                <div class="card"><h3>Point Retail</h3><p>Full inventory, sales, and KPI management tailored for physical and digital retail operations.</p></div>
+                <div class="card"><h3>Point Commerce</h3><p>E-commerce platform focused on conversion optimization and complete data traceability.</p></div>
+                <div class="card"><h3>Point Booking</h3><p>Intelligent scheduling system designed for clinics, barbershops, and service-based businesses.</p></div>
+                <div class="card"><h3>Performance Consulting</h3><p>Data architecture, executive 360° dashboards, and AI/ML models for demand and LTV forecasting.</p></div>
             </div>
         </div>
     </section>
 
     <section id="labs" class="labs">
         <div class="container">
-            <h2>Performance Labs</h2>
-            <p style="color: var(--silver);">[ Portfolio projects and live dashboards coming soon ]</p>
+            <div style="text-align: center; margin-bottom: 80px;">
+                <h2 style="color: var(--silver); font-size: 2.5rem; margin-bottom: 10px;">Performance Labs</h2>
+                <p style="color: rgba(255,255,255,0.5); letter-spacing: 2px;">WHERE DATA ARCHITECTURE MEETS BUSINESS STRATEGY</p>
+            </div>
+
+            <div class="case-grid">
+                <div class="dashboard-container">
+                    <div class="dashboard-wrapper">
+                        <iframe src="https://datastudio.google.com/embed/reporting/cd5b18ec-93f1-452b-8dd1-fcd388ec8ae6/page/m2sdF" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    </div>
+                </div>
+
+                <div style="text-align: left;">
+                    <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Revenue & Margin Optimization</h3>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
+                        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Resource misallocation causing inflated operational costs (OPEX) during low-yield evening hours and bottlenecking revenue during peak daytime demand.</p>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
+                        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Reallocation of 50% of workforce and inventory to the high-yield afternoon peak (12 PM - 5 PM). Deployment of interactive KPIs to align logistics with real-time demand.</p>
+                    </div>
+
+                    <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div><h4 style="color: var(--gold); font-size: 1.4rem;">+12%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">TOTAL PROFIT</p></div>
+                        <div><h4 style="color: var(--gold); font-size: 1.4rem;">-7.2%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">NIGHT OPEX</p></div>
+                        <div><h4 style="color: var(--gold); font-size: 1.4rem;">+23.6%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">BIG PIZZA SALES</p></div>
+                    </div>
+
+                    <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -394,22 +347,10 @@
         <div class="container">
             <h2>Delivery Methodology</h2>
             <div class="timeline">
-                <div class="step">
-                    <h3>01. Discovery</h3>
-                    <p>Technical and financial audit. Deep-dive into data infrastructure and financial KPIs to establish a performance baseline.</p>
-                </div>
-                <div class="step">
-                    <h3>02. Infrastructure</h3>
-                    <p>Implementation of data pipelines, SaaS system onboarding, and cloud data lake architecture (AWS/GCP).</p>
-                </div>
-                <div class="step">
-                    <h3>03. Intelligence</h3>
-                    <p>Deployment of AI/ML predictive models and executive dashboards transformed into predictive intelligence.</p>
-                </div>
-                <div class="step">
-                    <h3>04. Performance</h3>
-                    <p>Ongoing monthly strategic sessions focused on profit-target achievement and continuous model refinement.</p>
-                </div>
+                <div class="step"><h3>01. Discovery</h3><p>Technical and financial audit to establish a performance baseline.</p></div>
+                <div class="step"><h3>02. Infrastructure</h3><p>Implementation of data pipelines and cloud architecture.</p></div>
+                <div class="step"><h3>03. Intelligence</h3><p>Deployment of AI models and executive dashboards.</p></div>
+                <div class="step"><h3>04. Performance</h3><p>Ongoing sessions focused on profit-target achievement.</p></div>
             </div>
         </div>
     </section>
@@ -423,9 +364,7 @@
     </section>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. ALL RIGHTS RESERVED.</p>
-        </div>
+        <div class="container"><p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. ALL RIGHTS RESERVED.</p></div>
     </footer>
 
 </body>
