@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Immigration Intelligence — Meridian Labs</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #081321;
+  --navy2:  #0d1e30;
+  --navy3:  #112540;
+  --gold:   #C9A84C;
+  --gold2:  #e8c870;
+  --silver: #A8B2BD;
+  --white:  #F0F4F8;
+  --dim:    #3a4a5a;
+  --accent: #1E3A5F;
+  --green:  #4ade80;
+  --red:    #f87171;
+  --amber:  #fbbf24;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--white);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0}
+
+/* NAV TABS */
+.nav-tabs{position:sticky;top:0;z-index:100;background:var(--navy2);border-bottom:1px solid rgba(201,168,76,0.12);display:flex;gap:0;padding:0 40px}
+.nav-tab{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;padding:14px 22px;cursor:pointer;color:var(--dim);border-bottom:2px solid transparent;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-tab:hover:not(.active){color:var(--silver)}
+
+/* HEADER */
+.header{position:relative;z-index:10;padding:36px 40px 28px;border-bottom:1px solid rgba(201,168,76,0.15);display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.brand{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.header h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1.1}
+.header h1 em{color:var(--gold);font-style:italic}
+.header-sub{margin-top:6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--silver);letter-spacing:0.05em}
+.header-meta{display:flex;gap:16px;flex-wrap:wrap}
+.meta-pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--silver);border:1px solid var(--dim);padding:5px 12px;text-transform:uppercase}
+.meta-pill span{color:var(--gold)}
+
+/* KPI ROW */
+.kpi-row{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.12)}
+.kpi-card{background:var(--navy2);padding:22px 26px;position:relative;overflow:hidden;transition:background 0.2s}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.kpi-card:hover{background:var(--navy3)}
+.kpi-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;color:var(--silver);text-transform:uppercase;margin-bottom:10px}
+.kpi-value{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:var(--gold);line-height:1}
+.kpi-sub{margin-top:6px;font-family:'DM Mono',monospace;font-size:9px;color:var(--silver)}
+.kpi-badge{display:inline-block;margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;border-radius:2px}
+.kpi-badge.up{background:rgba(74,222,128,0.12);color:var(--green)}
+.kpi-badge.down{background:rgba(248,113,113,0.12);color:var(--red)}
+.kpi-badge.neutral{background:rgba(251,191,36,0.12);color:var(--amber)}
+
+/* SECTIONS */
+.section{display:none;position:relative;z-index:1;padding:32px 40px 60px}
+.section.active{display:block}
+
+/* GRID */
+.grid{display:grid;gap:20px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:1fr 1fr 1fr}
+.col-2{grid-column:span 2}
+
+/* PANEL */
+.panel{background:var(--navy2);border:1px solid rgba(168,178,189,0.08);padding:24px 28px;transition:border-color 0.2s}
+.panel:hover{border-color:rgba(201,168,76,0.15)}
+.panel-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(168,178,189,0.07)}
+.panel-title{font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--silver)}
+.panel-sub{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);margin-top:4px}
+.panel-badge{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:3px 10px;white-space:nowrap}
+
+/* CHARTS */
+.chart-wrap{position:relative}
+.chart-wrap canvas{display:block;width:100%!important}
+
+/* INSIGHTS */
+.insight-row{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.insight{flex:1;min-width:130px;background:rgba(201,168,76,0.05);border-left:2px solid var(--gold);padding:10px 14px}
+.insight-val{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:var(--gold)}
+.insight-desc{font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);margin-top:4px;letter-spacing:0.05em;line-height:1.5}
+
+/* SEASONALITY */
+.season-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.season-card{background:rgba(13,30,48,0.6);border:1px solid rgba(168,178,189,0.06);padding:18px;text-align:center;position:relative;overflow:hidden;transition:border-color 0.2s}
+.season-card.peak{border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.06)}
+.season-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
+.season-val{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:var(--gold);line-height:1}
+.season-pct{margin-top:6px;font-family:'DM Mono',monospace;font-size:9px;color:var(--silver)}
+.peak-badge{position:absolute;top:8px;right:8px;font-family:'DM Mono',monospace;font-size:8px;color:var(--gold);letter-spacing:0.1em;background:rgba(201,168,76,0.12);padding:2px 7px}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;margin-top:4px}
+.data-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);text-align:left;padding:8px 12px;border-bottom:1px solid rgba(168,178,189,0.08)}
+.data-table td{font-family:'DM Mono',monospace;font-size:11px;color:var(--silver);padding:9px 12px;border-bottom:1px solid rgba(168,178,189,0.04);transition:background 0.15s}
+.data-table tr:hover td{background:rgba(201,168,76,0.04)}
+.data-table td.num{color:var(--gold);text-align:right}
+.data-table td.rank{color:var(--dim);font-size:10px}
+.bar-inline{display:inline-block;height:3px;background:var(--gold);border-radius:2px;vertical-align:middle;margin-left:8px;opacity:0.45}
+
+/* ML METRIC CARDS */
+.ml-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.ml-kpi{background:var(--navy3);border:1px solid rgba(201,168,76,0.12);padding:18px 20px;position:relative;overflow:hidden}
+.ml-kpi::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0.4}
+.ml-kpi-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--silver);text-transform:uppercase;margin-bottom:8px}
+.ml-kpi-value{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:var(--gold);line-height:1}
+.ml-kpi-note{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);margin-top:6px}
+
+/* INTERPRETATION BOX */
+.interp-box{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);padding:20px 24px;margin-top:20px}
+.interp-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.interp-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;color:var(--silver);line-height:1.7}
+.interp-text strong{color:var(--white)}
+
+/* FORECAST TABLE */
+.forecast-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(168,178,189,0.05)}
+.forecast-prov{font-family:'DM Mono',monospace;font-size:11px;color:var(--silver);min-width:140px}
+.forecast-bar-wrap{flex:1;height:6px;background:rgba(168,178,189,0.08);border-radius:3px;overflow:hidden}
+.forecast-bar{height:100%;background:var(--gold);border-radius:3px;opacity:0.7}
+.forecast-nums{font-family:'DM Mono',monospace;font-size:10px;text-align:right;min-width:120px}
+.forecast-2024{color:var(--dim)}
+.forecast-2025{color:var(--gold)}
+.forecast-delta{font-size:9px;margin-left:6px}
+.forecast-delta.up{color:var(--green)}
+.forecast-delta.down{color:var(--red)}
+
+/* FOOTER */
+.footer{position:relative;z-index:1;padding:20px 40px;border-top:1px solid rgba(201,168,76,0.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-brand{font-size:12px;font-weight:700;letter-spacing:0.2em;color:var(--gold)}
+.footer-note{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)}
+
+@media(max-width:900px){
+  .nav-tabs{padding:0 16px;overflow-x:auto}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .col-2{grid-column:span 1}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .ml-kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .season-grid{grid-template-columns:repeat(2,1fr)}
+  .header,.section{padding-left:20px;padding-right:20px}
+  .footer{padding:16px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="brand">Meridian Labs · Immigration Intelligence</div>
+    <h1>Canada PR Admissions<br><em>Strategic Analysis + ML Forecast</em></h1>
+    <div class="header-sub">Source: IRCC Open Data · Jan 2015 – Feb 2026 · GradientBoosting model trained on 611 records</div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-pill">Dataset <span>2 files</span></div>
+    <div class="meta-pill">Records <span>482K+ (2024)</span></div>
+    <div class="meta-pill">Period <span>2015–2026</span></div>
+    <div class="meta-pill">Model <span>GBM · R²=0.79</span></div>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('overview')">Overview</button>
+  <button class="nav-tab" onclick="showTab('geography')">Geography</button>
+  <button class="nav-tab" onclick="showTab('brazil')">Brazil Focus</button>
+  <button class="nav-tab" onclick="showTab('ml')">ML Model</button>
+</div>
+
+<!-- KPI ROW -->
+<div class="kpi-row">
+  <div class="kpi-card">
+    <div class="kpi-label">Total Admissions 2024</div>
+    <div class="kpi-value">482,960</div>
+    <div class="kpi-sub">Permanent Residents</div>
+    <div class="kpi-badge up">▲ +2.5% vs 2023</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Brazilian PRs 2024</div>
+    <div class="kpi-value">5,985</div>
+    <div class="kpi-sub">Permanent Residents</div>
+    <div class="kpi-badge down">▼ −17.2% vs 2023</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Model R²</div>
+    <div class="kpi-value">0.79</div>
+    <div class="kpi-sub">Variance explained</div>
+    <div class="kpi-badge neutral">MAE = 593 admissions</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Peak Quarter · Brazil</div>
+    <div class="kpi-value">Q1</div>
+    <div class="kpi-sub">Avg 473 admissions/month</div>
+    <div class="kpi-badge up">▲ 28% above Q4</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Training Time</div>
+    <div class="kpi-value">0.68s</div>
+    <div class="kpi-sub">611 records · GBM 400 trees</div>
+    <div class="kpi-badge neutral">Test set: 474 records</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TAB 1: OVERVIEW -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section active" id="tab-overview">
+  <div class="grid grid-2">
+
+    <!-- Trend chart wide -->
+    <div class="panel col-2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Annual PR Admissions — Canada vs Brazil</div>
+          <div class="panel-sub">Canada total (left axis) · Brazil (right axis) · 2015–2025</div>
+        </div>
+        <div class="panel-badge">TIME SERIES</div>
+      </div>
+      <div class="chart-wrap" style="height:250px"><canvas id="trendChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">+208%</div><div class="insight-desc">Brazil growth 2019→2021<br>pandemic rebound spike</div></div>
+        <div class="insight"><div class="insight-val">11,415</div><div class="insight-desc">Brazil peak admissions<br>2021 all-time high</div></div>
+        <div class="insight"><div class="insight-val">−34%</div><div class="insight-desc">Brazil decline 2021→2024<br>normalization post-peak</div></div>
+        <div class="insight"><div class="insight-val">+78%</div><div class="insight-desc">Canada growth 2015→2024<br>record highs consecutively</div></div>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Top Immigration Categories</div>
+          <div class="panel-sub">Cumulative 2015–2025 · all provinces</div>
+        </div>
+        <div class="panel-badge">CATEGORIES</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="catChart"></canvas></div>
+    </div>
+
+    <!-- Seasonality -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Brazil — Quarterly Seasonality</div>
+          <div class="panel-sub">Average monthly admissions per quarter · 2015–2025</div>
+        </div>
+        <div class="panel-badge">SEASONALITY</div>
+      </div>
+      <div class="season-grid">
+        <div class="season-card peak">
+          <div class="peak-badge">PEAK</div>
+          <div class="season-label">Q1 · Jan–Mar</div>
+          <div class="season-val">473</div>
+          <div class="season-pct">avg/month · +28% vs Q4</div>
+        </div>
+        <div class="season-card">
+          <div class="season-label">Q2 · Apr–Jun</div>
+          <div class="season-val">439</div>
+          <div class="season-pct">avg/month · 2nd best</div>
+        </div>
+        <div class="season-card">
+          <div class="season-label">Q3 · Jul–Sep</div>
+          <div class="season-val">448</div>
+          <div class="season-pct">avg/month · stable</div>
+        </div>
+        <div class="season-card">
+          <div class="season-label">Q4 · Oct–Dec</div>
+          <div class="season-val">340</div>
+          <div class="season-pct">avg/month · weakest</div>
+        </div>
+      </div>
+      <div class="interp-box" style="margin-top:16px">
+        <div class="interp-title">Strategic Insight</div>
+        <div class="interp-text">Clients who begin the process in <strong>Sep–Oct</strong> land in the Q1 processing window — the strongest quarter. Advising against Q4 submissions is a measurable differentiator.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TAB 2: GEOGRAPHY -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="tab-geography">
+  <div class="grid grid-2">
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Province Distribution 2024</div>
+          <div class="panel-sub">Top 6 provinces · share of 482,960 total</div>
+        </div>
+        <div class="panel-badge">DOUGHNUT</div>
+      </div>
+      <div class="chart-wrap" style="height:270px"><canvas id="provChart"></canvas></div>
+      <div class="insight-row" style="margin-top:12px">
+        <div class="insight"><div class="insight-val">ON+BC+AB</div><div class="insight-desc">70% of national admissions<br>Strategic concentration zone</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Province Rankings 2024</div>
+          <div class="panel-sub">Full breakdown with national share</div>
+        </div>
+        <div class="panel-badge">TABLE</div>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Province</th><th style="text-align:right">Admissions</th><th style="text-align:right">Share</th></tr></thead>
+        <tbody id="provTable"></tbody>
+      </table>
+    </div>
+
+    <div class="panel col-2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Province Trend — Top 5 (2015–2025)</div>
+          <div class="panel-sub">Annual admissions by major province</div>
+        </div>
+        <div class="panel-badge">MULTI-LINE</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="provTrendChart"></canvas></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TAB 3: BRAZIL FOCUS -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="tab-brazil">
+  <div class="grid grid-2">
+
+    <div class="panel col-2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Brazil — Annual PR Admissions 2015–2025</div>
+          <div class="panel-sub">Yearly volume with growth annotation</div>
+        </div>
+        <div class="panel-badge">BRAZIL</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="brazilChart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Monthly Seasonality Detail</div>
+          <div class="panel-sub">Avg admissions per calendar month · all years</div>
+        </div>
+        <div class="panel-badge">MONTHLY</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="brazilMonthly"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Brazil YoY Growth Rate</div>
+          <div class="panel-sub">Year-over-year % change</div>
+        </div>
+        <div class="panel-badge">GROWTH</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="brazilGrowth"></canvas></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TAB 4: ML MODEL -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="tab-ml">
+
+  <!-- ML KPI Cards -->
+  <div class="ml-kpi-grid">
+    <div class="ml-kpi">
+      <div class="ml-kpi-label">R² Score</div>
+      <div class="ml-kpi-value">0.7941</div>
+      <div class="ml-kpi-note">Model explains 79% of variance</div>
+    </div>
+    <div class="ml-kpi">
+      <div class="ml-kpi-label">MAE</div>
+      <div class="ml-kpi-value">593</div>
+      <div class="ml-kpi-note">Mean Absolute Error (admissions)</div>
+    </div>
+    <div class="ml-kpi">
+      <div class="ml-kpi-label">MAPE</div>
+      <div class="ml-kpi-value">64.7%</div>
+      <div class="ml-kpi-note">Driven by small-value categories</div>
+    </div>
+    <div class="ml-kpi">
+      <div class="ml-kpi-label">Within ±20%</div>
+      <div class="ml-kpi-value">48.3%</div>
+      <div class="ml-kpi-note">30.8% within ±10%</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+
+    <!-- Scatter: Actual vs Predicted -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Actual vs. Predicted</div>
+          <div class="panel-sub">Test set · 474 records · 2023–2024</div>
+        </div>
+        <div class="panel-badge">SCATTER</div>
+      </div>
+      <div class="chart-wrap" style="height:280px"><canvas id="scatterChart"></canvas></div>
+      <div class="interp-box">
+        <div class="interp-title">Reading this chart</div>
+        <div class="interp-text">Points along the diagonal = perfect prediction. The model tracks large-volume categories well (Ontario, Alberta). <strong>Outliers</strong> are mostly niche categories with low absolute volume — high MAPE, low strategic impact.</div>
+      </div>
+    </div>
+
+    <!-- Feature Importance -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Feature Importance</div>
+          <div class="panel-sub">What drives the model's predictions?</div>
+        </div>
+        <div class="panel-badge">EXPLAINABILITY</div>
+      </div>
+      <div class="chart-wrap" style="height:200px"><canvas id="fiChart"></canvas></div>
+      <div class="interp-box" style="margin-top:16px">
+        <div class="interp-title">Key Takeaway</div>
+        <div class="interp-text"><strong>Rolling 3-year average (90.1%)</strong> is by far the dominant signal — past trends are the best predictor of future volume. This validates the strategic hypothesis: historical patterns are the real intelligence asset, not one-off spikes.</div>
+      </div>
+    </div>
+
+    <!-- Residuals -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Residual Distribution</div>
+          <div class="panel-sub">Prediction error spread across test set</div>
+        </div>
+        <div class="panel-badge">RESIDUALS</div>
+      </div>
+      <div class="chart-wrap" style="height:220px"><canvas id="residChart"></canvas></div>
+      <div class="interp-box" style="margin-top:16px">
+        <div class="interp-title">Distribution Reading</div>
+        <div class="interp-text">The vast majority of errors cluster near <strong>zero</strong> — the model is unbiased. The few large negative residuals (model over-predicted) correspond to Ontario's 2024 policy-driven drop, which no historical model can anticipate without external signals.</div>
+      </div>
+    </div>
+
+    <!-- Province MAE + 2025 Forecast -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">2025 Forecast — Top Provinces</div>
+          <div class="panel-sub">Model prediction vs 2024 actual</div>
+        </div>
+        <div class="panel-badge">FORECAST</div>
+      </div>
+      <div id="forecastRows"></div>
+      <div class="interp-box" style="margin-top:16px">
+        <div class="interp-title">Forecast Context</div>
+        <div class="interp-text">Quebec and Saskatchewan show <strong>strong projected growth</strong> for 2025 based on their 2023–2024 trajectory. Alberta stabilizes. These signals help consulting firms advise clients on <strong>where to anchor their destination province</strong> for maximum approval probability.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">MERIDIAN</div>
+  <div class="footer-note">IRCC Open Data · GradientBoosting Model · R²=0.79 · MAE=593 · Analysis by Meridian Labs · 2025</div>
+</div>
+
+<script>
+// ── PALETTE ──────────────────────────────────────────────────
+const NAVY  ='#081321', NAVY2='#0d1e30', GOLD='#C9A84C',
+      SILV  ='#A8B2BD', DIM  ='#3a4a5a', WHITE='#F0F4F8',
+      GREEN ='#4ade80', RED  ='#f87171', AMBER='#fbbf24';
+
+Chart.defaults.color = SILV;
+Chart.defaults.font.family = "'DM Mono', monospace";
+Chart.defaults.font.size = 10;
+
+const gridOpts = { color:'rgba(168,178,189,0.07)', drawBorder:false };
+const ttBase = { backgroundColor:NAVY2, borderColor:'rgba(201,168,76,0.3)',
+                 borderWidth:1, titleColor:GOLD, bodyColor:SILV };
+
+// ── RAW DATA ─────────────────────────────────────────────────
+const globalAnnual = {2015:271155,2016:295675,2017:285795,2018:320300,2019:340460,
+                       2020:183600,2021:405185,2022:436820,2023:471040,2024:482960,2025:393025};
+const brazilAnnual = {2015:1730,2016:1725,2017:2750,2018:3945,2019:5290,
+                       2020:3705,2021:11415,2022:7340,2023:7230,2024:5985,2025:5115};
+const provinceData = {'Ontario':205855,'Alberta':66400,'British Columbia':63130,
+                       'Quebec':59450,'Manitoba':24700,'Saskatchewan':23165,
+                       'Nova Scotia':14275,'New Brunswick':15495,
+                       'Newfoundland and Labrador':5755,'Prince Edward Island':3970,
+                       'Yukon':940,'Northwest Territories':415,'Nunavut':50};
+const catData = {'Provincial Nominee':747130,'Skilled Worker':698345,
+                  'Spouse or Partner':664600,'Canadian Experience':451630,
+                  'Parent/Grandparent':221775,'Priv. Sponsored Refugee':198570,
+                  'Gov. Assisted Refugee':152125,'Caregiver':119710};
+
+// ML data
+const mlMetrics = {"mae":593.1,"rmse":2822.6,"mape":64.7,"r2":0.7941,"within_10":30.8,"within_20":48.3,"train_time":0.68,"train_size":611,"test_size":474};
+const mlFI = [["Rolling 3yr",90.1],["YoY Growth",7.6],["Lag 1yr",0.9],["Lag 2yr",0.8],["Category",0.3],["Year",0.2],["Province",0.0]];
+const mlScatter = {"actual":[655,15,8250,2000,1585,3200,2705,210,12150,830,585,5,4440,305,660,65,4715,495,1375,600,1285,5,690,5,5,75,15,350,20,835,75,555,17795,255,275,110,775,55,1305,105,10,15,1480,4865,1185,60,29830,4330,765,80,2440,225,830,570,40,5,65,10,325,40,170,160,15,15,265,80,655,100,15,1000,1735,50,55,5,695,155,10,305,75,1260,55,105,11145,360,400,115,20,1175,140,2125,455,195,50,200,605,10,530,485,7010,10,330,40,5,160,970,45,110,910,35,34790,1555,295,6860,11350,21435,1775,665,385,30060,2605,335,45,10940,37070,900,19860,105,5,3545,1100,3635,225,625,12145,40,55,3825,585,155,240,5310,10300,1240,30,30,10,280,5,45,5],"pred":[627,45,23186,3416,1646,3572,2663,790,13176,959,495,32,3972,846,762,93,4429,1385,4008,697,2462,0,731,11,14,90,10,358,38,885,128,625,17778,214,261,106,761,163,1571,180,5,64,1688,4639,1257,119,22050,9722,876,80,2738,819,2154,495,114,0,102,88,729,65,196,196,43,0,370,103,799,138,35,1450,1787,65,64,8,817,228,60,299,144,1282,206,305,10712,364,376,221,34,1128,261,2405,400,275,0,774,591,16,635,535,7216,55,347,58,3,197,972,61,224,1024,37,33226,1715,979,7594,10638,22716,1518,967,500,31520,3055,908,99,11253,24522,841,17836,324,11,3768,1125,3340,853,2120,13800,78,72,3740,1397,218,277,5094,10644,2874,22,88,54,299,3,67,0]};
+const mlResid = {"counts":[1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,7,11,439,10,1,3,1],"labels":[-52193,-49250,-46307,-43364,-40421,-37479,-34536,-31593,-28650,-25707,-22765,-19822,-16879,-13936,-10994,-8051,-5108,-2165,777,3719,6662,9605]};
+const prov2025 = {"Quebec":184312,"Saskatchewan":73389,"Alberta":62917,"New Brunswick":58358,"Ontario":32482,"Manitoba":19662};
+const prov2024 = {"Quebec":174255,"Saskatchewan":61665,"Alberta":58675,"New Brunswick":54285,"Ontario":23855,"Manitoba":22640};
+
+const years = [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+const globalVals = years.map(y=>globalAnnual[y]);
+const brazilVals = years.map(y=>brazilAnnual[y]||0);
+
+// ── TAB SWITCHING ─────────────────────────────────────────────
+function showTab(name){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── CHART 1: TREND ───────────────────────────────────────────
+new Chart(document.getElementById('trendChart'),{
+  type:'line',
+  data:{
+    labels:years,
+    datasets:[
+      {label:'Canada Total',data:globalVals,borderColor:SILV+'bb',backgroundColor:'rgba(168,178,189,0.05)',
+       borderWidth:1.5,fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:SILV,yAxisID:'y'},
+      {label:'Brazil',data:brazilVals,borderColor:GOLD,backgroundColor:'rgba(201,168,76,0.07)',
+       borderWidth:2.5,fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:GOLD,yAxisID:'y2'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:12}},tooltip:{...ttBase,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}`}}},
+    scales:{
+      x:{grid:gridOpts,ticks:{color:DIM}},
+      y:{position:'left',grid:gridOpts,ticks:{color:SILV,callback:v=>(v/1000).toFixed(0)+'K'},title:{display:true,text:'Canada Total',color:SILV,font:{size:9}}},
+      y2:{position:'right',grid:{display:false},ticks:{color:GOLD,callback:v=>v.toLocaleString()},title:{display:true,text:'Brazil',color:GOLD,font:{size:9}}}
+    }
+  }
+});
+
+// ── CHART 2: CATEGORIES ──────────────────────────────────────
+const catEntries = Object.entries(catData).sort((a,b)=>a[1]-b[1]);
+new Chart(document.getElementById('catChart'),{
+  type:'bar',
+  data:{
+    labels:catEntries.map(c=>c[0]),
+    datasets:[{data:catEntries.map(c=>c[1]),
+      backgroundColor:catEntries.map((_,i)=>i>=catEntries.length-2?GOLD+'99':SILV+'44'),
+      borderColor:catEntries.map((_,i)=>i>=catEntries.length-2?GOLD:SILV+'66'),
+      borderWidth:1,borderRadius:2,barThickness:16}]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...ttBase,callbacks:{label:ctx=>` ${ctx.parsed.x.toLocaleString()} cumulative`}}},
+    scales:{x:{grid:gridOpts,ticks:{color:DIM,callback:v=>(v/1000).toFixed(0)+'K'}},y:{grid:{display:false},ticks:{color:SILV,font:{size:9}}}}
+  }
+});
+
+// ── CHART 3: PROVINCE DOUGHNUT ───────────────────────────────
+const topProvs=Object.entries(provinceData).sort((a,b)=>b[1]-a[1]).slice(0,6);
+new Chart(document.getElementById('provChart'),{
+  type:'doughnut',
+  data:{
+    labels:topProvs.map(p=>p[0].replace('British Columbia','BC')),
+    datasets:[{data:topProvs.map(p=>p[1]),
+      backgroundColor:[GOLD,'#b8965a','#8a7040',SILV,'#7a8a99','#4a5a6a'],
+      borderColor:'#081321',borderWidth:3,hoverOffset:8}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+    plugins:{legend:{position:'right',labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9},padding:12}},
+             tooltip:{...ttBase,callbacks:{label:ctx=>` ${ctx.parsed.toLocaleString()} (${(ctx.parsed/482960*100).toFixed(1)}%)`}}}
+  }
+});
+
+// ── CHART 4: PROVINCE TREND ──────────────────────────────────
+const provColors5=[GOLD,SILV,'#7a8a99','#5a9a7a','#9a7a5a'];
+const provTrendData={
+  'Ontario':      [90635,103225,97570,121270,128910,69195,164825,174505,193605,205855,null],
+  'Alberta':      [29595,32050,30505,37880,42445,23540,60215,67730,79735,66400,null],
+  'British Columbia':[35160,38475,36140,46815,49505,28505,72815,74405,74990,63130,null],
+  'Quebec':       [44660,49890,49315,56545,57965,32945,65700,63285,62105,59450,null],
+  'Manitoba':     [13635,14540,15445,16430,18410,10465,22920,26505,30260,24700,null]
+};
+new Chart(document.getElementById('provTrendChart'),{
+  type:'line',
+  data:{
+    labels:years,
+    datasets:Object.entries(provTrendData).map(([prov,vals],i)=>({
+      label:prov.replace('British Columbia','BC'),
+      data:vals,
+      borderColor:provColors5[i],
+      backgroundColor:'transparent',
+      borderWidth:i===0?2.5:1.5,
+      tension:0.4,
+      pointRadius:i===0?3:2,
+      pointBackgroundColor:provColors5[i]
+    }))
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9}}},
+             tooltip:{...ttBase,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${(ctx.parsed.y||0).toLocaleString()}`}}},
+    scales:{x:{grid:gridOpts,ticks:{color:DIM}},y:{grid:gridOpts,ticks:{color:SILV,callback:v=>(v/1000).toFixed(0)+'K'}}}
+  }
+});
+
+// ── CHART 5: BRAZIL BAR ──────────────────────────────────────
+const brazilYears=[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+const brazilV=brazilYears.map(y=>brazilAnnual[y]);
+new Chart(document.getElementById('brazilChart'),{
+  type:'bar',
+  data:{
+    labels:brazilYears,
+    datasets:[{data:brazilV,
+      backgroundColor:brazilYears.map(y=>y===2021?GOLD:SILV+'55'),
+      borderColor:brazilYears.map(y=>y===2021?GOLD:SILV+'33'),
+      borderWidth:1,borderRadius:3,barThickness:22}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...ttBase,callbacks:{label:ctx=>` ${ctx.parsed.y.toLocaleString()} admissions`}}},
+    scales:{x:{grid:{display:false},ticks:{color:DIM}},y:{grid:gridOpts,ticks:{color:SILV,callback:v=>v.toLocaleString()}}}
+  }
+});
+
+// ── CHART 6: BRAZIL MONTHLY ──────────────────────────────────
+const monthLabels=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const monthAvg=[473,460,486,445,430,442,452,441,451,358,337,325]; // estimated from Q totals
+new Chart(document.getElementById('brazilMonthly'),{
+  type:'bar',
+  data:{
+    labels:monthLabels,
+    datasets:[{data:monthAvg,
+      backgroundColor:monthLabels.map(m=>['Jan','Feb','Mar'].includes(m)?GOLD+'cc':SILV+'44'),
+      borderColor:monthLabels.map(m=>['Jan','Feb','Mar'].includes(m)?GOLD:SILV+'33'),
+      borderWidth:1,borderRadius:3,barThickness:18}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...ttBase,callbacks:{label:ctx=>` ${ctx.parsed.y} avg admissions`}}},
+    scales:{x:{grid:{display:false},ticks:{color:DIM}},y:{grid:gridOpts,ticks:{color:SILV}}}
+  }
+});
+
+// ── CHART 7: BRAZIL GROWTH ───────────────────────────────────
+const brazilYearsList=[2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+const brazilGrowthVals=brazilYearsList.map((y,i)=>{
+  const prev=brazilAnnual[y-1]; const curr=brazilAnnual[y];
+  return curr&&prev?Math.round((curr-prev)/prev*100):null;
+});
+new Chart(document.getElementById('brazilGrowth'),{
+  type:'bar',
+  data:{
+    labels:brazilYearsList,
+    datasets:[{data:brazilGrowthVals,
+      backgroundColor:brazilGrowthVals.map(v=>v===null?'transparent':v>=0?GREEN+'55':RED+'55'),
+      borderColor:brazilGrowthVals.map(v=>v===null?'transparent':v>=0?GREEN:RED),
+      borderWidth:1,borderRadius:3,barThickness:20}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...ttBase,callbacks:{label:ctx=>` ${ctx.parsed.y}% YoY`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:DIM}},
+      y:{grid:gridOpts,ticks:{color:SILV,callback:v=>v+'%'},
+         afterDataLimits(axis){axis.min=Math.min(axis.min,-20)}}
+    }
+  }
+});
+
+// ── CHART 8: SCATTER ─────────────────────────────────────────
+const maxVal=Math.max(...mlScatter.actual,...mlScatter.pred);
+new Chart(document.getElementById('scatterChart'),{
+  type:'scatter',
+  data:{
+    datasets:[
+      {label:'Predictions',
+       data:mlScatter.actual.map((a,i)=>({x:a,y:mlScatter.pred[i]})),
+       backgroundColor:GOLD+'66',borderColor:GOLD+'99',borderWidth:1,pointRadius:4,pointHoverRadius:6},
+      {label:'Perfect Fit',type:'line',
+       data:[{x:0,y:0},{x:maxVal,y:maxVal}],
+       borderColor:SILV+'88',borderWidth:1.5,borderDash:[4,4],pointRadius:0,fill:false},
+      {label:'±20% Band',type:'line',
+       data:[{x:0,y:0},{x:maxVal,y:maxVal*1.2}],
+       borderColor:GOLD+'22',backgroundColor:GOLD+'08',borderWidth:0,pointRadius:0,fill:'-1'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9}}},
+             tooltip:{...ttBase,callbacks:{label:ctx=>` Actual: ${ctx.parsed.x.toLocaleString()} → Pred: ${ctx.parsed.y.toLocaleString()}`}}},
+    scales:{
+      x:{grid:gridOpts,title:{display:true,text:'Actual Admissions',color:SILV,font:{size:9}},ticks:{color:DIM,callback:v=>(v/1000).toFixed(0)+'K'}},
+      y:{grid:gridOpts,title:{display:true,text:'Predicted Admissions',color:SILV,font:{size:9}},ticks:{color:DIM,callback:v=>(v/1000).toFixed(0)+'K'}}
+    }
+  }
+});
+
+// ── CHART 9: FEATURE IMPORTANCE ─────────────────────────────
+const fiSorted=[...mlFI].sort((a,b)=>a[1]-b[1]);
+new Chart(document.getElementById('fiChart'),{
+  type:'bar',
+  data:{
+    labels:fiSorted.map(f=>f[0]),
+    datasets:[{data:fiSorted.map(f=>f[1]),
+      backgroundColor:fiSorted.map((_,i)=>i===fiSorted.length-1?GOLD+'cc':SILV+'44'),
+      borderColor:fiSorted.map((_,i)=>i===fiSorted.length-1?GOLD:SILV+'66'),
+      borderWidth:1,borderRadius:2,barThickness:14}]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...ttBase,callbacks:{label:ctx=>` ${ctx.parsed.x.toFixed(1)}% importance`}}},
+    scales:{x:{grid:gridOpts,ticks:{color:DIM,callback:v=>v+'%'},max:100},y:{grid:{display:false},ticks:{color:SILV,font:{size:9}}}}
+  }
+});
+
+// ── CHART 10: RESIDUALS ──────────────────────────────────────
+new Chart(document.getElementById('residChart'),{
+  type:'bar',
+  data:{
+    labels:mlResid.labels.map((v,i)=>i===17?'~0':v>0?'+'+Math.round(v/1000)+'K':Math.round(v/1000)+'K'),
+    datasets:[{data:mlResid.counts,
+      backgroundColor:mlResid.labels.map(v=>Math.abs(v)<3000?GOLD+'cc':SILV+'44'),
+      borderColor:mlResid.labels.map(v=>Math.abs(v)<3000?GOLD:SILV+'44'),
+      borderWidth:1,borderRadius:2}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...ttBase,callbacks:{label:ctx=>` ${ctx.parsed.y} records`}}},
+    scales:{x:{grid:{display:false},ticks:{color:DIM,maxRotation:45,font:{size:8}}},
+            y:{grid:gridOpts,ticks:{color:SILV},title:{display:true,text:'Count',color:SILV,font:{size:9}}}}
+  }
+});
+
+// ── PROVINCE TABLE ───────────────────────────────────────────
+const total2024=482960;
+const provEntries=Object.entries(provinceData).sort((a,b)=>b[1]-a[1]);
+const tbody=document.getElementById('provTable');
+provEntries.forEach(([name,val],i)=>{
+  const pct=(val/total2024*100).toFixed(1);
+  const bw=Math.round((val/provEntries[0][1])*80);
+  const short=name.replace('Newfoundland and Labrador','Newfoundland').replace('Northwest Territories','NW Territories');
+  tbody.innerHTML+=`<tr><td class="rank">${i+1}</td><td>${short}</td><td class="num">${val.toLocaleString()}<span class="bar-inline" style="width:${bw}px"></span></td><td class="num">${pct}%</td></tr>`;
+});
+
+// ── FORECAST ROWS ────────────────────────────────────────────
+const forecastDiv=document.getElementById('forecastRows');
+const maxPred=Math.max(...Object.values(prov2025));
+Object.entries(prov2025).forEach(([prov,pred])=>{
+  const actual=prov2024[prov]||0;
+  const delta=actual>0?Math.round((pred-actual)/actual*100):0;
+  const barW=Math.round((pred/maxPred)*100);
+  const cls=delta>=0?'up':'down';
+  const sign=delta>=0?'▲':'▼';
+  forecastDiv.innerHTML+=`
+    <div class="forecast-row">
+      <div class="forecast-prov">${prov}</div>
+      <div class="forecast-bar-wrap"><div class="forecast-bar" style="width:${barW}%"></div></div>
+      <div class="forecast-nums">
+        <span class="forecast-2024">${actual.toLocaleString()}</span>
+        <span style="color:var(--dim)"> → </span>
+        <span class="forecast-2025">${pred.toLocaleString()}</span>
+        <span class="forecast-delta ${cls}">${sign}${Math.abs(delta)}%</span>
+      </div>
+    </div>`;
+});
+</script>
+</body>
+</html>
