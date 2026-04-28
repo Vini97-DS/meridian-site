@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CapEx Intelligence — OilyGiant · Meridian Labs</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#081321;--navy2:#0d1e30;--navy3:#112540;
+  --gold:#C9A84C;--gold2:#e8c870;
+  --silver:#A8B2BD;--white:#F0F4F8;--dim:#3a4a5a;--accent:#1E3A5F;
+  --green:#4ade80;--red:#f87171;--amber:#fbbf24;
+  --oil:#8B6914;--oil2:#d4a843;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--white);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* subtle grid bg */
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px);
+  background-size:55px 55px;pointer-events:none;z-index:0}
+
+/* diagonal accent */
+body::after{content:'';position:fixed;top:-40%;right:-20%;width:60%;height:160%;
+  background:linear-gradient(135deg,transparent 45%,rgba(201,168,76,0.03) 45%,rgba(201,168,76,0.03) 55%,transparent 55%);
+  pointer-events:none;z-index:0}
+
+/* ── HEADER ── */
+.header{position:relative;z-index:10;padding:32px 40px 24px;
+  border-bottom:1px solid rgba(201,168,76,0.12);
+  display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.brand{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.header h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1.1}
+.header h1 em{color:var(--gold);font-style:italic}
+.header-sub{margin-top:6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--silver);letter-spacing:0.05em}
+.header-meta{display:flex;gap:14px;flex-wrap:wrap}
+.meta-pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--silver);border:1px solid var(--dim);padding:5px 12px;text-transform:uppercase}
+.meta-pill span{color:var(--gold)}
+
+/* ── KPI ROW ── */
+.kpi-row{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+  background:rgba(201,168,76,0.07);border-bottom:1px solid rgba(201,168,76,0.1)}
+.kpi-card{background:var(--navy2);padding:22px 24px;position:relative;overflow:hidden;transition:background 0.2s}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.kpi-card:hover{background:var(--navy3)}
+.kpi-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;color:var(--silver);text-transform:uppercase;margin-bottom:10px}
+.kpi-value{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:300;color:var(--gold);line-height:1}
+.kpi-sub{margin-top:6px;font-family:'DM Mono',monospace;font-size:9px;color:var(--silver)}
+.kpi-badge{display:inline-block;margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;border-radius:2px}
+.kpi-badge.pass{background:rgba(74,222,128,0.1);color:var(--green)}
+.kpi-badge.fail{background:rgba(248,113,113,0.1);color:var(--red)}
+.kpi-badge.neutral{background:rgba(251,191,36,0.1);color:var(--amber)}
+
+/* ── NAV ── */
+.nav-tabs{position:sticky;top:0;z-index:100;background:var(--navy2);
+  border-bottom:1px solid rgba(201,168,76,0.1);display:flex;gap:0;padding:0 40px}
+.nav-tab{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:13px 22px;cursor:pointer;color:var(--dim);border-bottom:2px solid transparent;
+  transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-tab:hover:not(.active){color:var(--silver)}
+
+/* ── SECTIONS ── */
+.section{display:none;position:relative;z-index:1;padding:32px 40px 60px}
+.section.active{display:block}
+
+/* ── GRID ── */
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g13{grid-template-columns:1fr 3fr}
+.col2{grid-column:span 2}
+.col3{grid-column:span 3}
+
+/* ── PANEL ── */
+.panel{background:var(--navy2);border:1px solid rgba(168,178,189,0.08);padding:24px 28px;transition:border-color 0.2s}
+.panel:hover{border-color:rgba(201,168,76,0.14)}
+.panel-header{display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(168,178,189,0.07)}
+.panel-title{font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--silver)}
+.panel-sub{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);margin-top:4px}
+.panel-badge{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);
+  border:1px solid rgba(201,168,76,0.3);padding:3px 10px;white-space:nowrap}
+
+/* ── CHARTS ── */
+.chart-wrap canvas{display:block;width:100%!important}
+
+/* ── REGION CARDS ── */
+.region-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.region-card{padding:24px;border:1px solid rgba(168,178,189,0.08);position:relative;overflow:hidden;transition:all 0.25s}
+.region-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%}
+.region-card.recommended{border-color:rgba(74,222,128,0.25);background:rgba(74,222,128,0.04)}
+.region-card.recommended::before{background:var(--green)}
+.region-card.discarded{border-color:rgba(248,113,113,0.15);background:rgba(248,113,113,0.03)}
+.region-card.discarded::before{background:var(--red)}
+.region-card.warning{border-color:rgba(251,191,36,0.2);background:rgba(251,191,36,0.03)}
+.region-card.warning::before{background:var(--amber)}
+.region-card:hover{transform:translateY(-3px)}
+
+.region-name{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--silver);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.region-status{font-size:8px;padding:2px 8px;border-radius:2px;letter-spacing:0.1em}
+.status-pass{background:rgba(74,222,128,0.12);color:var(--green)}
+.status-fail{background:rgba(248,113,113,0.12);color:var(--red)}
+
+.region-profit{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--gold);line-height:1;margin-bottom:16px}
+.region-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.region-stat-item{background:rgba(8,19,33,0.4);padding:8px 10px}
+.rs-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--dim);text-transform:uppercase;margin-bottom:4px}
+.rs-value{font-family:'DM Mono',monospace;font-size:11px;color:var(--silver)}
+.rs-value.good{color:var(--green)}
+.rs-value.bad{color:var(--red)}
+.rs-value.warn{color:var(--amber)}
+
+/* ── RECOMMENDATION BOX ── */
+.rec-box{background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.2);padding:24px 28px;
+  display:flex;align-items:flex-start;gap:24px;margin-bottom:24px}
+.rec-icon{font-size:2rem;flex-shrink:0;margin-top:4px}
+.rec-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.rec-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;color:var(--white);line-height:1.65}
+.rec-text strong{color:var(--green)}
+
+/* ── INSIGHT ── */
+.insight-row{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.insight{flex:1;min-width:120px;background:rgba(201,168,76,0.05);border-left:2px solid var(--gold);padding:10px 14px}
+.insight-val{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:var(--gold)}
+.insight-desc{font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);margin-top:4px;letter-spacing:0.05em;line-height:1.5}
+
+/* ── BOOTSTRAP VIZ ── */
+.bootstrap-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+.bs-card{background:var(--navy3);border:1px solid rgba(168,178,189,0.07);padding:16px 18px;position:relative;overflow:hidden}
+.bs-region{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px}
+.bs-mean{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--gold);line-height:1}
+.bs-ci{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);margin-top:4px}
+.bs-risk-bar{height:6px;background:rgba(168,178,189,0.08);border-radius:3px;margin-top:10px;overflow:hidden}
+.bs-risk-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.bs-risk-label{font-family:'DM Mono',monospace;font-size:9px;margin-top:5px;display:flex;justify-content:space-between}
+
+/* ── REQM TABLE ── */
+.reqm-compare{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+.reqm-card{background:var(--navy3);border:1px solid rgba(168,178,189,0.07);padding:16px;text-align:center;position:relative}
+.reqm-card.best{border-color:rgba(74,222,128,0.25)}
+.reqm-card.best::after{content:'BEST MODEL';position:absolute;top:8px;right:8px;
+  font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;
+  color:var(--green);background:rgba(74,222,128,0.1);padding:2px 6px}
+.reqm-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
+.reqm-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1;margin-bottom:4px}
+.reqm-sub{font-family:'DM Mono',monospace;font-size:9px;color:var(--silver)}
+
+/* ── METHODOLOGY STEPS ── */
+.method-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:4px}
+.method-step{background:var(--navy3);border:1px solid rgba(168,178,189,0.07);padding:18px;position:relative;overflow:hidden}
+.method-step::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0.4}
+.ms-num{font-family:'DM Mono',monospace;font-size:22px;font-weight:300;color:rgba(201,168,76,0.15);line-height:1;margin-bottom:8px}
+.ms-title{font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--white);margin-bottom:6px}
+.ms-desc{font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:300;color:var(--silver);line-height:1.55}
+
+/* ── FOOTER ── */
+.footer{position:relative;z-index:1;padding:20px 40px;border-top:1px solid rgba(201,168,76,0.08);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-brand{font-size:12px;font-weight:700;letter-spacing:0.2em;color:var(--gold)}
+.footer-note{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)}
+
+@media(max-width:900px){
+  .g2,.g3,.g13{grid-template-columns:1fr}
+  .col2,.col3{grid-column:span 1}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .region-grid,.bootstrap-row,.reqm-compare,.method-steps{grid-template-columns:1fr}
+  .header,.section,.footer{padding-left:20px;padding-right:20px}
+  .nav-tabs{padding:0 16px;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="brand">Meridian Labs · CapEx Intelligence</div>
+    <h1>Oil Well Selection<br><em>Risk-Adjusted CapEx Strategy</em></h1>
+    <div class="header-sub">Client: OilyGiant · Budget: $100M · 300K wells analyzed · Linear Regression + Bootstrapping (1,000 simulations)</div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-pill">Wells <span>300K</span></div>
+    <div class="meta-pill">Regions <span>3</span></div>
+    <div class="meta-pill">Simulations <span>1,000</span></div>
+    <div class="meta-pill">Decision <span style="color:var(--green)">Region 1</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('overview',this)">Overview</button>
+  <button class="nav-tab" onclick="showTab('model',this)">ML Model</button>
+  <button class="nav-tab" onclick="showTab('bootstrap',this)">Risk Analysis</button>
+  <button class="nav-tab" onclick="showTab('decision',this)">Final Decision</button>
+</div>
+
+<!-- KPI ROW -->
+<div class="kpi-row">
+  <div class="kpi-card">
+    <div class="kpi-label">CapEx Budget</div>
+    <div class="kpi-value">$100M</div>
+    <div class="kpi-sub">Development capital allocated</div>
+    <div class="kpi-badge neutral">200 wells · $500K each</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Recommended Region</div>
+    <div class="kpi-value">Region 1</div>
+    <div class="kpi-sub">Only region within risk mandate</div>
+    <div class="kpi-badge pass">▼ 0.20% loss risk</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Expected Profit</div>
+    <div class="kpi-value">$6.65M</div>
+    <div class="kpi-sub">Bootstrap mean · 1,000 simulations</div>
+    <div class="kpi-badge pass">CI: [$1.81M, $12.06M]</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Best REQM</div>
+    <div class="kpi-value">0.89</div>
+    <div class="kpi-sub">Region 1 · Linear Regression</div>
+    <div class="kpi-badge pass">42x more precise than Region 0</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Risk Mandate</div>
+    <div class="kpi-value">&lt; 2.5%</div>
+    <div class="kpi-sub">Max tolerated loss probability</div>
+    <div class="kpi-badge fail">2 of 3 regions failed</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ TAB 1: OVERVIEW ══════════════════════════ -->
+<div class="section active" id="tab-overview">
+
+  <!-- Recommendation -->
+  <div class="rec-box">
+    <div class="rec-icon">🛢️</div>
+    <div>
+      <div class="rec-title">Final Recommendation — OilyGiant</div>
+      <div class="rec-text">
+        After predictive modeling and 1,000 bootstrap simulations, <strong>Region 1 is the only viable candidate</strong> for CapEx deployment. It delivers the highest expected profit at <strong>$6.65M</strong> with a loss probability of just <strong>0.20%</strong> — 12.5x below the 2.5% mandate. Regions 0 and 2 were disqualified on risk grounds.
+      </div>
+    </div>
+  </div>
+
+  <!-- Region Cards -->
+  <div class="region-grid">
+    <div class="region-card warning">
+      <div class="region-name">Region 0 <span class="region-status status-fail">DISCARDED</span></div>
+      <div class="region-profit">$6.06M</div>
+      <div class="region-stats">
+        <div class="region-stat-item"><div class="rs-label">Bootstrap Profit</div><div class="rs-value">$6.06M avg</div></div>
+        <div class="region-stat-item"><div class="rs-label">Loss Risk</div><div class="rs-value bad">2.50%</div></div>
+        <div class="region-stat-item"><div class="rs-label">95% CI</div><div class="rs-value">[$0.10M, $12.46M]</div></div>
+        <div class="region-stat-item"><div class="rs-label">Model REQM</div><div class="rs-value warn">37.76</div></div>
+      </div>
+    </div>
+    <div class="region-card recommended">
+      <div class="region-name">Region 1 <span class="region-status status-pass">RECOMMENDED ✓</span></div>
+      <div class="region-profit">$6.65M</div>
+      <div class="region-stats">
+        <div class="region-stat-item"><div class="rs-label">Bootstrap Profit</div><div class="rs-value good">$6.65M avg</div></div>
+        <div class="region-stat-item"><div class="rs-label">Loss Risk</div><div class="rs-value good">0.20%</div></div>
+        <div class="region-stat-item"><div class="rs-label">95% CI</div><div class="rs-value good">[$1.81M, $12.06M]</div></div>
+        <div class="region-stat-item"><div class="rs-label">Model REQM</div><div class="rs-value good">0.89</div></div>
+      </div>
+    </div>
+    <div class="region-card discarded">
+      <div class="region-name">Region 2 <span class="region-status status-fail">DISCARDED</span></div>
+      <div class="region-profit">$5.85M</div>
+      <div class="region-stats">
+        <div class="region-stat-item"><div class="rs-label">Bootstrap Profit</div><div class="rs-value">$5.85M avg</div></div>
+        <div class="region-stat-item"><div class="rs-label">Loss Risk</div><div class="rs-value bad">2.60%</div></div>
+        <div class="region-stat-item"><div class="rs-label">95% CI</div><div class="rs-value bad">[$-0.01M, $12.12M]</div></div>
+        <div class="region-stat-item"><div class="rs-label">Model REQM</div><div class="rs-value warn">40.15</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <!-- Profit comparison chart -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Bootstrap Profit Distribution</div>
+          <div class="panel-sub">Expected profit per region · 1,000 simulations</div>
+        </div>
+        <div class="panel-badge">BOOTSTRAP</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="profitChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">$6.65M</div><div class="insight-desc">Region 1 expected profit<br>highest among viable regions</div></div>
+        <div class="insight"><div class="insight-val">$0.80M</div><div class="insight-desc">Margin over Region 0<br>+13.2% better outcome</div></div>
+      </div>
+    </div>
+
+    <!-- Risk comparison chart -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Loss Risk vs. Mandate</div>
+          <div class="panel-sub">% probability of negative return · threshold: 2.5%</div>
+        </div>
+        <div class="panel-badge">RISK</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="riskChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">0.20%</div><div class="insight-desc">Region 1 risk<br>12.5x below mandate</div></div>
+        <div class="insight"><div class="insight-val" style="color:var(--red)">2/3</div><div class="insight-desc">Regions eliminated<br>failed risk threshold</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ TAB 2: ML MODEL ══════════════════════════ -->
+<div class="section" id="tab-model">
+
+  <!-- REQM comparison -->
+  <div class="panel" style="margin-bottom:20px">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Linear Regression — REQM per Region</div>
+        <div class="panel-sub">Root Mean Squared Error · lower = more precise predictions · 75/25 train-validation split</div>
+      </div>
+      <div class="panel-badge">MODEL ACCURACY</div>
+    </div>
+    <div class="reqm-compare">
+      <div class="reqm-card">
+        <div class="reqm-label">Region 0</div>
+        <div class="reqm-val" style="color:var(--amber)">37.76</div>
+        <div class="reqm-sub">Avg predicted: 92.40K barrels</div>
+        <div style="margin-top:8px;height:4px;background:rgba(168,178,189,0.1);border-radius:2px">
+          <div style="width:94%;height:100%;background:var(--amber);border-radius:2px;opacity:0.6"></div></div>
+      </div>
+      <div class="reqm-card best">
+        <div class="reqm-label">Region 1</div>
+        <div class="reqm-val" style="color:var(--green)">0.89</div>
+        <div class="reqm-sub">Avg predicted: 68.71K barrels</div>
+        <div style="margin-top:8px;height:4px;background:rgba(168,178,189,0.1);border-radius:2px">
+          <div style="width:2%;height:100%;background:var(--green);border-radius:2px;opacity:0.8"></div></div>
+      </div>
+      <div class="reqm-card">
+        <div class="reqm-label">Region 2</div>
+        <div class="reqm-val" style="color:var(--red)">40.15</div>
+        <div class="reqm-sub">Avg predicted: 94.77K barrels</div>
+        <div style="margin-top:8px;height:4px;background:rgba(168,178,189,0.1);border-radius:2px">
+          <div style="width:100%;height:100%;background:var(--red);border-radius:2px;opacity:0.5"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <!-- REQM bar chart -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">REQM Comparison</div>
+          <div class="panel-sub">Region 1 is 42x more precise than Region 0</div>
+        </div>
+        <div class="panel-badge">CHART</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="reqmChart"></canvas></div>
+    </div>
+
+    <!-- Volume comparison -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Predicted vs. Real Volume</div>
+          <div class="panel-sub">Average reserves per region (K barrels) · minimum breakeven = 111.1K</div>
+        </div>
+        <div class="panel-badge">VOLUME</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="volumeChart"></canvas></div>
+      <div class="insight-row" style="margin-top:12px">
+        <div class="insight"><div class="insight-val">111.1K</div><div class="insight-desc">Minimum barrels/well<br>to break even at $500K cost</div></div>
+        <div class="insight"><div class="insight-val" style="color:var(--red)">All 3</div><div class="insight-desc">Regions below breakeven<br>selective ML choice is essential</div></div>
+      </div>
+    </div>
+
+    <!-- Region 1 insight -->
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Why Region 1's Model is Exceptional</div>
+          <div class="panel-sub">REQM 0.89 vs industry-typical 35–40 · a structural advantage in predictive precision</div>
+        </div>
+        <div class="panel-badge">INSIGHT</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+        <div style="background:var(--navy3);padding:16px;border-left:2px solid var(--green)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--dim);text-transform:uppercase;margin-bottom:8px">Prediction Error</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--green)">±0.89K</div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);margin-top:4px">barrels per well</div>
+        </div>
+        <div style="background:var(--navy3);padding:16px;border-left:2px solid var(--gold)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--dim);text-transform:uppercase;margin-bottom:8px">vs Region 0</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold)">42x</div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);margin-top:4px">more precise</div>
+        </div>
+        <div style="background:var(--navy3);padding:16px;border-left:2px solid var(--gold)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--dim);text-transform:uppercase;margin-bottom:8px">vs Region 2</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold)">45x</div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);margin-top:4px">more precise</div>
+        </div>
+        <div style="background:var(--navy3);padding:16px;border-left:2px solid var(--silver)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--dim);text-transform:uppercase;margin-bottom:8px">Signal Type</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--silver)">Linear</div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);margin-top:4px">f2 drives volume</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ TAB 3: BOOTSTRAP RISK ══════════════════════════ -->
+<div class="section" id="tab-bootstrap">
+
+  <div class="panel" style="margin-bottom:20px">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Bootstrap Simulation Results — 1,000 Iterations</div>
+        <div class="panel-sub">500 random wells sampled per iteration · 200 best selected · risk = % of negative outcomes</div>
+      </div>
+      <div class="panel-badge">STOCHASTIC</div>
+    </div>
+    <div class="bootstrap-row">
+      <div class="bs-card">
+        <div class="bs-region" style="color:var(--amber)">Region 0</div>
+        <div class="bs-mean">$6.06M</div>
+        <div class="bs-ci">95% CI: [$0.10M → $12.46M]</div>
+        <div class="bs-risk-bar"><div class="bs-risk-fill" style="width:100%;background:var(--amber)"></div></div>
+        <div class="bs-risk-label"><span style="color:var(--amber)">Risk: 2.50%</span><span style="color:var(--dim)">threshold 2.5%</span></div>
+        <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;color:var(--red)">⚠ At the limit — discarded</div>
+      </div>
+      <div class="bs-card" style="border-color:rgba(74,222,128,0.2)">
+        <div class="bs-region" style="color:var(--green)">Region 1 — SELECTED</div>
+        <div class="bs-mean" style="color:var(--green)">$6.65M</div>
+        <div class="bs-ci">95% CI: [$1.81M → $12.06M]</div>
+        <div class="bs-risk-bar"><div class="bs-risk-fill" style="width:8%;background:var(--green)"></div></div>
+        <div class="bs-risk-label"><span style="color:var(--green)">Risk: 0.20%</span><span style="color:var(--dim)">12.5x below limit</span></div>
+        <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;color:var(--green)">✓ Approved — invest here</div>
+      </div>
+      <div class="bs-card">
+        <div class="bs-region" style="color:var(--red)">Region 2</div>
+        <div class="bs-mean">$5.85M</div>
+        <div class="bs-ci">95% CI: [$-0.01M → $12.12M]</div>
+        <div class="bs-risk-bar"><div class="bs-risk-fill" style="width:104%;background:var(--red)"></div></div>
+        <div class="bs-risk-label"><span style="color:var(--red)">Risk: 2.60%</span><span style="color:var(--dim)">exceeds threshold</span></div>
+        <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;color:var(--red)">✗ Discarded — risk too high</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Confidence Intervals — All Regions</div>
+          <div class="panel-sub">Lower bound · Mean · Upper bound of bootstrap distribution</div>
+        </div>
+        <div class="panel-badge">95% CI</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="ciChart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Risk Threshold Analysis</div>
+          <div class="panel-sub">Loss probability vs 2.5% mandate · red line = disqualification boundary</div>
+        </div>
+        <div class="panel-badge">THRESHOLD</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="threshChart"></canvas></div>
+    </div>
+
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Profit Without Model vs With Model</div>
+          <div class="panel-sub">Naive random selection vs ML-guided top-200 well selection</div>
+        </div>
+        <div class="panel-badge">MODEL VALUE</div>
+      </div>
+      <div class="chart-wrap" style="height:200px"><canvas id="naiveChart"></canvas></div>
+      <div class="insight-row" style="margin-top:12px">
+        <div class="insight"><div class="insight-val" style="color:var(--red)">Negative</div><div class="insight-desc">All regions unprofitable<br>with random well selection</div></div>
+        <div class="insight"><div class="insight-val">ML Required</div><div class="insight-desc">Model selection is not optional —<br>it is the business case</div></div>
+        <div class="insight"><div class="insight-val">$33.59M</div><div class="insight-desc">Best raw profit estimate (R0)<br>before risk adjustment</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ TAB 4: FINAL DECISION ══════════════════════════ -->
+<div class="section" id="tab-decision">
+
+  <div class="rec-box" style="margin-bottom:24px">
+    <div class="rec-icon">✅</div>
+    <div>
+      <div class="rec-title">Investment Decision — Region 1 Approved</div>
+      <div class="rec-text">
+        The stochastic analysis confirms that <strong>Region 1 is the only region meeting OilyGiant's risk mandate</strong>. With a loss probability of 0.20% — against the 2.5% ceiling — and the highest expected return of $6.65M, it satisfies both the financial and the risk objectives simultaneously. The model's REQM of 0.89 provides an additional layer of confidence: predictions are near-deterministic for this region, making well selection highly reliable.
+      </div>
+    </div>
+  </div>
+
+  <div class="method-steps" style="margin-bottom:24px">
+    <div class="method-step">
+      <div class="ms-num">01</div>
+      <div class="ms-title">Data Ingestion</div>
+      <div class="ms-desc">300K well records across 3 regions. Zero duplicates, zero missing values. Features: f0, f1, f2 (geological signatures) + product (reserve volume in K barrels).</div>
+    </div>
+    <div class="method-step">
+      <div class="ms-num">02</div>
+      <div class="ms-title">Predictive Model</div>
+      <div class="ms-desc">Linear Regression trained on 75K records per region, validated on 25K. Region 1 achieved REQM 0.89 — indicating a near-linear relationship between features and reserves.</div>
+    </div>
+    <div class="method-step">
+      <div class="ms-num">03</div>
+      <div class="ms-title">Bootstrapping</div>
+      <div class="ms-desc">1,000 iterations sampling 500 wells each. Top 200 selected per iteration by predicted volume. Profit and loss probability computed across the full distribution.</div>
+    </div>
+    <div class="method-step">
+      <div class="ms-num">04</div>
+      <div class="ms-title">Risk Filter</div>
+      <div class="ms-desc">Regions with loss probability ≥ 2.5% automatically disqualified. Only Region 1 cleared the threshold. Final recommendation: deploy $100M CapEx in Region 1.</div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Decision Matrix</div>
+          <div class="panel-sub">Profit vs Risk · Region 1 dominates the efficient frontier</div>
+        </div>
+        <div class="panel-badge">DECISION</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="decisionChart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Summary Scorecard</div>
+          <div class="panel-sub">All criteria evaluated per region</div>
+        </div>
+        <div class="panel-badge">SCORECARD</div>
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <thead>
+          <tr>
+            <th style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);text-align:left;padding:8px 10px;border-bottom:1px solid rgba(168,178,189,0.08)">Criterion</th>
+            <th style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber);text-align:center;padding:8px 10px;border-bottom:1px solid rgba(168,178,189,0.08)">Region 0</th>
+            <th style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);text-align:center;padding:8px 10px;border-bottom:1px solid rgba(168,178,189,0.08)">Region 1</th>
+            <th style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);text-align:center;padding:8px 10px;border-bottom:1px solid rgba(168,178,189,0.08)">Region 2</th>
+          </tr>
+        </thead>
+        <tbody id="scorecardBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">MERIDIAN</div>
+  <div class="footer-note">OilyGiant · CapEx Intelligence · Linear Regression + Bootstrap (1,000 sim) · Meridian Labs 2025</div>
+</div>
+
+<script>
+const NAVY='#081321',NAVY2='#0d1e30',GOLD='#C9A84C',SILV='#A8B2BD',
+      DIM='#3a4a5a',WHITE='#F0F4F8',GREEN='#4ade80',RED='#f87171',AMBER='#fbbf24';
+
+Chart.defaults.color=SILV;
+Chart.defaults.font.family="'DM Mono', monospace";
+Chart.defaults.font.size=10;
+
+const grid={color:'rgba(168,178,189,0.07)',drawBorder:false};
+const tt={backgroundColor:NAVY2,borderColor:'rgba(201,168,76,0.3)',borderWidth:1,titleColor:GOLD,bodyColor:SILV};
+
+// TAB
+function showTab(name,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── CHART 1: Profit bar ──────────────────────────────────────
+new Chart(document.getElementById('profitChart'),{
+  type:'bar',
+  data:{
+    labels:['Region 0','Region 1','Region 2'],
+    datasets:[{
+      label:'Bootstrap Expected Profit ($M)',
+      data:[6.06,6.65,5.85],
+      backgroundColor:[AMBER+'66',GREEN+'66',RED+'55'],
+      borderColor:[AMBER,GREEN,RED],
+      borderWidth:1.5,borderRadius:3,barThickness:40
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>` $${ctx.parsed.y}M expected profit`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:SILV}},
+      y:{grid,ticks:{color:SILV,callback:v=>'$'+v+'M'},
+         title:{display:true,text:'Profit ($M)',color:SILV,font:{size:9}}}
+    }
+  }
+});
+
+// ── CHART 2: Risk bar ────────────────────────────────────────
+new Chart(document.getElementById('riskChart'),{
+  type:'bar',
+  data:{
+    labels:['Region 0','Region 1','Region 2'],
+    datasets:[
+      {label:'Loss Risk (%)',data:[2.50,0.20,2.60],
+       backgroundColor:[AMBER+'66',GREEN+'66',RED+'55'],
+       borderColor:[AMBER,GREEN,RED],borderWidth:1.5,borderRadius:3,barThickness:40},
+      {label:'Mandate (2.5%)',data:[2.5,2.5,2.5],
+       type:'line',borderColor:RED,borderWidth:1.5,borderDash:[5,4],
+       pointRadius:0,fill:false}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},
+             tooltip:{...tt,callbacks:{label:ctx=>` ${ctx.parsed.y}% loss probability`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:SILV}},
+      y:{grid,ticks:{color:SILV,callback:v=>v+'%'},max:3.5,
+         title:{display:true,text:'Loss Probability (%)',color:SILV,font:{size:9}}}
+    }
+  }
+});
+
+// ── CHART 3: REQM ────────────────────────────────────────────
+new Chart(document.getElementById('reqmChart'),{
+  type:'bar',
+  data:{
+    labels:['Region 0','Region 1','Region 2'],
+    datasets:[{
+      label:'REQM (lower = better)',
+      data:[37.76,0.89,40.15],
+      backgroundColor:[AMBER+'55',GREEN+'66',RED+'55'],
+      borderColor:[AMBER,GREEN,RED],borderWidth:1.5,borderRadius:3,barThickness:40
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>` REQM: ${ctx.parsed.y}`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:SILV}},
+      y:{grid,ticks:{color:SILV},title:{display:true,text:'REQM',color:SILV,font:{size:9}}}
+    }
+  }
+});
+
+// ── CHART 4: Volume predicted vs real ───────────────────────
+new Chart(document.getElementById('volumeChart'),{
+  type:'bar',
+  data:{
+    labels:['Region 0','Region 1','Region 2'],
+    datasets:[
+      {label:'Predicted (K barrels)',data:[92.40,68.71,94.77],
+       backgroundColor:GOLD+'55',borderColor:GOLD,borderWidth:1,borderRadius:3,barThickness:24},
+      {label:'Real Avg (K barrels)',data:[92.33,68.73,95.15],
+       backgroundColor:SILV+'44',borderColor:SILV,borderWidth:1,borderRadius:3,barThickness:24},
+      {label:'Breakeven (111.1K)',type:'line',data:[111.1,111.1,111.1],
+       borderColor:RED,borderWidth:1.5,borderDash:[5,4],pointRadius:0,fill:false}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9}}},
+             tooltip:{...tt}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:SILV}},
+      y:{grid,ticks:{color:SILV,callback:v=>v+'K'},
+         title:{display:true,text:'Avg Volume (K barrels)',color:SILV,font:{size:9}}}
+    }
+  }
+});
+
+// ── CHART 5: Confidence Intervals ───────────────────────────
+new Chart(document.getElementById('ciChart'),{
+  type:'bar',
+  data:{
+    labels:['Region 0','Region 1','Region 2'],
+    datasets:[
+      {label:'Lower CI',data:[0.10,1.81,-0.01],
+       backgroundColor:'transparent',borderColor:'transparent',barThickness:30},
+      {label:'Range',data:[12.46-0.10,12.06-1.81,12.12-(-0.01)],
+       backgroundColor:[AMBER+'44',GREEN+'44',RED+'33'],
+       borderColor:[AMBER,GREEN,RED],borderWidth:1.5,borderRadius:3,barThickness:30},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+             tooltip:{...tt,callbacks:{
+               title:([ctx])=>ctx.label,
+               label:ctx=>{
+                 const ci=[{low:0.10,hi:12.46},{low:1.81,hi:12.06},{low:-0.01,hi:12.12}];
+                 const i=ctx.dataIndex;
+                 return ` 95% CI: [$${ci[i].low}M → $${ci[i].hi}M]`;
+               }
+             }}},
+    scales:{
+      x:{stacked:true,grid:{display:false},ticks:{color:SILV}},
+      y:{stacked:true,grid,ticks:{color:SILV,callback:v=>'$'+v+'M'},
+         title:{display:true,text:'Profit Range ($M)',color:SILV,font:{size:9}}}
+    }
+  }
+});
+
+// ── CHART 6: Threshold ──────────────────────────────────────
+new Chart(document.getElementById('threshChart'),{
+  type:'bar',
+  data:{
+    labels:['Region 0\n(2.50%)','Region 1\n(0.20%)','Region 2\n(2.60%)'],
+    datasets:[{
+      label:'Loss Risk (%)',
+      data:[2.50,0.20,2.60],
+      backgroundColor:[AMBER+'55',GREEN+'66',RED+'55'],
+      borderColor:[AMBER,GREEN,RED],borderWidth:1.5,borderRadius:3
+    },{
+      label:'2.5% Mandate',type:'line',
+      data:[2.5,2.5,2.5],
+      borderColor:RED+'cc',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},
+             tooltip:{...tt}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:SILV}},
+      y:{grid,max:3.5,ticks:{color:SILV,callback:v=>v+'%'}}
+    }
+  }
+});
+
+// ── CHART 7: Naive vs ML ─────────────────────────────────────
+new Chart(document.getElementById('naiveChart'),{
+  type:'bar',
+  data:{
+    labels:['Region 0','Region 1','Region 2'],
+    datasets:[
+      {label:'Naive (all wells, random)',data:[-100+92.33*200*4500/1e6,-100+68.73*200*4500/1e6,-100+95.15*200*4500/1e6].map(v=>+v.toFixed(1)),
+       backgroundColor:RED+'44',borderColor:RED,borderWidth:1,borderRadius:3,barThickness:24},
+      {label:'ML-Guided (top 200)',data:[33.59,24.15,25.99],
+       backgroundColor:GOLD+'66',borderColor:GOLD,borderWidth:1,borderRadius:3,barThickness:24}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9}}},
+             tooltip:{...tt,callbacks:{label:ctx=>` ${ctx.dataset.label}: $${ctx.parsed.y}M`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:SILV}},
+      y:{grid,ticks:{color:SILV,callback:v=>'$'+v+'M'},
+         title:{display:true,text:'Estimated Profit ($M)',color:SILV,font:{size:9}}}
+    }
+  }
+});
+
+// ── CHART 8: Decision scatter ────────────────────────────────
+new Chart(document.getElementById('decisionChart'),{
+  type:'scatter',
+  data:{
+    datasets:[
+      {label:'Region 0',data:[{x:2.50,y:6.06}],
+       backgroundColor:AMBER+'99',borderColor:AMBER,borderWidth:2,pointRadius:12,pointHoverRadius:15},
+      {label:'Region 1 ✓',data:[{x:0.20,y:6.65}],
+       backgroundColor:GREEN+'99',borderColor:GREEN,borderWidth:2,pointRadius:14,pointHoverRadius:17},
+      {label:'Region 2',data:[{x:2.60,y:5.85}],
+       backgroundColor:RED+'66',borderColor:RED,borderWidth:2,pointRadius:12,pointHoverRadius:15},
+      {label:'Risk Threshold',type:'line',
+       data:[{x:2.5,y:0},{x:2.5,y:8}],
+       borderColor:RED+'77',borderWidth:1.5,borderDash:[5,4],pointRadius:0,fill:false}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},
+             tooltip:{...tt,callbacks:{label:ctx=>{
+               const m=['Region 0','Region 1 ✓','Region 2'];
+               return ctx.datasetIndex<3?` Risk: ${ctx.parsed.x}% · Profit: $${ctx.parsed.y}M`:null;
+             }}}},
+    scales:{
+      x:{grid,title:{display:true,text:'Loss Risk (%)',color:SILV,font:{size:9}},
+         ticks:{color:SILV,callback:v=>v+'%'},min:0,max:3.5},
+      y:{grid,title:{display:true,text:'Expected Profit ($M)',color:SILV,font:{size:9}},
+         ticks:{color:SILV,callback:v=>'$'+v+'M'},min:5,max:8}
+    }
+  }
+});
+
+// ── SCORECARD TABLE ──────────────────────────────────────────
+const criteria=[
+  ['Budget','$100M','$100M','$100M'],
+  ['Wells Selected','200','200','200'],
+  ['Model REQM','37.76 ⚠','0.89 ✓','40.15 ✗'],
+  ['Avg Predicted Volume','92.40K','68.71K','94.77K'],
+  ['Bootstrap Profit','$6.06M','$6.65M ✓','$5.85M'],
+  ['95% CI Lower','$0.10M','$1.81M ✓','$-0.01M ✗'],
+  ['Loss Risk','2.50% ⚠','0.20% ✓','2.60% ✗'],
+  ['Risk Mandate (<2.5%)','FAIL ✗','PASS ✓','FAIL ✗'],
+  ['Recommendation','Discarded','INVEST ✓','Discarded']
+];
+const colors_r=[[AMBER,GREEN,RED],[AMBER,GREEN,RED],[AMBER,GREEN,RED]];
+const tbody=document.getElementById('scorecardBody');
+criteria.forEach(([crit,...vals])=>{
+  const rowColor=crit==='Recommendation'?'background:rgba(74,222,128,0.04)':'';
+  tbody.innerHTML+=`<tr style="${rowColor}">
+    <td style="font-family:'DM Mono',monospace;font-size:10px;color:${DIM};padding:9px 10px;border-bottom:1px solid rgba(168,178,189,0.04)">${crit}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:10px;color:${AMBER};text-align:center;padding:9px 10px;border-bottom:1px solid rgba(168,178,189,0.04)">${vals[0]}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:11px;color:${GREEN};text-align:center;padding:9px 10px;border-bottom:1px solid rgba(168,178,189,0.04);font-weight:600">${vals[1]}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:10px;color:${RED};text-align:center;padding:9px 10px;border-bottom:1px solid rgba(168,178,189,0.04)">${vals[2]}</td>
+  </tr>`;
+});
+</script>
+</body>
+</html>
