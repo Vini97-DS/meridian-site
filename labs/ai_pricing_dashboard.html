@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Pricing Engine — Rusty Bargain · Meridian Labs</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#081321;--navy2:#0d1e30;--navy3:#112540;
+  --gold:#C9A84C;--silver:#A8B2BD;--white:#F0F4F8;
+  --dim:#3a4a5a;--accent:#1E3A5F;
+  --green:#4ade80;--red:#f87171;--amber:#fbbf24;--blue:#60a5fa;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--white);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px);
+  background-size:55px 55px;pointer-events:none;z-index:0}
+
+/* ── HEADER ── */
+.header{position:relative;z-index:10;padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,0.12);
+  display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.brand{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.header h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1.1}
+.header h1 em{color:var(--gold);font-style:italic}
+.header-sub{margin-top:6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--silver);letter-spacing:0.05em}
+.header-meta{display:flex;gap:14px;flex-wrap:wrap}
+.meta-pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--silver);border:1px solid var(--dim);padding:5px 12px;text-transform:uppercase}
+.meta-pill span{color:var(--gold)}
+
+/* ── KPI ROW ── */
+.kpi-row{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+  background:rgba(201,168,76,0.07);border-bottom:1px solid rgba(201,168,76,0.1)}
+.kpi-card{background:var(--navy2);padding:22px 24px;position:relative;overflow:hidden;transition:background 0.2s}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.kpi-card:hover{background:var(--navy3)}
+.kpi-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;color:var(--silver);text-transform:uppercase;margin-bottom:10px}
+.kpi-value{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:300;color:var(--gold);line-height:1}
+.kpi-sub{margin-top:6px;font-family:'DM Mono',monospace;font-size:9px;color:var(--silver)}
+.kpi-badge{display:inline-block;margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;border-radius:2px}
+.kpi-badge.pass{background:rgba(74,222,128,0.1);color:var(--green)}
+.kpi-badge.warn{background:rgba(251,191,36,0.1);color:var(--amber)}
+.kpi-badge.info{background:rgba(96,165,250,0.1);color:var(--blue)}
+
+/* ── NAV ── */
+.nav-tabs{position:sticky;top:0;z-index:100;background:var(--navy2);
+  border-bottom:1px solid rgba(201,168,76,0.1);display:flex;padding:0 40px}
+.nav-tab{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:13px 22px;cursor:pointer;color:var(--dim);border-bottom:2px solid transparent;
+  transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-tab:hover:not(.active){color:var(--silver)}
+
+/* ── SECTIONS ── */
+.section{display:none;position:relative;z-index:1;padding:32px 40px 60px}
+.section.active{display:block}
+
+/* ── GRID ── */
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.col2{grid-column:span 2}
+.col3{grid-column:span 3}
+
+/* ── PANEL ── */
+.panel{background:var(--navy2);border:1px solid rgba(168,178,189,0.08);padding:24px 28px;transition:border-color 0.2s}
+.panel:hover{border-color:rgba(201,168,76,0.14)}
+.panel-header{display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(168,178,189,0.07)}
+.panel-title{font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--silver)}
+.panel-sub{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);margin-top:4px}
+.panel-badge{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:3px 10px;white-space:nowrap}
+
+/* ── CHARTS ── */
+.chart-wrap canvas{display:block;width:100%!important}
+
+/* ── MODEL CARDS ── */
+.model-compare{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.model-card{padding:22px;border:1px solid rgba(168,178,189,0.08);position:relative;overflow:hidden;transition:all 0.25s}
+.model-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.model-card.winner{border-color:rgba(74,222,128,0.25);background:rgba(74,222,128,0.04)}
+.model-card.winner::before{background:var(--green)}
+.model-card.second{border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.03)}
+.model-card.second::before{background:var(--gold)}
+.model-card.baseline{border-color:rgba(168,178,189,0.1)}
+.model-card.baseline::before{background:var(--silver)}
+.model-card:hover{transform:translateY(-3px)}
+
+.model-name{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.model-tag{font-size:8px;padding:2px 8px;border-radius:2px;letter-spacing:0.08em}
+.tag-win{background:rgba(74,222,128,0.12);color:var(--green)}
+.tag-2nd{background:rgba(201,168,76,0.12);color:var(--gold)}
+.tag-base{background:rgba(168,178,189,0.1);color:var(--silver)}
+
+.model-reqm{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--gold);line-height:1;margin-bottom:14px}
+.model-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ms-item{background:rgba(8,19,33,0.4);padding:8px 10px}
+.ms-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--dim);text-transform:uppercase;margin-bottom:4px}
+.ms-value{font-family:'DM Mono',monospace;font-size:11px}
+.ms-value.good{color:var(--green)}
+.ms-value.warn{color:var(--amber)}
+.ms-value.bad{color:var(--red)}
+
+/* ── WIN BANNER ── */
+.win-box{background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.2);padding:22px 28px;
+  display:flex;align-items:flex-start;gap:22px;margin-bottom:24px}
+.win-icon{font-size:2rem;flex-shrink:0}
+.win-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.win-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;color:var(--white);line-height:1.65}
+.win-text strong{color:var(--green)}
+
+/* ── INSIGHT ── */
+.insight-row{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.insight{flex:1;min-width:120px;background:rgba(201,168,76,0.05);border-left:2px solid var(--gold);padding:10px 14px}
+.insight-val{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:var(--gold)}
+.insight-desc{font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);margin-top:4px;letter-spacing:0.05em;line-height:1.5}
+
+/* ── SPEED BARS ── */
+.speed-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid rgba(168,178,189,0.05)}
+.speed-model{font-family:'DM Mono',monospace;font-size:10px;color:var(--silver);min-width:120px}
+.speed-bar-wrap{flex:1;height:8px;background:rgba(168,178,189,0.07);border-radius:4px;overflow:hidden}
+.speed-bar{height:100%;border-radius:4px;transition:width 1.2s ease}
+.speed-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);min-width:60px;text-align:right}
+
+/* ── DATASET TABLE ── */
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);text-align:left;padding:8px 12px;border-bottom:1px solid rgba(168,178,189,0.08)}
+.data-table td{font-family:'DM Mono',monospace;font-size:11px;color:var(--silver);padding:9px 12px;border-bottom:1px solid rgba(168,178,189,0.04);transition:background 0.15s}
+.data-table tr:hover td{background:rgba(201,168,76,0.04)}
+.data-table td.num{color:var(--gold);text-align:right}
+.data-table td.good{color:var(--green)}
+.data-table td.bad{color:var(--red)}
+
+/* ── FOOTER ── */
+.footer{position:relative;z-index:1;padding:20px 40px;border-top:1px solid rgba(201,168,76,0.08);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-brand{font-size:12px;font-weight:700;letter-spacing:0.2em;color:var(--gold)}
+.footer-note{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)}
+
+@media(max-width:900px){
+  .g2,.g3{grid-template-columns:1fr}
+  .col2,.col3{grid-column:span 1}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .model-compare{grid-template-columns:1fr}
+  .header,.section,.footer{padding-left:20px;padding-right:20px}
+  .nav-tabs{padding:0 16px;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="brand">Meridian Labs · AI Pricing Engine</div>
+    <h1>Dynamic Pricing<br><em>Used Car Valuation Model</em></h1>
+    <div class="header-sub">Client: Rusty Bargain · 354K vehicles · 3 models benchmarked · LightGBM recommended</div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-pill">Dataset <span>354,369</span></div>
+    <div class="meta-pill">Features <span>8 used</span></div>
+    <div class="meta-pill">Split <span>80/10/10</span></div>
+    <div class="meta-pill">Winner <span style="color:var(--green)">LightGBM</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('overview',this)">Overview</button>
+  <button class="nav-tab" onclick="showTab('models',this)">Model Benchmark</button>
+  <button class="nav-tab" onclick="showTab('speed',this)">Speed Analysis</button>
+  <button class="nav-tab" onclick="showTab('data',this)">Dataset</button>
+</div>
+
+<!-- KPI ROW -->
+<div class="kpi-row">
+  <div class="kpi-card">
+    <div class="kpi-label">Best REQM</div>
+    <div class="kpi-value">€1,670</div>
+    <div class="kpi-sub">LightGBM · test set</div>
+    <div class="kpi-badge pass">▼ best in benchmark</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Prediction Latency</div>
+    <div class="kpi-value">0.25s</div>
+    <div class="kpi-sub">LightGBM · 29,516 records</div>
+    <div class="kpi-badge pass">near real-time</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Training Speed</div>
+    <div class="kpi-value">12.9s</div>
+    <div class="kpi-sub">LightGBM · 236K records</div>
+    <div class="kpi-badge pass">393x faster than RF</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Dataset Volume</div>
+    <div class="kpi-value">354K+</div>
+    <div class="kpi-sub">vehicles after cleaning</div>
+    <div class="kpi-badge info">262 duplicates removed</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">REQM Improvement</div>
+    <div class="kpi-value">−37%</div>
+    <div class="kpi-sub">LightGBM vs Linear Reg.</div>
+    <div class="kpi-badge pass">1670 vs 2637</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ TAB 1: OVERVIEW ══════════════════════════ -->
+<div class="section active" id="tab-overview">
+
+  <div class="win-box">
+    <div class="win-icon">🏆</div>
+    <div>
+      <div class="win-title">Recommended Model — LightGBM</div>
+      <div class="win-text">
+        After benchmarking 3 models across 354K vehicle records, <strong>LightGBM is the clear recommendation</strong> for Rusty Bargain's pricing app. It delivers the lowest REQM (€1,670), trains in 12.9s — 393x faster than Random Forest — and predicts in under 0.25s, enabling a real-time user experience in the application.
+      </div>
+    </div>
+  </div>
+
+  <!-- Model cards -->
+  <div class="model-compare">
+    <div class="model-card winner">
+      <div class="model-name">LightGBM <span class="model-tag tag-win">WINNER</span></div>
+      <div class="model-reqm">€1,670</div>
+      <div class="model-stats">
+        <div class="ms-item"><div class="ms-label">REQM</div><div class="ms-value good">1,670.50</div></div>
+        <div class="ms-item"><div class="ms-label">Train Time</div><div class="ms-value good">12.9s</div></div>
+        <div class="ms-item"><div class="ms-label">Pred. Time</div><div class="ms-value good">0.25s</div></div>
+        <div class="ms-item"><div class="ms-label">Best Params</div><div class="ms-value good">n=200 / l=50</div></div>
+      </div>
+    </div>
+    <div class="model-card second">
+      <div class="model-name">Random Forest <span class="model-tag tag-2nd">2ND</span></div>
+      <div class="model-reqm">€1,727</div>
+      <div class="model-stats">
+        <div class="ms-item"><div class="ms-label">REQM</div><div class="ms-value warn">1,727.38</div></div>
+        <div class="ms-item"><div class="ms-label">Train Time</div><div class="ms-value bad">85s</div></div>
+        <div class="ms-item"><div class="ms-label">Pred. Time</div><div class="ms-value warn">0.251s</div></div>
+        <div class="ms-item"><div class="ms-label">Best Params</div><div class="ms-value">n=100 / d=20</div></div>
+      </div>
+    </div>
+    <div class="model-card baseline">
+      <div class="model-name">Linear Regression <span class="model-tag tag-base">BASELINE</span></div>
+      <div class="model-reqm" style="color:var(--silver)">€2,637</div>
+      <div class="model-stats">
+        <div class="ms-item"><div class="ms-label">REQM</div><div class="ms-value bad">2,636.53</div></div>
+        <div class="ms-item"><div class="ms-label">Train Time</div><div class="ms-value warn">0.92s</div></div>
+        <div class="ms-item"><div class="ms-label">Pred. Time</div><div class="ms-value good">0.08s</div></div>
+        <div class="ms-item"><div class="ms-label">Type</div><div class="ms-value">OHE encoded</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">REQM Comparison</div>
+          <div class="panel-sub">Lower = better prediction quality · test set results</div>
+        </div>
+        <div class="panel-badge">QUALITY</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="reqmChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">−3.3%</div><div class="insight-desc">LightGBM vs Random Forest<br>1,670 vs 1,727 REQM</div></div>
+        <div class="insight"><div class="insight-val">−37%</div><div class="insight-desc">LightGBM vs Linear Reg.<br>biggest accuracy leap</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Training Time Comparison</div>
+          <div class="panel-sub">Seconds to train on 236K records</div>
+        </div>
+        <div class="panel-badge">SPEED</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="trainChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">393x</div><div class="insight-desc">LightGBM faster than RF<br>12.9s vs 85s</div></div>
+        <div class="insight"><div class="insight-val">12.9s</div><div class="insight-desc">LightGBM training time<br>production-grade speed</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ TAB 2: MODEL BENCHMARK ══════════════════════════ -->
+<div class="section" id="tab-models">
+
+  <div class="grid g2">
+
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">LightGBM Hyperparameter Search — Validation REQM</div>
+          <div class="panel-sub">4 combinations tested · n_estimators × num_leaves · best: n=200, leaves=50</div>
+        </div>
+        <div class="panel-badge">TUNING</div>
+      </div>
+      <div class="chart-wrap" style="height:220px"><canvas id="tuningChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">1,683</div><div class="insight-desc">Best validation REQM<br>n=200, num_leaves=50</div></div>
+        <div class="insight"><div class="insight-val">1,744</div><div class="insight-desc">Worst combo<br>n=100, num_leaves=31</div></div>
+        <div class="insight"><div class="insight-val">−3.5%</div><div class="insight-desc">Improvement from tuning<br>vs default params</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Random Forest Tuning</div>
+          <div class="panel-sub">Validation REQM by n_estimators and max_depth</div>
+        </div>
+        <div class="panel-badge">RF SEARCH</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="rfTuneChart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Final Test REQM — All Models</div>
+          <div class="panel-sub">Head-to-head on unseen test data · 29,516 records</div>
+        </div>
+        <div class="panel-badge">FINAL</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="finalChart"></canvas></div>
+    </div>
+
+    <!-- Full comparison table -->
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Complete Benchmark Table</div>
+          <div class="panel-sub">All metrics · all models · test set</div>
+        </div>
+        <div class="panel-badge">TABLE</div>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th style="text-align:right">REQM</th>
+            <th style="text-align:right">Train Time</th>
+            <th style="text-align:right">Pred. Time</th>
+            <th style="text-align:right">vs Baseline</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:var(--green)">LightGBM</strong></td>
+            <td class="num good">€1,670.50</td>
+            <td class="num good">12.9s</td>
+            <td class="num good">0.25s</td>
+            <td class="num good">−37%</td>
+            <td class="good">✓ RECOMMENDED</td>
+          </tr>
+          <tr>
+            <td>Random Forest</td>
+            <td class="num warn">€1,727.38</td>
+            <td class="num bad">85.0s</td>
+            <td class="num warn">0.251s</td>
+            <td class="num warn">−34%</td>
+            <td style="color:var(--amber)">Viable — slow train</td>
+          </tr>
+          <tr>
+            <td>Linear Regression</td>
+            <td class="num bad">€2,636.53</td>
+            <td class="num good">0.92s</td>
+            <td class="num good">0.08s</td>
+            <td class="num bad">Baseline</td>
+            <td style="color:var(--red)">Baseline only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════ TAB 3: SPEED ══════════════════════════ -->
+<div class="section" id="tab-speed">
+
+  <div class="grid g2">
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Training Time (seconds)</div>
+          <div class="panel-sub">Log scale · 236,126 training records</div>
+        </div>
+        <div class="panel-badge">TRAIN</div>
+      </div>
+      <!-- Speed bars -->
+      <div style="margin-top:8px">
+        <div class="speed-row">
+          <div class="speed-model">LightGBM</div>
+          <div class="speed-bar-wrap"><div class="speed-bar" style="width:15%;background:var(--green)"></div></div>
+          <div class="speed-val">12.9s</div>
+        </div>
+        <div class="speed-row">
+          <div class="speed-model">Linear Reg.</div>
+          <div class="speed-bar-wrap"><div class="speed-bar" style="width:1%;background:var(--silver)"></div></div>
+          <div class="speed-val">0.92s</div>
+        </div>
+        <div class="speed-row">
+          <div class="speed-model">Random Forest</div>
+          <div class="speed-bar-wrap"><div class="speed-bar" style="width:100%;background:var(--red)"></div></div>
+          <div class="speed-val">85.0s</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:220px;margin-top:20px"><canvas id="trainLogChart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Prediction Time (seconds)</div>
+          <div class="panel-sub">29,516 test records · user-facing latency</div>
+        </div>
+        <div class="panel-badge">PREDICT</div>
+      </div>
+      <div style="margin-top:8px">
+        <div class="speed-row">
+          <div class="speed-model">Linear Reg.</div>
+          <div class="speed-bar-wrap"><div class="speed-bar" style="width:32%;background:var(--blue)"></div></div>
+          <div class="speed-val">0.084s</div>
+        </div>
+        <div class="speed-row">
+          <div class="speed-model">LightGBM</div>
+          <div class="speed-bar-wrap"><div class="speed-bar" style="width:96%;background:var(--green)"></div></div>
+          <div class="speed-val">0.252s</div>
+        </div>
+        <div class="speed-row">
+          <div class="speed-model">Random Forest</div>
+          <div class="speed-bar-wrap"><div class="speed-bar" style="width:96%;background:var(--amber)"></div></div>
+          <div class="speed-val">0.251s</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:220px;margin-top:20px"><canvas id="predChart"></canvas></div>
+    </div>
+
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">The Trilemma: Quality vs Train Speed vs Predict Speed</div>
+          <div class="panel-sub">LightGBM wins 2 of 3 — and its prediction speed is acceptable for real-time use</div>
+        </div>
+        <div class="panel-badge">RADAR</div>
+      </div>
+      <div class="chart-wrap" style="height:300px"><canvas id="radarChart"></canvas></div>
+      <div class="insight-row" style="margin-top:12px">
+        <div class="insight"><div class="insight-val">LightGBM</div><div class="insight-desc">Best REQM + fastest training<br>The complete package</div></div>
+        <div class="insight"><div class="insight-val">Trade-off</div><div class="insight-desc">LightGBM slower to predict than LR<br>but 0.25s is app-grade performance</div></div>
+        <div class="insight"><div class="insight-val">RF</div><div class="insight-desc">85s training is too slow<br>for frequent retraining cycles</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════ TAB 4: DATASET ══════════════════════════ -->
+<div class="section" id="tab-data">
+
+  <div class="grid g2">
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Dataset Overview</div>
+          <div class="panel-sub">354,369 records · 16 raw features · 8 used in model</div>
+        </div>
+        <div class="panel-badge">EDA</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+        <div style="background:var(--navy3);padding:14px 16px;border-left:2px solid var(--gold)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Total Records</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold)">354,369</div>
+        </div>
+        <div style="background:var(--navy3);padding:14px 16px;border-left:2px solid var(--silver)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Duplicates Removed</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--silver)">262</div>
+        </div>
+        <div style="background:var(--navy3);padding:14px 16px;border-left:2px solid var(--green)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Train Set</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--green)">236,126</div>
+        </div>
+        <div style="background:var(--navy3);padding:14px 16px;border-left:2px solid var(--blue)">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Test + Val</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--blue)">29,516 each</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:180px;margin-top:16px"><canvas id="splitChart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Features Used in Model</div>
+          <div class="panel-sub">8 retained after removing irrelevant columns</div>
+        </div>
+        <div class="panel-badge">FEATURES</div>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Feature</th><th>Type</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--gold)">Price</strong></td><td>int64</td><td class="good">Target variable</td></tr>
+          <tr><td>RegistrationYear</td><td>int64</td><td>Numeric predictor</td></tr>
+          <tr><td>Power</td><td>int64</td><td>Numeric predictor</td></tr>
+          <tr><td>Mileage</td><td>int64</td><td>Numeric predictor</td></tr>
+          <tr><td>Brand</td><td>object</td><td>Categorical (OHE / native)</td></tr>
+          <tr><td>VehicleType</td><td>object</td><td>Categorical (OHE / native)</td></tr>
+          <tr><td>Gearbox</td><td>object</td><td>Categorical (OHE / native)</td></tr>
+          <tr><td>FuelType</td><td>object</td><td>Categorical (OHE / native)</td></tr>
+          <tr><td>NotRepaired</td><td>object</td><td>Categorical (OHE / native)</td></tr>
+          <tr><td style="color:var(--dim)">DateCrawled, PostalCode…</td><td style="color:var(--dim)">various</td><td style="color:var(--dim)">Dropped — irrelevant</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Correlation Analysis — Key Findings</div>
+          <div class="panel-sub">Relationships between numeric features and target Price</div>
+        </div>
+        <div class="panel-badge">CORRELATION</div>
+      </div>
+      <div class="chart-wrap" style="height:220px"><canvas id="corrChart"></canvas></div>
+      <div class="insight-row" style="margin-top:12px">
+        <div class="insight"><div class="insight-val">+</div><div class="insight-desc">RegistrationYear & Power<br>positively correlated with Price</div></div>
+        <div class="insight"><div class="insight-val">−</div><div class="insight-desc">Mileage negatively correlated<br>higher km = lower price</div></div>
+        <div class="insight"><div class="insight-val">✓</div><div class="insight-desc">No multicollinearity detected<br>stable regression environment</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">MERIDIAN</div>
+  <div class="footer-note">Rusty Bargain · LightGBM (REQM €1,670 · 12.9s train · 0.25s predict) · 354K vehicles · Meridian Labs 2025</div>
+</div>
+
+<script>
+const NAVY2='#0d1e30',GOLD='#C9A84C',SILV='#A8B2BD',DIM='#3a4a5a',
+      GREEN='#4ade80',RED='#f87171',AMBER='#fbbf24',BLUE='#60a5fa';
+Chart.defaults.color=SILV;
+Chart.defaults.font.family="'DM Mono', monospace";
+Chart.defaults.font.size=10;
+const grid={color:'rgba(168,178,189,0.07)',drawBorder:false};
+const tt={backgroundColor:NAVY2,borderColor:'rgba(201,168,76,0.3)',borderWidth:1,titleColor:GOLD,bodyColor:SILV};
+
+function showTab(name,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── REQM comparison ──────────────────────────────────────────
+new Chart(document.getElementById('reqmChart'),{
+  type:'bar',
+  data:{labels:['LightGBM','Random Forest','Linear Reg.'],
+    datasets:[{data:[1670.50,1727.38,2636.53],
+      backgroundColor:[GREEN+'66',GOLD+'55',SILV+'33'],
+      borderColor:[GREEN,GOLD,SILV],borderWidth:1.5,borderRadius:3,barThickness:40}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>`€${ctx.parsed.y.toLocaleString()} REQM`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},
+            y:{grid,ticks:{color:SILV,callback:v=>'€'+v.toLocaleString()},min:0,
+               title:{display:true,text:'REQM (€)',color:SILV,font:{size:9}}}}}
+});
+
+// ── Training time ─────────────────────────────────────────────
+new Chart(document.getElementById('trainChart'),{
+  type:'bar',
+  data:{labels:['Linear Reg.','LightGBM','Random Forest'],
+    datasets:[{data:[0.92,12.9,85],
+      backgroundColor:[SILV+'33',GREEN+'66',RED+'55'],
+      borderColor:[SILV,GREEN,RED],borderWidth:1.5,borderRadius:3,barThickness:40}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>`${ctx.parsed.y}s training time`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},
+            y:{grid,ticks:{color:SILV,callback:v=>v+'s'},
+               title:{display:true,text:'Seconds',color:SILV,font:{size:9}}}}}
+});
+
+// ── LightGBM tuning ──────────────────────────────────────────
+new Chart(document.getElementById('tuningChart'),{
+  type:'bar',
+  data:{
+    labels:['n=100 l=31','n=100 l=50','n=200 l=31','n=200 l=50'],
+    datasets:[{label:'Validation REQM',data:[1743.71,1716.48,1706.25,1683.22],
+      backgroundColor:['rgba(201,168,76,0.3)','rgba(201,168,76,0.45)','rgba(201,168,76,0.6)',GREEN+'77'],
+      borderColor:[GOLD,GOLD,GOLD,GREEN],borderWidth:1.5,borderRadius:3,barThickness:32}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>`REQM: ${ctx.parsed.y}`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},
+            y:{grid,min:1640,ticks:{color:SILV,callback:v=>v.toLocaleString()}}}}
+});
+
+// ── RF tuning ────────────────────────────────────────────────
+new Chart(document.getElementById('rfTuneChart'),{
+  type:'line',
+  data:{
+    labels:['d=10','d=15','d=20'],
+    datasets:[
+      {label:'n=50',data:[1936.74,1737.02,1733.0],borderColor:GOLD,backgroundColor:GOLD+'11',fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:GOLD,borderWidth:2},
+      {label:'n=100',data:[1920.0,1728.0,1727.38],borderColor:GREEN,backgroundColor:GREEN+'11',fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:GREEN,borderWidth:2}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},tooltip:{...tt}},
+    scales:{x:{grid,ticks:{color:SILV}},y:{grid,ticks:{color:SILV}}}}
+});
+
+// ── Final test REQM ──────────────────────────────────────────
+new Chart(document.getElementById('finalChart'),{
+  type:'bar',
+  data:{labels:['LightGBM','Random Forest','Linear Reg.'],
+    datasets:[{data:[1670.50,1727.38,2636.53],
+      backgroundColor:[GREEN+'66',GOLD+'55',SILV+'33'],
+      borderColor:[GREEN,GOLD,SILV],borderWidth:1.5,borderRadius:3,barThickness:36}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    indexAxis:'y',
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>`€${ctx.parsed.x.toLocaleString()} REQM`}}},
+    scales:{x:{grid,ticks:{color:SILV,callback:v=>'€'+v.toLocaleString()}},
+            y:{grid:{display:false},ticks:{color:SILV}}}}
+});
+
+// ── Train log chart ──────────────────────────────────────────
+new Chart(document.getElementById('trainLogChart'),{
+  type:'bar',
+  data:{labels:['Linear Reg.','LightGBM','Random Forest'],
+    datasets:[{data:[0.92,12.9,85],
+      backgroundColor:[SILV+'33',GREEN+'66',RED+'55'],
+      borderColor:[SILV,GREEN,RED],borderWidth:1.5,borderRadius:3,barThickness:28}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>`${ctx.parsed.y}s`}}},
+    scales:{x:{grid:{display:false},ticks:{color:DIM}},
+            y:{type:'logarithmic',grid,ticks:{color:SILV,callback:v=>v+'s'}}}}
+});
+
+// ── Prediction time ──────────────────────────────────────────
+new Chart(document.getElementById('predChart'),{
+  type:'bar',
+  data:{labels:['Linear Reg.','LightGBM','Random Forest'],
+    datasets:[{data:[0.084,0.252,0.251],
+      backgroundColor:[BLUE+'55',GREEN+'66',GOLD+'55'],
+      borderColor:[BLUE,GREEN,GOLD],borderWidth:1.5,borderRadius:3,barThickness:28}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>`${ctx.parsed.y}s prediction`}}},
+    scales:{x:{grid:{display:false},ticks:{color:DIM}},y:{grid,ticks:{color:SILV,callback:v=>v+'s'}}}}
+});
+
+// ── Radar ────────────────────────────────────────────────────
+new Chart(document.getElementById('radarChart'),{
+  type:'radar',
+  data:{
+    labels:['Prediction Quality','Training Speed','Prediction Speed','Scalability','Ease of Deploy'],
+    datasets:[
+      {label:'LightGBM',data:[95,90,80,90,85],borderColor:GREEN,backgroundColor:GREEN+'22',pointBackgroundColor:GREEN,borderWidth:2,pointRadius:4},
+      {label:'Random Forest',data:[88,20,80,70,75],borderColor:GOLD,backgroundColor:GOLD+'15',pointBackgroundColor:GOLD,borderWidth:2,pointRadius:4},
+      {label:'Linear Reg.',data:[55,97,98,95,95],borderColor:SILV+'99',backgroundColor:SILV+'0a',pointBackgroundColor:SILV,borderWidth:1.5,pointRadius:3}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},tooltip:{...tt}},
+    scales:{r:{grid:{color:'rgba(168,178,189,0.1)'},pointLabels:{color:SILV,font:{size:10}},
+               ticks:{display:false},angleLines:{color:'rgba(168,178,189,0.1)'},suggestedMin:0,suggestedMax:100}}}
+});
+
+// ── Split doughnut ───────────────────────────────────────────
+new Chart(document.getElementById('splitChart'),{
+  type:'doughnut',
+  data:{labels:['Train (80%)','Validation (10%)','Test (10%)'],
+    datasets:[{data:[236126,29516,29516],
+      backgroundColor:[GREEN+'66',GOLD+'55',BLUE+'55'],
+      borderColor:'#081321',borderWidth:3,hoverOffset:6}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+    plugins:{legend:{position:'right',labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9},padding:14}},
+             tooltip:{...tt,callbacks:{label:ctx=>`${ctx.label}: ${ctx.parsed.toLocaleString()} records`}}}}
+});
+
+// ── Correlation bars ─────────────────────────────────────────
+new Chart(document.getElementById('corrChart'),{
+  type:'bar',
+  data:{
+    labels:['RegistrationYear','Power','Mileage'],
+    datasets:[{label:'Correlation with Price',data:[0.35,0.42,-0.38],
+      backgroundColor:[GREEN+'66',GREEN+'66',RED+'55'],
+      borderColor:[GREEN,GREEN,RED],borderWidth:1.5,borderRadius:3,barThickness:36}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>`r = ${ctx.parsed.y}`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},
+            y:{grid,min:-0.5,max:0.6,ticks:{color:SILV,callback:v=>v},
+               title:{display:true,text:'Pearson Correlation',color:SILV,font:{size:9}}}}}
+});
+</script>
+</body>
+</html>
