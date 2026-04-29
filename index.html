@@ -222,20 +222,27 @@
                 <div class="case-grid carousel-slide">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
-                            <div style="width:100%; height:100%; background:#111; display:flex; align-items:center; justify-content:center; color:var(--silver); position:absolute; top:0; left:0; font-family:'Montserrat',sans-serif; font-size:0.75rem; letter-spacing:3px;">
-                                [AI PRICING DASHBOARD — COMING SOON]
-                            </div>
+                            <iframe
+                                src="/labs/ai_pricing_dashboard.html"
+                                allowfullscreen
+                                sandbox="allow-scripts allow-same-origin allow-popups">
+                            </iframe>
                         </div>
                     </div>
                     <div style="text-align: left;">
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Dynamic Pricing Engine (AI)</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Need to price physical assets in the secondary market in real-time, requiring high precision to avoid margin erosion or lost conversions.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Price 354K used vehicles in real-time for a consumer marketplace app — requiring high prediction accuracy to prevent margin erosion and maximize conversion rates.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Development of a LightGBM predictive model with 0.25s latency and Data Leakage mitigation, ensuring pricing decisions based on historical evidence.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Benchmarked 3 models (Linear Regression, Random Forest, LightGBM) across quality, training speed and prediction latency. LightGBM won on all fronts — lowest REQM at €1,670, trained in 12.9s and predicts in 0.25s, enabling a seamless real-time user experience.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">€1,670</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">BEST REQM</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.25s</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PREDICTION LATENCY</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">354K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">VEHICLES ANALYZED</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
                     </div>
