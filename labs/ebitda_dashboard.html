@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Finance — EBITDA Optimization · Meridian Labs</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#081321;--navy2:#0d1e30;--navy3:#112540;
+  --gold:#C9A84C;--silver:#A8B2BD;--white:#F0F4F8;
+  --dim:#3a4a5a;--green:#4ade80;--red:#f87171;--amber:#fbbf24;--blue:#60a5fa;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--white);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px);
+  background-size:55px 55px;pointer-events:none;z-index:0}
+
+.header{position:relative;z-index:10;padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,0.12);
+  display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.brand{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.header h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1.1}
+.header h1 em{color:var(--gold);font-style:italic}
+.header-sub{margin-top:6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--silver);letter-spacing:0.05em}
+.header-meta{display:flex;gap:14px;flex-wrap:wrap}
+.meta-pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--silver);border:1px solid var(--dim);padding:5px 12px;text-transform:uppercase}
+.meta-pill span{color:var(--gold)}
+
+.kpi-row{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+  background:rgba(201,168,76,0.07);border-bottom:1px solid rgba(201,168,76,0.1)}
+.kpi-card{background:var(--navy2);padding:22px 24px;position:relative;overflow:hidden;transition:background 0.2s}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.kpi-card:hover{background:var(--navy3)}
+.kpi-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;color:var(--silver);text-transform:uppercase;margin-bottom:10px}
+.kpi-value{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:300;color:var(--gold);line-height:1}
+.kpi-sub{margin-top:6px;font-family:'DM Mono',monospace;font-size:9px;color:var(--silver)}
+.kpi-badge{display:inline-block;margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;border-radius:2px}
+.kpi-badge.pass{background:rgba(74,222,128,0.1);color:var(--green)}
+.kpi-badge.info{background:rgba(96,165,250,0.1);color:var(--blue)}
+.kpi-badge.warn{background:rgba(251,191,36,0.1);color:var(--amber)}
+
+.nav-tabs{position:sticky;top:0;z-index:100;background:var(--navy2);
+  border-bottom:1px solid rgba(201,168,76,0.1);display:flex;padding:0 40px}
+.nav-tab{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:13px 22px;cursor:pointer;color:var(--dim);border-bottom:2px solid transparent;
+  transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-tab:hover:not(.active){color:var(--silver)}
+
+.section{display:none;position:relative;z-index:1;padding:32px 40px 60px}
+.section.active{display:block}
+
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.col2{grid-column:span 2}
+.col3{grid-column:span 3}
+
+.panel{background:var(--navy2);border:1px solid rgba(168,178,189,0.08);padding:24px 28px;transition:border-color 0.2s}
+.panel:hover{border-color:rgba(201,168,76,0.14)}
+.panel-header{display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(168,178,189,0.07)}
+.panel-title{font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--silver)}
+.panel-sub{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);margin-top:4px}
+.panel-badge{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:3px 10px;white-space:nowrap}
+
+.chart-wrap canvas{display:block;width:100%!important}
+
+.insight-row{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.insight{flex:1;min-width:120px;background:rgba(201,168,76,0.05);border-left:2px solid var(--gold);padding:10px 14px}
+.insight-val{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:var(--gold)}
+.insight-desc{font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);margin-top:4px;letter-spacing:0.05em;line-height:1.5}
+
+/* ── WATERFALL ── */
+.waterfall-wrap{overflow-x:auto}
+
+/* ── YEAR SELECTOR ── */
+.year-selector{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.yr-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;
+  padding:6px 14px;cursor:pointer;border:1px solid rgba(168,178,189,0.15);
+  color:var(--dim);background:transparent;transition:all 0.2s;text-transform:uppercase}
+.yr-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.07)}
+.yr-btn:hover:not(.active){border-color:var(--silver);color:var(--silver)}
+
+/* ── MARGIN TRACK ── */
+.margin-track{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(168,178,189,0.05)}
+.mt-year{font-family:'DM Mono',monospace;font-size:10px;color:var(--silver);min-width:48px}
+.mt-bar-wrap{flex:1;height:8px;background:rgba(168,178,189,0.07);border-radius:4px;overflow:hidden}
+.mt-bar{height:100%;border-radius:4px}
+.mt-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);min-width:50px;text-align:right}
+
+/* ── REVENUE BREAKDOWN ── */
+.rev-table{width:100%;border-collapse:collapse}
+.rev-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--dim);text-align:left;padding:8px 12px;border-bottom:1px solid rgba(168,178,189,0.08)}
+.rev-table td{font-family:'DM Mono',monospace;font-size:11px;color:var(--silver);
+  padding:9px 12px;border-bottom:1px solid rgba(168,178,189,0.04);transition:background 0.15s}
+.rev-table tr:hover td{background:rgba(201,168,76,0.04)}
+.rev-table td.num{color:var(--gold);text-align:right}
+.rev-table td.pct{color:var(--green);text-align:right;font-size:10px}
+
+.footer{position:relative;z-index:1;padding:20px 40px;border-top:1px solid rgba(201,168,76,0.08);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-brand{font-size:12px;font-weight:700;letter-spacing:0.2em;color:var(--gold)}
+.footer-note{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)}
+
+@media(max-width:900px){
+  .g2,.g3{grid-template-columns:1fr}
+  .col2,.col3{grid-column:span 1}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .header,.section,.footer{padding-left:20px;padding-right:20px}
+  .nav-tabs{padding:0 16px;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="brand">Meridian Labs · Strategic Finance</div>
+    <h1>EBITDA <em>Optimization</em></h1>
+    <div class="header-sub">5-Year P&L Model · Fintech · Revenue · Cost Structure · Margin Expansion</div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-pill">Period <span>Year 1–5</span></div>
+    <div class="meta-pill">Revenue Y5 <span>2,218B</span></div>
+    <div class="meta-pill">EBITDA Y5 <span>524B</span></div>
+    <div class="meta-pill">Margin Y5 <span style="color:var(--green)">23.6%</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('overview',this)">Overview</button>
+  <button class="nav-tab" onclick="showTab('revenue',this)">Revenue</button>
+  <button class="nav-tab" onclick="showTab('costs',this)">Costs</button>
+  <button class="nav-tab" onclick="showTab('clients',this)">Clients</button>
+</div>
+
+<!-- KPI ROW -->
+<div class="kpi-row">
+  <div class="kpi-card">
+    <div class="kpi-label">EBITDA Year 5</div>
+    <div class="kpi-value">524B</div>
+    <div class="kpi-sub">Resultado Operacional</div>
+    <div class="kpi-badge pass">▲ +2,199% vs Year 1</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Margem EBITDA Y5</div>
+    <div class="kpi-value">23.6%</div>
+    <div class="kpi-sub">vs 2.66% no Year 1</div>
+    <div class="kpi-badge pass">▲ +20.97pp em 5 anos</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Receita Total Y5</div>
+    <div class="kpi-value">2,218B</div>
+    <div class="kpi-sub">vs 858B no Year 1</div>
+    <div class="kpi-badge pass">▲ +158% crescimento</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Clientes Y5</div>
+    <div class="kpi-value">3,554M</div>
+    <div class="kpi-sub">vs 2,200M no Year 1</div>
+    <div class="kpi-badge info">▲ +61.5% base</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Margem Bruta Y5</div>
+    <div class="kpi-value">40.1%</div>
+    <div class="kpi-sub">vs 37.6% no Year 1</div>
+    <div class="kpi-badge pass">▲ consistente expansão</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ TAB 1: OVERVIEW ══════════════════════════ -->
+<div class="section active" id="tab-overview">
+  <div class="grid g2">
+
+    <!-- Receita + EBITDA dual axis -->
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Receita Total vs EBITDA — Evolução 5 Anos</div>
+          <div class="panel-sub">Receita (barras) · EBITDA (linha) · valores em Bilhões</div>
+        </div>
+        <div class="panel-badge">P&L TREND</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="overviewChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">+158%</div><div class="insight-desc">Crescimento receita Y1→Y5<br>858B → 2,218B</div></div>
+        <div class="insight"><div class="insight-val">+2,199%</div><div class="insight-desc">Crescimento EBITDA Y1→Y5<br>22.8B → 524B</div></div>
+        <div class="insight"><div class="insight-val">+20.97pp</div><div class="insight-desc">Expansão margem EBITDA<br>2.66% → 23.63%</div></div>
+        <div class="insight"><div class="insight-val">Y3</div><div class="insight-desc">Inflexão estratégica<br>margem dobra para 14.1%</div></div>
+      </div>
+    </div>
+
+    <!-- Margem EBITDA evolução -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Margem EBITDA por Ano</div>
+          <div class="panel-sub">Expansão consistente de 2.66% → 23.63%</div>
+        </div>
+        <div class="panel-badge">MARGIN</div>
+      </div>
+      <div class="chart-wrap" style="height:220px"><canvas id="ebitdaMarginChart"></canvas></div>
+      <div style="margin-top:16px">
+        <div class="margin-track"><div class="mt-year">Year 1</div><div class="mt-bar-wrap"><div class="mt-bar" style="width:11%;background:var(--silver)"></div></div><div class="mt-val">2.66%</div></div>
+        <div class="margin-track"><div class="mt-year">Year 2</div><div class="mt-bar-wrap"><div class="mt-bar" style="width:34%;background:var(--amber)"></div></div><div class="mt-val">7.95%</div></div>
+        <div class="margin-track"><div class="mt-year">Year 3</div><div class="mt-bar-wrap"><div class="mt-bar" style="width:60%;background:var(--gold)"></div></div><div class="mt-val">14.12%</div></div>
+        <div class="margin-track"><div class="mt-year">Year 4</div><div class="mt-bar-wrap"><div class="mt-bar" style="width:85%;background:var(--gold)"></div></div><div class="mt-val">19.94%</div></div>
+        <div class="margin-track"><div class="mt-year">Year 5</div><div class="mt-bar-wrap"><div class="mt-bar" style="width:100%;background:var(--green)"></div></div><div class="mt-val">23.63%</div></div>
+      </div>
+    </div>
+
+    <!-- Waterfall Year 5 -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Waterfall P&L — Year 5</div>
+          <div class="panel-sub">Receita → Custos Variáveis → Margem Bruta → OPEX → EBITDA</div>
+        </div>
+        <div class="panel-badge">WATERFALL</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="waterfallChart"></canvas></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════ TAB 2: REVENUE ══════════════════════════ -->
+<div class="section" id="tab-revenue">
+  <div class="grid g2">
+
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Composição da Receita — 5 Anos</div>
+          <div class="panel-sub">Interchange · FX · Juros — evolução por stream</div>
+        </div>
+        <div class="panel-badge">REVENUE MIX</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="revMixChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">Juros</div><div class="insight-desc">Maior stream de receita<br>49% do total em Y5</div></div>
+        <div class="insight"><div class="insight-val">Interchange</div><div class="insight-desc">46% do total em Y5<br>1,023B em Year 5</div></div>
+        <div class="insight"><div class="insight-val">FX</div><div class="insight-desc">Receita complementar<br>102B em Year 5</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Receita por Stream — Year 5</div>
+          <div class="panel-sub">Proporção de cada fonte</div>
+        </div>
+        <div class="panel-badge">DOUGHNUT</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="revDonutChart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Volume Total Transacionado</div>
+          <div class="panel-sub">Bilhões por ano · base para receita de Juros e Interchange</div>
+        </div>
+        <div class="panel-badge">VOLUME</div>
+      </div>
+      <div class="chart-wrap" style="height:240px"><canvas id="volumeChart"></canvas></div>
+    </div>
+
+    <!-- Revenue detail table -->
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Detalhamento de Receita por Ano</div>
+          <div class="panel-sub">Todos os streams · valores em Milhões (M) / Bilhões (B)</div>
+        </div>
+        <div class="panel-badge">TABLE</div>
+      </div>
+      <table class="rev-table">
+        <thead>
+          <tr>
+            <th>Ano</th>
+            <th style="text-align:right">Interchange</th>
+            <th style="text-align:right">FX</th>
+            <th style="text-align:right">Juros</th>
+            <th style="text-align:right">Receita Total</th>
+            <th style="text-align:right">YoY %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Year 1</td><td class="num">396,000M</td><td class="num">39,600M</td><td class="num">422,400M</td><td class="num">858,000M</td><td class="pct">—</td></tr>
+          <tr><td>Year 2</td><td class="num">487,872M</td><td class="num">48,787M</td><td class="num">520,397M</td><td class="num">1,057.1B</td><td class="pct">+23.2%</td></tr>
+          <tr><td>Year 3</td><td class="num">645,211M</td><td class="num">64,521M</td><td class="num">688,225M</td><td class="num">1,398.0B</td><td class="pct">+32.2%</td></tr>
+          <tr><td>Year 4</td><td class="num">838,451M</td><td class="num">83,845M</td><td class="num">894,348M</td><td class="num">1,816.6B</td><td class="pct">+29.9%</td></tr>
+          <tr><td><strong style="color:var(--gold)">Year 5</strong></td><td class="num">1,023.7B</td><td class="num">102,375M</td><td class="num">1,092.0B</td><td class="num" style="color:var(--green)">2,218.1B</td><td class="pct">+22.1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════ TAB 3: COSTS ══════════════════════════ -->
+<div class="section" id="tab-costs">
+  <div class="grid g2">
+
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Estrutura de Custos — Receita vs Custos vs EBITDA</div>
+          <div class="panel-sub">Evolução da alavancagem operacional ao longo dos 5 anos</div>
+        </div>
+        <div class="panel-badge">COST STRUCTURE</div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="costStructChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">Leverage</div><div class="insight-desc">Custos crescem mais devagar<br>que a receita → expansão de margem</div></div>
+        <div class="insight"><div class="insight-val">OPEX</div><div class="insight-desc">Cresce de 300B → 379B (+26%)<br>enquanto receita sobe +158%</div></div>
+        <div class="insight"><div class="insight-val">CAC</div><div class="insight-desc">CAC sobe de 40K → 67K<br>eficiência de aquisição reduz</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Margem Bruta vs Margem EBITDA</div>
+          <div class="panel-sub">Expansão das duas margens ao longo dos anos</div>
+        </div>
+        <div class="panel-badge">MARGINS</div>
+      </div>
+      <div class="chart-wrap" style="height:250px"><canvas id="marginsChart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Decomposição OPEX</div>
+          <div class="panel-sub">Parcela Fixa · Parcela Variável · crescimento ano a ano</div>
+        </div>
+        <div class="panel-badge">OPEX</div>
+      </div>
+      <div class="chart-wrap" style="height:250px"><canvas id="opexChart"></canvas></div>
+    </div>
+
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Custos Variáveis — Detalhamento</div>
+          <div class="panel-sub">Rede · CAC · Emissão de Cartão por ano</div>
+        </div>
+        <div class="panel-badge">VAR COSTS</div>
+      </div>
+      <div class="chart-wrap" style="height:220px"><canvas id="varCostChart"></canvas></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════ TAB 4: CLIENTS ══════════════════════════ -->
+<div class="section" id="tab-clients">
+  <div class="grid g2">
+
+    <div class="panel col2">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Evolução da Base de Clientes</div>
+          <div class="panel-sub">Clientes iniciais · perdidos (churn 10%) · crescimento líquido · clientes finais</div>
+        </div>
+        <div class="panel-badge">COHORT</div>
+      </div>
+      <div class="chart-wrap" style="height:250px"><canvas id="clientsChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight"><div class="insight-val">10%</div><div class="insight-desc">Churn rate constante<br>todos os 5 anos</div></div>
+        <div class="insight"><div class="insight-val">3,554M</div><div class="insight-desc">Base final Year 5<br>+61.5% vs Year 1</div></div>
+        <div class="insight"><div class="insight-val">+672K</div><div class="insight-desc">Novos clientes captados Y5<br>maior volume do período</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Gasto Médio por Cliente</div>
+          <div class="panel-sub">Mensal e Anual · crescimento consistente</div>
+        </div>
+        <div class="panel-badge">ARPU</div>
+      </div>
+      <div class="chart-wrap" style="height:250px"><canvas id="arpuChart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Crescimento % Líquido por Ano</div>
+          <div class="panel-sub">Taxa de crescimento da base após churn</div>
+        </div>
+        <div class="panel-badge">GROWTH</div>
+      </div>
+      <div class="chart-wrap" style="height:250px"><canvas id="growthChart"></canvas></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">MERIDIAN</div>
+  <div class="footer-note">Strategic Finance · EBITDA Optimization · 5-Year P&L Model · Fintech · Meridian Labs 2025</div>
+</div>
+
+<script>
+const NAVY2='#0d1e30',GOLD='#C9A84C',SILV='#A8B2BD',DIM='#3a4a5a',
+      GREEN='#4ade80',RED='#f87171',AMBER='#fbbf24',BLUE='#60a5fa';
+Chart.defaults.color=SILV;
+Chart.defaults.font.family="'DM Mono', monospace";
+Chart.defaults.font.size=10;
+const grid={color:'rgba(168,178,189,0.07)',drawBorder:false};
+const tt={backgroundColor:NAVY2,borderColor:'rgba(201,168,76,0.3)',borderWidth:1,titleColor:GOLD,bodyColor:SILV};
+
+function showTab(name,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+const years=['Year 1','Year 2','Year 3','Year 4','Year 5'];
+
+// raw values (in Millions for consistency)
+const receita   =[858000, 1057100, 1398000, 1816600, 2218100];
+const ebitda    =[22800,   84010,  197404,  362149,  524143];
+const margEBITDA=[2.66,    7.95,   14.12,   19.94,   23.63];
+const margBruta =[37.62,  37.75,   38.01,   39.23,   40.07];
+const custoVar  =[535200, 658046,  866653, 1103900, 1329400];
+const opex      =[300000, 330750,  353934,  368125,  379204];
+const interchange=[396000,487872,  645211,  838451, 1023700];
+const fx        =[39600,  48787,   64521,   83845,  102375];
+const juros     =[422400, 520397,  688225,  894348, 1092000];
+const volume    =[26400,  32525,   43014,   55897,   68250]; // B
+const cliFinal  =[2200,   2464,    2834,    3202,    3554];  // M
+const cliPerdidos=[200,   220,     246,     283,     320];   // K
+const novosCli  =[400,    484,     616,     652,     672];   // K
+const arpuMensal=[1000,  1100,    1265,   1454.75, 1600.23];
+const arpuAnual =[12000, 13200,   15180,   17457,  19202.7];
+const custRede  =[79200,  97574,  129042,  167690,  204750];
+const cac       =[40000,  48400,   61600,   65173,   67241];
+const custEmis  =[20000,  24200,   30800,   32586,   33621];
+const crescNet  =[10,     12,      15,      13,      11]; // % crescimento bruto
+
+// CHART 1: Overview bar+line
+new Chart(document.getElementById('overviewChart'),{
+  type:'bar',
+  data:{labels:years,datasets:[
+    {label:'Receita Total (M)',data:receita,backgroundColor:SILV+'33',borderColor:SILV+'66',borderWidth:1,borderRadius:3,yAxisID:'y'},
+    {label:'EBITDA (M)',data:ebitda,backgroundColor:GOLD+'55',borderColor:GOLD,borderWidth:1,borderRadius:3,yAxisID:'y'},
+    {label:'Margem EBITDA %',data:margEBITDA,type:'line',borderColor:GREEN,backgroundColor:'transparent',
+     borderWidth:2.5,pointRadius:4,pointBackgroundColor:GREEN,tension:0.4,yAxisID:'y2'}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},tooltip:{...tt}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:SILV}},
+      y:{grid,ticks:{color:SILV,callback:v=>(v/1000).toFixed(0)+'B'},
+         title:{display:true,text:'Valores (M)',color:SILV,font:{size:9}}},
+      y2:{position:'right',grid:{display:false},ticks:{color:GREEN,callback:v=>v+'%'},
+          title:{display:true,text:'Margem EBITDA',color:GREEN,font:{size:9}}}
+    }
+  }
+});
+
+// CHART 2: EBITDA Margin line
+new Chart(document.getElementById('ebitdaMarginChart'),{
+  type:'line',
+  data:{labels:years,datasets:[
+    {label:'Margem EBITDA %',data:margEBITDA,borderColor:GOLD,backgroundColor:GOLD+'15',
+     fill:true,tension:0.4,borderWidth:2.5,pointRadius:5,pointBackgroundColor:GOLD},
+    {label:'Margem Bruta %',data:margBruta,borderColor:SILV+'88',backgroundColor:'transparent',
+     tension:0.4,borderWidth:1.5,pointRadius:3,pointBackgroundColor:SILV,borderDash:[4,3]}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},tooltip:{...tt,callbacks:{label:ctx=>` ${ctx.parsed.y}%`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},
+            y:{grid,ticks:{color:SILV,callback:v=>v+'%'},suggestedMin:0,suggestedMax:45}}
+  }
+});
+
+// CHART 3: Waterfall Y5
+const wfLabels=['Receita','- Custos Var.','= Margem Bruta','- OPEX','= EBITDA'];
+const wfData  =[2218100,-1329400,888700,-379204,524143];
+const wfColors=[GREEN+'88',RED+'66',GOLD+'66',RED+'55',GREEN+'88'];
+new Chart(document.getElementById('waterfallChart'),{
+  type:'bar',
+  data:{labels:wfLabels,datasets:[{data:wfData.map(v=>Math.abs(v)),
+    backgroundColor:wfColors,borderColor:wfColors.map(c=>c.slice(0,7)),
+    borderWidth:1.5,borderRadius:3,barThickness:36}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>`${(ctx.parsed.y/1000).toFixed(0)}B`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV,font:{size:9}}},
+            y:{grid,ticks:{color:SILV,callback:v=>(v/1000).toFixed(0)+'B'}}}
+  }
+});
+
+// CHART 4: Revenue mix stacked
+new Chart(document.getElementById('revMixChart'),{
+  type:'bar',
+  data:{labels:years,datasets:[
+    {label:'Interchange',data:interchange,backgroundColor:GOLD+'77',borderColor:GOLD,borderWidth:1,borderRadius:2},
+    {label:'Juros',data:juros,backgroundColor:GREEN+'55',borderColor:GREEN,borderWidth:1,borderRadius:2},
+    {label:'FX',data:fx,backgroundColor:BLUE+'55',borderColor:BLUE,borderWidth:1,borderRadius:2}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},
+             tooltip:{...tt,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${(ctx.parsed.y/1000).toFixed(1)}B`}}},
+    scales:{x:{stacked:true,grid:{display:false},ticks:{color:SILV}},
+            y:{stacked:true,grid,ticks:{color:SILV,callback:v=>(v/1000).toFixed(0)+'B'}}}
+  }
+});
+
+// CHART 5: Revenue donut Y5
+new Chart(document.getElementById('revDonutChart'),{
+  type:'doughnut',
+  data:{labels:['Interchange (46%)','Juros (49%)','FX (5%)'],
+    datasets:[{data:[1023700,1092000,102375],
+      backgroundColor:[GOLD+'88',GREEN+'66',BLUE+'55'],borderColor:'#081321',borderWidth:3,hoverOffset:8}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+    plugins:{legend:{position:'right',labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9},padding:14}},
+             tooltip:{...tt,callbacks:{label:ctx=>`${(ctx.parsed/1000).toFixed(1)}B`}}}
+  }
+});
+
+// CHART 6: Volume
+new Chart(document.getElementById('volumeChart'),{
+  type:'bar',
+  data:{labels:years,datasets:[{label:'Volume Transacionado (B)',data:volume,
+    backgroundColor:GOLD+'55',borderColor:GOLD,borderWidth:1.5,borderRadius:3,barThickness:28}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>` ${ctx.parsed.y.toLocaleString()}B`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},y:{grid,ticks:{color:SILV,callback:v=>v+'B'}}}
+  }
+});
+
+// CHART 7: Cost structure
+new Chart(document.getElementById('costStructChart'),{
+  type:'line',
+  data:{labels:years,datasets:[
+    {label:'Receita Total',data:receita,borderColor:GREEN,backgroundColor:GREEN+'0a',fill:true,tension:0.4,borderWidth:2.5,pointRadius:4,pointBackgroundColor:GREEN},
+    {label:'Custos Variáveis',data:custoVar,borderColor:RED,backgroundColor:RED+'0a',fill:true,tension:0.4,borderWidth:1.5,pointRadius:3,pointBackgroundColor:RED},
+    {label:'OPEX',data:opex,borderColor:AMBER,backgroundColor:'transparent',tension:0.4,borderWidth:1.5,pointRadius:3,pointBackgroundColor:AMBER,borderDash:[4,3]},
+    {label:'EBITDA',data:ebitda,borderColor:GOLD,backgroundColor:GOLD+'0a',fill:true,tension:0.4,borderWidth:2,pointRadius:4,pointBackgroundColor:GOLD}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9}}},tooltip:{...tt,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${(ctx.parsed.y/1000).toFixed(0)}B`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},y:{grid,ticks:{color:SILV,callback:v=>(v/1000).toFixed(0)+'B'}}}
+  }
+});
+
+// CHART 8: Margins dual
+new Chart(document.getElementById('marginsChart'),{
+  type:'line',
+  data:{labels:years,datasets:[
+    {label:'Margem Bruta %',data:margBruta,borderColor:SILV,backgroundColor:'transparent',tension:0.4,borderWidth:1.5,pointRadius:3,pointBackgroundColor:SILV,borderDash:[4,3]},
+    {label:'Margem EBITDA %',data:margEBITDA,borderColor:GOLD,backgroundColor:GOLD+'15',fill:true,tension:0.4,borderWidth:2.5,pointRadius:5,pointBackgroundColor:GOLD}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},tooltip:{...tt,callbacks:{label:ctx=>` ${ctx.parsed.y}%`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},y:{grid,ticks:{color:SILV,callback:v=>v+'%'},suggestedMin:0,suggestedMax:45}}
+  }
+});
+
+// CHART 9: OPEX decomp
+new Chart(document.getElementById('opexChart'),{
+  type:'bar',
+  data:{labels:years,datasets:[
+    {label:'Parcela Fixa',data:[150000,157500,166950,175298,182309],backgroundColor:AMBER+'55',borderColor:AMBER,borderWidth:1,borderRadius:2},
+    {label:'Parcela Variável',data:[150000,157500,166950,175298,182309],backgroundColor:GOLD+'55',borderColor:GOLD,borderWidth:1,borderRadius:2},
+    {label:'Crescimento OPEX',data:[0,15750,20034,17530,14585],backgroundColor:BLUE+'44',borderColor:BLUE,borderWidth:1,borderRadius:2}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9}}},tooltip:{...tt,callbacks:{label:ctx=>` ${(ctx.parsed.y/1000).toFixed(0)}B`}}},
+    scales:{x:{stacked:true,grid:{display:false},ticks:{color:SILV}},y:{stacked:true,grid,ticks:{color:SILV,callback:v=>(v/1000).toFixed(0)+'B'}}}
+  }
+});
+
+// CHART 10: Variable costs breakdown
+new Chart(document.getElementById('varCostChart'),{
+  type:'bar',
+  data:{labels:years,datasets:[
+    {label:'Custo Rede',data:custRede,backgroundColor:RED+'55',borderColor:RED,borderWidth:1,borderRadius:2},
+    {label:'CAC',data:cac,backgroundColor:AMBER+'55',borderColor:AMBER,borderWidth:1,borderRadius:2},
+    {label:'Emissão Cartão',data:custEmis,backgroundColor:SILV+'44',borderColor:SILV,borderWidth:1,borderRadius:2}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9}}},tooltip:{...tt,callbacks:{label:ctx=>` ${(ctx.parsed.y/1000).toFixed(0)}B`}}},
+    scales:{x:{stacked:true,grid:{display:false},ticks:{color:SILV}},y:{stacked:true,grid,ticks:{color:SILV,callback:v=>(v/1000).toFixed(0)+'B'}}}
+  }
+});
+
+// CHART 11: Clients cohort
+new Chart(document.getElementById('clientsChart'),{
+  type:'bar',
+  data:{labels:years,datasets:[
+    {label:'Clientes Finais (M)',data:cliFinal,backgroundColor:GOLD+'55',borderColor:GOLD,borderWidth:1.5,borderRadius:3,barThickness:28,yAxisID:'y'},
+    {label:'Novos Clientes (K)',data:novosCli,type:'line',borderColor:GREEN,backgroundColor:'transparent',tension:0.4,borderWidth:2,pointRadius:4,pointBackgroundColor:GREEN,yAxisID:'y2'},
+    {label:'Churn (K)',data:cliPerdidos,type:'line',borderColor:RED,backgroundColor:'transparent',tension:0.4,borderWidth:1.5,pointRadius:3,pointBackgroundColor:RED,borderDash:[4,3],yAxisID:'y2'}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10,font:{size:9}}},tooltip:{...tt}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:SILV}},
+      y:{grid,ticks:{color:SILV,callback:v=>v+'M'},title:{display:true,text:'Clientes (M)',color:SILV,font:{size:9}}},
+      y2:{position:'right',grid:{display:false},ticks:{color:GREEN,callback:v=>v+'K'},title:{display:true,text:'Movimento (K)',color:GREEN,font:{size:9}}}
+    }
+  }
+});
+
+// CHART 12: ARPU
+new Chart(document.getElementById('arpuChart'),{
+  type:'line',
+  data:{labels:years,datasets:[
+    {label:'Gasto Médio Mensal',data:arpuMensal,borderColor:GOLD,backgroundColor:GOLD+'15',fill:true,tension:0.4,borderWidth:2.5,pointRadius:5,pointBackgroundColor:GOLD},
+    {label:'Gasto Médio Anual (÷10)',data:arpuAnual.map(v=>v/10),borderColor:SILV,backgroundColor:'transparent',tension:0.4,borderWidth:1.5,pointRadius:3,pointBackgroundColor:SILV,borderDash:[4,3]}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:SILV,usePointStyle:true,pointStyleWidth:10}},tooltip:{...tt}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},y:{grid,ticks:{color:SILV,callback:v=>v.toLocaleString()}}}
+  }
+});
+
+// CHART 13: Growth %
+new Chart(document.getElementById('growthChart'),{
+  type:'bar',
+  data:{labels:years,datasets:[{label:'Crescimento Bruto %',data:crescNet,
+    backgroundColor:crescNet.map(v=>GOLD+'66'),borderColor:GOLD,borderWidth:1.5,borderRadius:3,barThickness:28}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:ctx=>` +${ctx.parsed.y}% crescimento`}}},
+    scales:{x:{grid:{display:false},ticks:{color:SILV}},y:{grid,ticks:{color:SILV,callback:v=>v+'%'},suggestedMin:0,suggestedMax:20}}
+  }
+});
+</script>
+</body>
+</html>
