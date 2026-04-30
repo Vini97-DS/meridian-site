@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meridian | Strategy & Performance</title>
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
-    
+
     <style>
         /* RESET & BASE */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -15,7 +15,7 @@
             --navy: #081321;    --silver: #C1C8D1;  --gold: #C5A059;
             --white: #FFFFFF;   --bg-light: #F8FAFC; 
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--navy);
@@ -170,7 +170,7 @@
         <div class="container">
             <h1>MERIDIAN</h1>
             <h2>Transforming Evidence into Performance</h2>
-            <p>We don’t sell IT. We sell your business’s profitable future through data intelligence and AI.</p>
+            <p>We don't sell IT. We sell your business's profitable future through data intelligence and AI.</p>
             <a href="#contact" class="btn-gold">Get a Free Diagnostic</a>
         </div>
     </section>
@@ -180,9 +180,9 @@
             <h2>The Meridian Ecosystem</h2>
             <p style="color: #64748b; max-width: 700px; margin: 0 auto;">Scalable software and predictive intelligence that solve operational problems and generate high-quality structured data.</p>
             <div class="solutions-grid">
-                <div class="card"><h3>Point Retail</h3><p>Full inventory, sales, and KPI management tailored for physical and digital retail operations.</p></div>
-                <div class="card"><h3>Point Commerce</h3><p>E-commerce platform focused on conversion optimization and complete data traceability.</p></div>
-                <div class="card"><h3>Point Booking</h3><p>Intelligent scheduling system designed for clinics, barbershops, and service-based businesses.</p></div>
+                <div class="card"><h3>Meridian Retail</h3><p>Full inventory, sales, and KPI management tailored for physical and digital retail operations.</p></div>
+                <div class="card"><h3>Meridian Commerce</h3><p>E-commerce platform focused on conversion optimization and complete data traceability.</p></div>
+                <div class="card"><h3>Meridian Pulse - Booking</h3><p>Intelligent scheduling system designed for clinics, barbershops, and service-based businesses.</p></div>
                 <div class="card"><h3>Performance Consulting</h3><p>Data architecture, executive 360° dashboards, and AI/ML models for demand and LTV forecasting.</p></div>
             </div>
         </div>
@@ -196,104 +196,145 @@
             </div>
 
             <div class="carousel-container" style="position: relative;">
-                
+
+                <!-- ── SLIDE 01: EBITDA OPTIMIZATION ── -->
                 <div class="case-grid carousel-slide active">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
-                            <iframe src="https://datastudio.google.com/embed/reporting/a91e39d6-b0b5-43b9-a80f-9d8b4b76684e/page/3UAwF" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                            <iframe src="/labs/ebitda_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
                         </div>
                     </div>
                     <div style="text-align: left;">
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Strategic Finance: EBITDA Optimization</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Lack of financial predictability and untracked deviations between the planned budget and actuals, impacting the net profit margin.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">A 5-year P&L model for a fintech operation lacked the granularity to track margin erosion across revenue streams, Interchange, FX and Interest, while managing churn, CAC and OPEX growth simultaneously. Financial decisions were made without a clear bridge between top-line growth and bottom-line protection.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Advanced FP&A modeling with variance analysis and waterfall charts to track revenue bridges and protect the operating profit.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Full FP&A architecture built from scratch: revenue decomposition by stream, variable cost modeling per cohort, and OPEX growth controls tied to client acquisition. A waterfall P&L structure exposed the exact levers driving margin — taking EBITDA from 2.66% in Year 1 to 23.63% in Year 5 with a 2,199% absolute gain.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">+2,199%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EBITDA GROWTH Y1→Y5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">23.6%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EBITDA MARGIN YEAR 5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">2,218B</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">TOTAL REVENUE YEAR 5</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
                     </div>
                 </div>
 
+                <!-- ── SLIDE 02: AI PRICING ENGINE ── -->
                 <div class="case-grid carousel-slide">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
-                            <div style="width:100%; height:100%; background:#111; display:flex; align-items:center; justify-content:center; color:var(--silver); position:absolute; top:0; left:0;">
-                                [AI PRICING DASHBOARD - COMING SOON]
-                            </div>
+                            <iframe src="/labs/ai_pricing_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
                         </div>
                     </div>
                     <div style="text-align: left;">
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Dynamic Pricing Engine (AI)</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Need to price physical assets in the secondary market in real-time, requiring high precision to avoid margin erosion or lost conversions.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Price 354K used vehicles in real-time for a consumer marketplace app — requiring high prediction accuracy to prevent margin erosion and maximize conversion rates.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Development of a LightGBM predictive model with 0.25s latency and Data Leakage mitigation, ensuring pricing decisions based on historical evidence.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Benchmarked 3 models (Linear Regression, Random Forest, LightGBM) across quality, training speed and prediction latency. LightGBM won on all fronts — lowest REQM at €1,670, trained in 12.9s and predicts in 0.25s, enabling a seamless real-time user experience.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">€1,670</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">BEST REQM</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.25s</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PREDICTION LATENCY</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">354K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">VEHICLES ANALYZED</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
                     </div>
                 </div>
 
+                <!-- ── SLIDE 03: CAPEX OPTIMIZATION ── -->
                 <div class="case-grid carousel-slide">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
-                            <div style="width:100%; height:100%; background:#111; display:flex; align-items:center; justify-content:center; color:var(--silver); position:absolute; top:0; left:0;">
-                                [STATISTICAL DISTRIBUTION CHART - COMING SOON]
-                            </div>
+                            <iframe src="/labs/capex_oil_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
                         </div>
                     </div>
                     <div style="text-align: left;">
-                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">CapEx Optimization & Risk</h3>
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">CapEx Risk Intelligence (AI)</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Allocation of a $100 Million Capital Expenditure (CapEx) budget across new exploration projects with a strict mandate of loss risk below 2.5%.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Allocate a $100M Capital Expenditure budget across 3 oil exploration regions — with a hard mandate that loss probability must stay below 2.5%. Two of three regions failed this threshold.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Utilization of stochastic Bootstrapping (1,000 simulations) to validate the expected ROI and mathematically isolate the highest-yield operation, reducing real risk to 0.20%.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Linear Regression model trained on 300K well records (REQM 0.89) combined with 1,000 Bootstrap simulations to stress-test profitability. Region 1 emerged as the sole viable candidate — highest expected return at $6.65M with only 0.20% loss risk.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$6.65M</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EXPECTED PROFIT</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.20%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">LOSS RISK</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.89</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MODEL REQM</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
                     </div>
                 </div>
 
+                <!-- ── SLIDE 04: REVENUE & MARGIN (PIZZARIA) ── -->
                 <div class="case-grid carousel-slide">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
-                            <iframe src="https://datastudio.google.com/embed/reporting/cd5b18ec-93f1-452b-8dd1-fcd388ec8ae6/page/m2sdF" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                            <iframe src="/labs/pizzaria_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
                         </div>
                     </div>
                     <div style="text-align: left;">
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Revenue & Margin Optimization</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Resource misallocation causing inflated operational costs (OPEX) during low-yield evening hours and bottlenecking revenue during peak daytime demand.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">48,620 transactions revealed a critical imbalance: 59.5% of annual revenue was generated between 12PM and 5PM, while the evening/closing shift consumed proportional labor and inventory for only 8.1% of total revenue — a direct drag on operating margin.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Reallocation of 50% of workforce and inventory to the high-yield afternoon peak (12 PM - 5 PM). Deployment of interactive KPIs to align logistics with real-time demand.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Data-driven shift reallocation: 50% of workforce and stock redirected to the 12PM–5PM peak window. KPI deployment aligned logistics to real-time demand patterns, exposing Friday as the highest-yield day (+37% vs Sunday) and Large pizzas as the top revenue driver at 45.9% of total sales.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">+12%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">TOTAL PROFIT</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">-7.2%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">NIGHT OPEX</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">+23.6%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">BIG PIZZA SALES</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">59.5%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PEAK WINDOW SHARE</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">−7.2%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">NIGHT OPEX REDUCTION</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$817K</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">ANNUAL REVENUE MAPPED</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
                     </div>
                 </div>
 
-            </div>
+                <!-- ── SLIDE 05: IMMIGRATION INTELLIGENCE ── -->
+                <div class="case-grid carousel-slide">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/immigration_intelligence_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Immigration Intelligence (AI)</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Immigration consulting firms make critical timing decisions based on intuition. Over 10 years of IRCC public data remained unexplored as a strategic asset.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">GradientBoosting model trained on 482K+ IRCC admission records to predict approval windows by visa category and province, identifying Q1 as the peak approval quarter for Brazilian applicants.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">482K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">RECORDS ANALYZED</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">R2 0.79</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MODEL ACCURACY</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">Q1</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PEAK APPROVAL WINDOW</p></div>
+                        </div>
+                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
+                    </div>
+                </div>
+
+            </div><!-- end carousel-container -->
 
             <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 50px;">
                 <button onclick="prevSlide()" style="background: transparent; border: 1px solid var(--silver); color: var(--gold); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: all 0.3s;">&#10094;</button>
-                <span id="slide-indicator" style="color: var(--silver); letter-spacing: 3px; font-size: 0.9rem; font-weight: 600;">01 / 04</span>
+                <span id="slide-indicator" style="color: var(--silver); letter-spacing: 3px; font-size: 0.9rem; font-weight: 600;">01 / 05</span>
                 <button onclick="nextSlide()" style="background: transparent; border: 1px solid var(--silver); color: var(--gold); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: all 0.3s;">&#10095;</button>
             </div>
-            
+
         </div>
     </section>
 
@@ -330,7 +371,9 @@
             slides.forEach((slide, i) => {
                 slide.classList.toggle('active', i === index);
             });
-            indicator.innerText = `0${index + 1} / 0${slides.length}`;
+            const total = slides.length;
+            const current = index + 1;
+            indicator.innerText = `0${current} / 0${total}`;
         }
 
         function nextSlide() {
