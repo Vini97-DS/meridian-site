@@ -4,51 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meridian | Stratégie & Performance</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+
     <style>
+        /* RESET & BASE */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        :root { --navy: #081321; --silver: #C1C8D1; --gold: #C5A059; --white: #FFFFFF; --bg-light: #F8FAFC; }
-        body { font-family: "Inter", sans-serif; background-color: var(--navy); color: var(--white); overflow-x: hidden; line-height: 1.6; }
-        h1, h2, h3, h4 { font-family: "Montserrat", sans-serif; text-transform: uppercase; letter-spacing: 2px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
-        header { position: absolute; top: 0; left: 0; width: 100%; z-index: 100; background-color: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
-        .logo-img { height: 110px; width: auto; transition: transform 0.3s; }
+        :root {
+            --navy: #081321;    --silver: #C1C8D1;  --gold: #C5A059;
+            --white: #FFFFFF;   --bg-light: #F8FAFC; 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--navy);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* SOLID NAVBAR */
+        header {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            background-color: var(--navy);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo-img { height: 80px; width: auto; transition: transform 0.3s; }
+
         .nav-links { list-style: none; display: flex; gap: 40px; }
-        .nav-links a { color: var(--silver); text-decoration: none; font-size: 0.8rem; font-weight: 400; letter-spacing: 2px; transition: color 0.3s; }
+        .nav-links a {
+            color: var(--silver);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
         .nav-links a:hover { color: var(--white); }
-        .lang-switch { display: flex; gap: 15px; margin-left: 30px; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 30px; align-items: center; }
-        .lang-switch a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; }
+
+        /* LANGUAGE SELECTOR */
+        .lang-switch {
+            display: flex; gap: 15px; margin-left: 30px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 30px; align-items: center;
+        }
+        .lang-switch a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none; font-size: 0.75rem;
+            font-weight: 600; letter-spacing: 1px;
+        }
         .lang-switch a.active { color: var(--gold); }
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(8,19,33,0.85), rgba(8,19,33,0.95)), url("https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=2000&auto=format&fit=crop") no-repeat center center/cover; }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(8, 19, 33, 0.85), rgba(8, 19, 33, 0.95)), 
+                        url('https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
+        }
         .hero h1 { color: var(--silver); font-size: 4.5rem; margin-bottom: 15px; letter-spacing: 6px; }
         .hero h2 { font-size: 1.2rem; font-weight: 300; margin-bottom: 40px; color: var(--silver); letter-spacing: 5px; opacity: 0.8; }
         .hero p { max-width: 700px; margin: 0 auto 40px auto; font-size: 1.1rem; }
-        .btn-gold { background-color: var(--gold); color: var(--navy); padding: 18px 40px; text-decoration: none; font-weight: 700; border-radius: 2px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; display: inline-block; cursor: pointer; border: none; }
+
+        .btn-gold {
+            background-color: var(--gold); color: var(--navy);
+            padding: 18px 40px; text-decoration: none;
+            font-weight: 700; border-radius: 2px; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s;
+            display: inline-block; cursor: pointer; border: none;
+        }
         .btn-gold:hover { background-color: #d4ae6a; transform: translateY(-2px); }
+
+        /* ECOSYSTEM */
         .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
         .solutions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 60px; }
         .card { background-color: var(--bg-light); border-left: 1px solid var(--silver); padding: 40px; text-align: left; transition: all 0.3s; }
         .card:hover { border-left: 4px solid var(--navy); transform: translateY(-5px); }
+
+        /* PERFORMANCE LABS - CAROUSEL */
         .labs { padding: 120px 0; background-color: #050b14; }
-        .case-grid { display: none; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 60px; align-items: flex-start; }
+        .case-grid { display: none; grid-template-columns: 3fr 2fr; gap: 40px; align-items: flex-start; }
         .case-grid.active { display: grid; animation: fadeIn 0.6s ease forwards; }
-        .dashboard-container { width: 100%; background: #000; border: 1px solid rgba(193,200,209,0.1); border-radius: 2px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
-        .dashboard-wrapper { position: relative; padding-top: 73.8%; height: 0; }
+
+        .dashboard-container {
+            width: 100%; background: #000; border: 1px solid rgba(193, 200, 209, 0.1);
+            border-radius: 2px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .dashboard-wrapper { position: relative; padding-top: 95%; height: 0; }
         .dashboard-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* METHODOLOGY */
         .methodology { padding: 120px 0; text-align: center; }
         .timeline { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 60px; }
-        .step { flex: 1; min-width: 260px; background-color: rgba(255,255,255,0.02); border: 1px solid rgba(193,200,209,0.1); padding: 40px 25px; }
+        .step { flex: 1; min-width: 260px; background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(193, 200, 209, 0.1); padding: 40px 25px; }
+
+        /* CONTACT */
         .contact { background-color: var(--silver); color: var(--navy); padding: 100px 0; text-align: center; }
         .btn-navy { background-color: var(--navy); color: var(--white); padding: 18px 45px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 30px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
-        footer { padding: 40px 0; background-color: #03080e; color: rgba(255,255,255,0.3); text-align: center; font-size: 0.75rem; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        footer { padding: 40px 0; background-color: #03080e; color: rgba(255, 255, 255, 0.3); text-align: center; font-size: 0.75rem; }
+
+        /* KEYFRAMES */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .navbar { flex-direction: column; gap: 20px; }
             .hero h1 { font-size: 2.5rem; }
             .case-grid { grid-template-columns: 1fr; }
-            .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
+            .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
         }
     </style>
 </head>
@@ -56,8 +149,8 @@
 
     <header>
         <div class="container navbar">
-            <a href="#"><img src="Ativo 8.png" alt="Meridian Logo" class="logo-img"></a>
-            <div style="display:flex;align-items:center;flex-wrap:wrap;justify-content:center;">
+            <a href="#"><img src="Ativo 8 copy.png" alt="Meridian Logo" class="logo-img"></a>
+            <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center;">
                 <ul class="nav-links">
                     <li><a href="#solutions">Écosystème</a></li>
                     <li><a href="#labs">Labs</a></li>
@@ -86,7 +179,7 @@
     <section id="solutions" class="solutions">
         <div class="container">
             <h2>L'Écosystème Meridian</h2>
-            <p style="color:#64748b;max-width:700px;margin:0 auto;">Des logiciels évolutifs et une intelligence prédictive qui résolvent les problèmes opérationnels et génèrent des données structurées de haute qualité.</p>
+            <p style="color: #64748b; max-width: 700px; margin: 0 auto;">Des logiciels évolutifs et une intelligence prédictive qui résolvent les problèmes opérationnels et génèrent des données structurées de haute qualité.</p>
             <div class="solutions-grid">
                 <div class="card"><h3>Meridian Retail</h3><p>Gestion complète des stocks, des ventes et des KPIs pour les opérations physiques et numériques.</p></div>
                 <div class="card"><h3>Meridian Commerce</h3><p>Plateforme e-commerce axée sur l'optimisation de la conversion et la traçabilité complète des données.</p></div>
@@ -98,71 +191,151 @@
 
     <section id="labs" class="labs">
         <div class="container">
-            <div style="text-align:center;margin-bottom:60px;">
-                <h2 style="color:var(--silver);font-size:2.5rem;margin-bottom:10px;">Performance Labs</h2>
-                <p style="color:rgba(255,255,255,0.5);letter-spacing:2px;">OÙ L'ARCHITECTURE DE DONNÉES RENCONTRE LA STRATÉGIE D'ENTREPRISE</p>
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="color: var(--silver); font-size: 2.5rem; margin-bottom: 10px;">Performance Labs</h2>
+                <p style="color: rgba(255,255,255,0.5); letter-spacing: 2px;">OÙ L'ARCHITECTURE DE DONNÉES RENCONTRE LA STRATÉGIE D'ENTREPRISE</p>
             </div>
-            <div class="carousel-container" style="position:relative;">
 
+            <div class="carousel-container" style="position: relative;">
+
+                <!-- ── SLIDE 01: EBITDA OPTIMIZATION ── -->
                 <div class="case-grid carousel-slide active">
-                    <div class="dashboard-container"><div class="dashboard-wrapper">
-                        <iframe src="https://datastudio.google.com/embed/reporting/a91e39d6-b0b5-43b9-a80f-9d8b4b76684e/page/3UAwF" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
-                    </div></div>
-                    <div style="text-align:left;">
-                        <h3 style="color:var(--gold);font-size:1.8rem;margin-bottom:25px;">Finance Stratégique : Optimisation de l'EBITDA</h3>
-                        <div style="margin-bottom:25px;"><h4 style="color:var(--silver);font-size:0.75rem;letter-spacing:2px;margin-bottom:5px;">LE DÉFI</h4><p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Manque de prévisibilité financière et écarts non suivis entre le budget prévu et les résultats réels, impactant la marge bénéficiaire nette.</p></div>
-                        <div style="margin-bottom:30px;"><h4 style="color:var(--silver);font-size:0.75rem;letter-spacing:2px;margin-bottom:5px;">LA STRATÉGIE</h4><p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Modélisation avancée FP&A avec analyse des écarts et graphiques en cascade pour suivre les ponts de revenus et protéger le bénéfice opérationnel.</p></div>
-                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size:0.75rem;">Demander un Audit de Performance</a>
-                    </div>
-                </div>
-
-                <div class="case-grid carousel-slide">
-                    <div class="dashboard-container"><div class="dashboard-wrapper">
-                        <div style="width:100%;height:100%;background:#111;display:flex;align-items:center;justify-content:center;color:var(--silver);position:absolute;top:0;left:0;">[TABLEAU DE BORD TARIFICATION IA - BIENTÔT DISPONIBLE]</div>
-                    </div></div>
-                    <div style="text-align:left;">
-                        <h3 style="color:var(--gold);font-size:1.8rem;margin-bottom:25px;">Moteur de Tarification Dynamique (IA)</h3>
-                        <div style="margin-bottom:25px;"><h4 style="color:var(--silver);font-size:0.75rem;letter-spacing:2px;margin-bottom:5px;">LE DÉFI</h4><p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Nécessité de fixer le prix d'actifs physiques sur le marché secondaire en temps réel, exigeant une haute précision pour éviter l'érosion des marges.</p></div>
-                        <div style="margin-bottom:30px;"><h4 style="color:var(--silver);font-size:0.75rem;letter-spacing:2px;margin-bottom:5px;">LA STRATÉGIE</h4><p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Développement d'un modèle prédictif LightGBM avec une latence de 0,25s et une mitigation du Data Leakage, garantissant des décisions de tarification basées sur des preuves historiques.</p></div>
-                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size:0.75rem;">Demander un Audit de Performance</a>
-                    </div>
-                </div>
-
-                <div class="case-grid carousel-slide">
-                    <div class="dashboard-container"><div class="dashboard-wrapper">
-                        <div style="width:100%;height:100%;background:#111;display:flex;align-items:center;justify-content:center;color:var(--silver);position:absolute;top:0;left:0;">[GRAPHIQUE DE DISTRIBUTION STATISTIQUE - BIENTÔT DISPONIBLE]</div>
-                    </div></div>
-                    <div style="text-align:left;">
-                        <h3 style="color:var(--gold);font-size:1.8rem;margin-bottom:25px;">Intelligence de Risque CapEx (IA)</h3>
-                        <div style="margin-bottom:25px;"><h4 style="color:var(--silver);font-size:0.75rem;letter-spacing:2px;margin-bottom:5px;">LE DÉFI</h4><p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Allocation d'un budget CapEx de 100 millions de dollars sur des projets d'exploration avec un mandat strict de risque de perte inférieur à 2,5%.</p></div>
-                        <div style="margin-bottom:30px;"><h4 style="color:var(--silver);font-size:0.75rem;letter-spacing:2px;margin-bottom:5px;">LA STRATÉGIE</h4><p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Utilisation du Bootstrapping stochastique (1 000 simulations) pour valider le ROI attendu et isoler mathématiquement l'opération à plus fort rendement, réduisant le risque réel à 0,20%.</p></div>
-                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size:0.75rem;">Demander un Audit de Performance</a>
-                    </div>
-                </div>
-
-                <div class="case-grid carousel-slide">
-                    <div class="dashboard-container"><div class="dashboard-wrapper">
-                        <iframe src="https://datastudio.google.com/embed/reporting/cd5b18ec-93f1-452b-8dd1-fcd388ec8ae6/page/m2sdF" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
-                    </div></div>
-                    <div style="text-align:left;">
-                        <h3 style="color:var(--gold);font-size:1.8rem;margin-bottom:25px;">Optimisation des Revenus & Marges</h3>
-                        <div style="margin-bottom:25px;"><h4 style="color:var(--silver);font-size:0.75rem;letter-spacing:2px;margin-bottom:5px;">LE DÉFI</h4><p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Mauvaise allocation des ressources entraînant des coûts opérationnels (OPEX) gonflés pendant les heures nocturnes à faible rendement, bloquant les revenus pendant les pics diurnes.</p></div>
-                        <div style="margin-bottom:30px;"><h4 style="color:var(--silver);font-size:0.75rem;letter-spacing:2px;margin-bottom:5px;">LA STRATÉGIE</h4><p style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Réaffectation de 50% de la main-d'oeuvre et des stocks vers le pic de l'après-midi (12h - 17h). Déploiement de KPIs interactifs pour aligner la logistique sur la demande en temps réel.</p></div>
-                        <div style="margin-bottom:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:15px;">
-                            <div><h4 style="color:var(--gold);font-size:1.4rem;">+12%</h4><p style="color:rgba(255,255,255,0.4);font-size:0.65rem;">BÉNÉFICE TOTAL</p></div>
-                            <div><h4 style="color:var(--gold);font-size:1.4rem;">-7.2%</h4><p style="color:rgba(255,255,255,0.4);font-size:0.65rem;">OPEX NOCTURNE</p></div>
-                            <div><h4 style="color:var(--gold);font-size:1.4rem;">+23.6%</h4><p style="color:rgba(255,255,255,0.4);font-size:0.65rem;">VENTES GRANDE PIZZA</p></div>
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/ebitda_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
                         </div>
-                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size:0.75rem;">Demander un Audit de Performance</a>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Finance Stratégique : Optimisation de l'EBITDA</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">A 5-year P&L model for a fintech operation lacked the granularity to track margin erosion across revenue streams, Interchange, FX and Interest, while managing churn, CAC and OPEX growth simultaneously. Financial decisions were made without a clear bridge between top-line growth and bottom-line protection.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Full FP&A architecture built from scratch: revenue decomposition by stream, variable cost modeling per cohort, and OPEX growth controls tied to client acquisition. A waterfall P&L structure exposed the exact levers driving margin — taking EBITDA from 2.66% in Year 1 to 23.63% in Year 5 with a 2,199% absolute gain.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">+2,199%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">CROISSANCE EBITDA A1→A5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">23.6%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MARGE EBITDA ANNÉE 5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">2,218B</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">REVENUS TOTAUX ANNÉE 5</p></div>
+                        </div>
+                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Demander un Audit de Performance</a>
                     </div>
                 </div>
 
+                <!-- ── SLIDE 02: AI PRICING ENGINE ── -->
+                <div class="case-grid carousel-slide">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/ai_pricing_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Moteur de Tarification Dynamique (IA)</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">LE DÉFI</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Tarifer 354K véhicules d'occasion en temps réel pour un marketplace — nécessitant une haute précision prédictive pour éviter l'érosion des marges et maximiser les taux de conversion.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">LA STRATÉGIE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Benchmark de 3 modèles (Régression Linéaire, Random Forest, LightGBM) en qualité, vitesse d'entraînement et latence de prédiction. LightGBM a gagné sur tous les fronts — REQM le plus bas à €1 670, entraîné en 12,9s et prédiction en 0,25s.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">€1,670</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MEILLEUR REQM</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.25s</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">LATENCE DE PRÉDICTION</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">354K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">VÉHICULES ANALYSÉS</p></div>
+                        </div>
+                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Demander un Audit de Performance</a>
+                    </div>
+                </div>
+
+                <!-- ── SLIDE 03: CAPEX OPTIMIZATION ── -->
+                <div class="case-grid carousel-slide">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/capex_oil_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Intelligence de Risque CapEx (IA)</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">LE DÉFI</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Allouer un budget CapEx de 100M$ sur 3 régions d'exploration pétrolière — avec un mandat strict de probabilité de perte inférieure à 2,5%. Deux des trois régions ont échoué au seuil.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">LA STRATÉGIE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Modèle de Régression Linéaire entraîné sur 300K enregistrements de puits (REQM 0,89) combiné à 1 000 simulations Bootstrap pour tester la rentabilité. La Région 1 a émergé comme seule candidate viable — rendement attendu le plus élevé à 6,65M$ avec seulement 0,20% de risque.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$6.65M</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">BÉNÉFICE ATTENDU</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.20%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">RISQUE DE PERTE</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.89</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">REQM DU MODÈLE</p></div>
+                        </div>
+                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Demander un Audit de Performance</a>
+                    </div>
+                </div>
+
+                <!-- ── SLIDE 04: REVENUE & MARGIN (PIZZARIA) ── -->
+                <div class="case-grid carousel-slide">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/pizzaria_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Revenue & Margin Optimization</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">LE DÉFI</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">48 620 transactions ont révélé un déséquilibre critique : 59,5% des revenus annuels étaient générés entre 12h et 17h, tandis que le service du soir consommait main-d'oeuvre et inventaire proportionnels pour seulement 8,1% des revenus — un frein direct sur la marge opérationnelle.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">LA STRATÉGIE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Réaffectation basée sur les données : 50% des effectifs et des stocks redirigés vers la fenêtre de pointe 12h–17h. Le déploiement de KPIs a aligné la logistique sur les schémas de demande en temps réel, exposant le vendredi comme le jour le plus rentable (+37% vs dimanche) et les grandes pizzas comme principal driver de revenus avec 45,9% des ventes.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">59.5%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PART DE LA FENÊTRE POINTE</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">−7.2%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">RÉDUCTION OPEX NOCTURNE</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$817K</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">REVENUS ANNUELS CARTOGRAPHIÉS</p></div>
+                        </div>
+                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Demander un Audit de Performance</a>
+                    </div>
+                </div>
+
+                <!-- ── SLIDE 05: IMMIGRATION INTELLIGENCE ── -->
+                <div class="case-grid carousel-slide">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/immigration_intelligence_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Intelligence Immigration (IA)</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">LE DÉFI</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Les cabinets de conseil en immigration prennent des décisions critiques de timing basées sur l'intuition. Plus de 10 ans de données publiques de l'IRCC restaient inexploitées comme actif stratégique.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">LA STRATÉGIE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Modèle GradientBoosting entraîné sur 482K+ enregistrements d'admission de l'IRCC pour prédire les fenêtres d'approbation par catégorie de visa et province, identifiant le Q1 comme le trimestre de pointe pour les candidats brésiliens.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">482K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">ENREGISTREMENTS ANALYSÉS</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">R2 0.79</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PRÉCISION DU MODÈLE</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">Q1</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">FENÊTRE D'APPROBATION POINTE</p></div>
+                        </div>
+                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Demander un Audit de Performance</a>
+                    </div>
+                </div>
+
+            </div><!-- end carousel-container -->
+
+            <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 50px;">
+                <button onclick="prevSlide()" style="background: transparent; border: 1px solid var(--silver); color: var(--gold); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: all 0.3s;">&#10094;</button>
+                <span id="slide-indicator" style="color: var(--silver); letter-spacing: 3px; font-size: 0.9rem; font-weight: 600;">01 / 05</span>
+                <button onclick="nextSlide()" style="background: transparent; border: 1px solid var(--silver); color: var(--gold); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: all 0.3s;">&#10095;</button>
             </div>
-            <div style="display:flex;justify-content:center;align-items:center;gap:30px;margin-top:50px;">
-                <button onclick="prevSlide()" style="background:transparent;border:1px solid var(--silver);color:var(--gold);width:45px;height:45px;border-radius:50%;cursor:pointer;font-size:1.2rem;transition:all 0.3s;">&#10094;</button>
-                <span id="slide-indicator" style="color:var(--silver);letter-spacing:3px;font-size:0.9rem;font-weight:600;">01 / 04</span>
-                <button onclick="nextSlide()" style="background:transparent;border:1px solid var(--silver);color:var(--gold);width:45px;height:45px;border-radius:50%;cursor:pointer;font-size:1.2rem;transition:all 0.3s;">&#10095;</button>
-            </div>
+
         </div>
     </section>
 
@@ -187,19 +360,32 @@
     </section>
 
     <footer>
-        <div class="container"><p>© 2026 MERIDIAN STRATEGY & PERFORMANCE. TOUS DROITS RÉSERVÉS.</p></div>
+        <div class="container"><p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. ALL RIGHTS RESERVED.</p></div>
     </footer>
 
     <script>
         let currentSlide = 0;
-        const slides = document.querySelectorAll(".carousel-slide");
-        const indicator = document.getElementById("slide-indicator");
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicator = document.getElementById('slide-indicator');
+
         function showSlide(index) {
-            slides.forEach((slide, i) => { slide.classList.toggle("active", i === index); });
-            indicator.innerText = "0" + (index + 1) + " / 0" + slides.length;
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            const total = slides.length;
+            const current = index + 1;
+            indicator.innerText = `0${current} / 0${total}`;
         }
-        function nextSlide() { currentSlide = (currentSlide + 1) % slides.length; showSlide(currentSlide); }
-        function prevSlide() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; showSlide(currentSlide); }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
     </script>
 </body>
 </html>
