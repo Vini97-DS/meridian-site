@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meridian | Estratégia & Performance</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
 
     <style>
         /* RESET & BASE */
@@ -13,7 +13,7 @@
         html { scroll-behavior: smooth; }
         :root {
             --navy: #081321;    --silver: #C1C8D1;  --gold: #C5A059;
-            --white: #FFFFFF;   --bg-light: #F8FAFC; 
+            --white: #FFFFFF;   --bg-light: #F8FAFC;
         }
 
         body {
@@ -37,7 +37,6 @@
             width: 100%;
         }
 
-        /* SOLID NAVBAR */
         header {
             position: absolute;
             top: 0; left: 0; width: 100%;
@@ -66,7 +65,6 @@
         }
         .nav-links a:hover { color: var(--white); }
 
-        /* LANGUAGE SELECTOR */
         .lang-switch {
             display: flex; gap: 15px; margin-left: 30px;
             border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -79,13 +77,12 @@
         }
         .lang-switch a.active { color: var(--gold); }
 
-        /* HERO SECTION */
         .hero {
             height: 100vh;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(8, 19, 33, 0.85), rgba(8, 19, 33, 0.95)), 
+            background: linear-gradient(rgba(8, 19, 33, 0.85), rgba(8, 19, 33, 0.95)),
                         url('https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
         }
         .hero h1 { color: var(--silver); font-size: 4.5rem; margin-bottom: 15px; letter-spacing: 6px; }
@@ -101,13 +98,31 @@
         }
         .btn-gold:hover { background-color: #d4ae6a; transform: translateY(-2px); }
 
-        /* ECOSYSTEM */
+        /* FOCO (antes: ECOSSISTEMA) */
         .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
-        .solutions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 60px; }
-        .card { background-color: var(--bg-light); border-left: 1px solid var(--silver); padding: 40px; text-align: left; transition: all 0.3s; }
-        .card:hover { border-left: 4px solid var(--navy); transform: translateY(-5px); }
+        .solutions p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
+        .focus-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 32px; margin-top: 60px; text-align: left;
+        }
+        .focus-card {
+            background-color: var(--bg-light); border: 1px solid #E2E8F0;
+            padding: 48px 42px; position: relative; transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .focus-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(8,19,33,0.08); }
+        .focus-card .eyebrow {
+            font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 2.5px; color: var(--gold); margin-bottom: 16px; display: block;
+        }
+        .focus-card h3 { font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 18px; color: var(--navy); }
+        .focus-card p.desc { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; margin-bottom: 22px; }
+        .focus-card .ideal {
+            font-size: 0.85rem; font-weight: 600; color: var(--navy);
+            text-transform: none; letter-spacing: normal; border-top: 1px solid #E2E8F0; padding-top: 18px;
+        }
+        .focus-card .ideal b { color: var(--gold); font-weight: 700; }
+        .focus-card.hub { border-top: 3px solid var(--gold); }
 
-        /* PERFORMANCE LABS - CAROUSEL */
         .labs { padding: 120px 0; background-color: #050b14; }
         .case-grid { display: none; grid-template-columns: 3fr 2fr; gap: 40px; align-items: flex-start; }
         .case-grid.active { display: grid; animation: fadeIn 0.6s ease forwards; }
@@ -119,28 +134,25 @@
         .dashboard-wrapper { position: relative; padding-top: 95%; height: 0; }
         .dashboard-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
-        /* METHODOLOGY */
         .methodology { padding: 120px 0; text-align: center; }
         .timeline { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 60px; }
         .step { flex: 1; min-width: 260px; background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(193, 200, 209, 0.1); padding: 40px 25px; }
 
-        /* CONTACT */
         .contact { background-color: var(--silver); color: var(--navy); padding: 100px 0; text-align: center; }
         .btn-navy { background-color: var(--navy); color: var(--white); padding: 18px 45px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 30px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
 
         footer { padding: 40px 0; background-color: #03080e; color: rgba(255, 255, 255, 0.3); text-align: center; font-size: 0.75rem; }
 
-        /* KEYFRAMES */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .navbar { flex-direction: column; gap: 20px; }
             .hero h1 { font-size: 2.5rem; }
             .case-grid { grid-template-columns: 1fr; }
+            .focus-grid { grid-template-columns: 1fr; }
             .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
         }
     </style>
@@ -152,16 +164,13 @@
             <a href="#"><img src="Ativo 8 copy.png" alt="Meridian Logo" class="logo-img"></a>
             <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center;">
                 <ul class="nav-links">
-                    <li><a href="#solutions">Ecossistema</a></li>
+                    <li><a href="#solutions">Foco</a></li>
                     <li><a href="#labs">Labs</a></li>
                     <li><a href="#about">Metodologia</a></li>
                 </ul>
                 <div class="lang-switch">
                     <a href="index.html">EN</a>
                     <a href="index-pt.html" class="active">PT</a>
-                    <a href="index-es.html">ES</a>
-                    <a href="index-fr.html">FR</a>
-                    <a href="index-de.html">DE</a>
                 </div>
             </div>
         </div>
@@ -170,21 +179,29 @@
     <section class="hero">
         <div class="container">
             <h1>MERIDIAN</h1>
-            <h2>Transformando Evidências em Performance</h2>
-            <p>Não vendemos TI. Vendemos o futuro lucrativo do seu negócio por meio de inteligência de dados e IA.</p>
-            <a href="#contact" class="btn-gold">Diagnóstico Gratuito</a>
+            <h2>Transformando Evidência em Performance</h2>
+            <p>Nós não vendemos TI. Vendemos o futuro lucrativo do seu negócio através de inteligência de dados e IA.</p>
+            <a href="#contact" class="btn-gold">Solicitar Diagnóstico Gratuito</a>
         </div>
     </section>
 
     <section id="solutions" class="solutions">
         <div class="container">
-            <h2>O Ecossistema Meridian</h2>
-            <p style="color: #64748b; max-width: 700px; margin: 0 auto;">Software escalável e inteligência preditiva que resolvem problemas operacionais e geram dados estruturados de alta qualidade.</p>
-            <div class="solutions-grid">
-                <div class="card"><h3>Meridian Retail</h3><p>Gestão completa de estoque, vendas e KPIs para operações físicas e digitais.</p></div>
-                <div class="card"><h3>Meridian Commerce</h3><p>Plataforma de e-commerce focada em otimização de conversão e rastreabilidade de dados.</p></div>
-                <div class="card"><h3>Meridian Pulse - Booking</h3><p>Sistema de agendamento inteligente para clínicas, barbearias e negócios de serviço.</p></div>
-                <div class="card"><h3>Performance Consulting</h3><p>Arquitetura de dados, dashboards executivos 360° e modelos de IA/ML para previsão de demanda e LTV.</p></div>
+            <h2>Onde Focamos</h2>
+            <p class="lead">Dois caminhos claros — sistema comprovado e diagnóstico rápido — em vez de uma lista dispersa de produtos.</p>
+            <div class="focus-grid">
+                <div class="focus-card hub">
+                    <span class="eyebrow">Sistema em Produção</span>
+                    <h3>Meridian Fitness Performance Hub</h3>
+                    <p class="desc">Plataforma de gestão e BI para personal trainers e nutricionistas — acompanhamento de alunos, métricas de engajamento, financeiro e metas, tudo em um painel vivo.</p>
+                    <p class="ideal">A prova: <b>é assim que construímos — sob medida, não genérico, e rodando com dado real hoje.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Entrada Rápida</span>
+                    <h3>Diagnóstico + Dashboard</h3>
+                    <p class="desc">Projeto de escopo fechado, 2–3 semanas: mapeamos seus dados, entregamos um dashboard sob medida e um plano de ação inicial — sem compromisso de recorrência.</p>
+                    <p class="ideal">Ideal para: <b>negócios que precisam organizar a casa antes de escalar.</b></p>
+                </div>
             </div>
         </div>
     </section>
@@ -193,12 +210,11 @@
         <div class="container">
             <div style="text-align: center; margin-bottom: 60px;">
                 <h2 style="color: var(--silver); font-size: 2.5rem; margin-bottom: 10px;">Performance Labs</h2>
-                <p style="color: rgba(255,255,255,0.5); letter-spacing: 2px;">ONDE ARQUITETURA DE DADOS ENCONTRA ESTRATÉGIA DE NEGÓCIOS</p>
+                <p style="color: rgba(255,255,255,0.5); letter-spacing: 2px;">ONDE A ARQUITETURA DE DADOS ENCONTRA A ESTRATÉGIA DE NEGÓCIOS</p>
             </div>
 
             <div class="carousel-container" style="position: relative;">
 
-                <!-- ── SLIDE 01: EBITDA OPTIMIZATION ── -->
                 <div class="case-grid carousel-slide active">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
@@ -208,23 +224,22 @@
                     <div style="text-align: left;">
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Finanças Estratégicas: Otimização de EBITDA</h3>
                         <div style="margin-bottom: 25px;">
-                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">A 5-year P&L model for a fintech operation lacked the granularity to track margin erosion across revenue streams, Interchange, FX and Interest, while managing churn, CAC and OPEX growth simultaneously. Financial decisions were made without a clear bridge between top-line growth and bottom-line protection.</p>
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">O DESAFIO</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Um modelo de P&L de 5 anos para uma operação fintech não tinha granularidade para rastrear a erosão de margem entre fluxos de receita, Interchange, câmbio e juros, enquanto gerenciava churn, CAC e crescimento de OPEX simultaneamente.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
-                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Full FP&A architecture built from scratch: revenue decomposition by stream, variable cost modeling per cohort, and OPEX growth controls tied to client acquisition. A waterfall P&L structure exposed the exact levers driving margin — taking EBITDA from 2.66% in Year 1 to 23.63% in Year 5 with a 2,199% absolute gain.</p>
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">A ESTRATÉGIA</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Arquitetura completa de FP&A construída do zero: decomposição de receita por fluxo, modelagem de custo variável por coorte e controles de crescimento de OPEX atrelados à aquisição de clientes — levando o EBITDA de 2,66% no Ano 1 para 23,63% no Ano 5.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">+2,199%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">CRESCIMENTO EBITDA A1→A5</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">23.6%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MARGEM EBITDA ANO 5</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">2,218B</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">RECEITA TOTAL ANO 5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">+2.199%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">CRESCIMENTO EBITDA A1→A5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">23,6%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MARGEM EBITDA ANO 5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">2.218B</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">RECEITA TOTAL ANO 5</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Solicitar Auditoria de Performance</a>
                     </div>
                 </div>
 
-                <!-- ── SLIDE 02: AI PRICING ENGINE ── -->
                 <div class="case-grid carousel-slide">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
@@ -235,22 +250,21 @@
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Motor de Precificação Dinâmica (IA)</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">O DESAFIO</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Precificar 354K veículos usados em tempo real para um marketplace — exigindo alta precisão preditiva para evitar erosão de margem e maximizar taxas de conversão.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Precificar 354 mil veículos usados em tempo real para um marketplace de consumo — exigindo alta precisão preditiva para evitar erosão de margem e maximizar conversão.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">A ESTRATÉGIA</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Benchmark de 3 modelos (Regressão Linear, Random Forest, LightGBM) em qualidade, velocidade de treino e latência de predição. LightGBM venceu em todas as frentes — menor REQM em €1.670, treina em 12,9s e prediz em 0,25s, proporcionando uma experiência de usuário em tempo real.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Benchmark de 3 modelos (Regressão Linear, Random Forest, LightGBM) em qualidade, velocidade de treino e latência de predição. LightGBM venceu em tudo — menor REQM (€1.670), treino em 12,9s e predição em 0,25s.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">€1,670</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MELHOR REQM</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.25s</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">LATÊNCIA DE PREDIÇÃO</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">€1.670</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MELHOR REQM</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0,25s</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">LATÊNCIA DE PREDIÇÃO</p></div>
                             <div><h4 style="color: var(--gold); font-size: 1.4rem;">354K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">VEÍCULOS ANALISADOS</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Solicitar Auditoria de Performance</a>
                     </div>
                 </div>
 
-                <!-- ── SLIDE 03: CAPEX OPTIMIZATION ── -->
                 <div class="case-grid carousel-slide">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
@@ -261,22 +275,21 @@
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Inteligência de Risco em CapEx (IA)</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">O DESAFIO</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Alocar $100M de orçamento de CapEx em 3 regiões de exploração de petróleo — com mandato rígido de probabilidade de perda abaixo de 2,5%. Duas de três regiões reprovaram no critério.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Alocar um orçamento de US$ 100 milhões de CapEx entre 3 regiões de exploração de petróleo — com mandato rígido de risco de perda abaixo de 2,5%. Duas das três regiões falharam nesse critério.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">A ESTRATÉGIA</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Modelo de Regressão Linear treinado em 300K registros de poços (REQM 0,89) combinado com 1.000 simulações de Bootstrap para estressar a lucratividade. A Região 1 emergiu como única candidata viável — maior retorno esperado em $6,65M com apenas 0,20% de risco de perda.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Modelo de Regressão Linear treinado em 300 mil registros de poços (REQM 0,89) combinado com 1.000 simulações Bootstrap. A Região 1 foi a única candidata viável — maior retorno esperado (US$ 6,65M) com apenas 0,20% de risco.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$6.65M</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">LUCRO ESPERADO</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.20%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">RISCO DE PERDA</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.89</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">REQM DO MODELO</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$6,65M</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">LUCRO ESPERADO</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0,20%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">RISCO DE PERDA</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0,89</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">REQM DO MODELO</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Solicitar Auditoria de Performance</a>
                     </div>
                 </div>
 
-                <!-- ── SLIDE 04: REVENUE & MARGIN (PIZZARIA) ── -->
                 <div class="case-grid carousel-slide">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
@@ -284,25 +297,24 @@
                         </div>
                     </div>
                     <div style="text-align: left;">
-                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Revenue & Margin Optimization</h3>
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Otimização de Receita e Margem</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">O DESAFIO</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">48.620 transações revelaram um desequilíbrio crítico: 59,5% da receita anual era gerada entre 12h e 17h, enquanto o turno noturno consumia mão de obra e estoque proporcionais por apenas 8,1% da receita — um arrasto direto na margem operacional.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">48.620 transações revelaram um desequilíbrio crítico: 59,5% da receita anual vinha entre 12h e 17h, enquanto o turno da noite consumia mão de obra e estoque proporcionais para gerar apenas 8,1% da receita.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">A ESTRATÉGIA</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Realocação orientada por dados: 50% da equipe e estoque redirecionados para a janela de pico 12h–17h. O KPI deployment alinhou a logística aos padrões de demanda em tempo real, expondo sexta-feira como o dia de maior rendimento (+37% vs domingo) e as pizzas grandes como principal driver de receita com 45,9% das vendas.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Realocação de turno baseada em dados: 50% da equipe e do estoque redirecionados para a janela de pico (12h–17h). KPIs alinharam logística à demanda real, expondo sexta-feira como o dia de maior faturamento.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">59.5%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">SHARE DA JANELA DE PICO</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">−7.2%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">REDUÇÃO OPEX NOTURNO</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">59,5%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PARTICIPAÇÃO NO PICO</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">−7,2%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">REDUÇÃO OPEX NOTURNO</p></div>
                             <div><h4 style="color: var(--gold); font-size: 1.4rem;">$817K</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">RECEITA ANUAL MAPEADA</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Solicitar Auditoria de Performance</a>
                     </div>
                 </div>
 
-                <!-- ── SLIDE 05: IMMIGRATION INTELLIGENCE ── -->
                 <div class="case-grid carousel-slide">
                     <div class="dashboard-container">
                         <div class="dashboard-wrapper">
@@ -310,19 +322,19 @@
                         </div>
                     </div>
                     <div style="text-align: left;">
-                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Inteligência em Imigração (IA)</h3>
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Inteligência de Imigração (IA)</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">O DESAFIO</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Consultorias de imigração tomam decisões críticas de timing baseadas em intuição. Mais de 10 anos de dados públicos do IRCC permaneciam inexplorados como ativo estratégico.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Empresas de consultoria de imigração tomam decisões críticas de timing baseadas em intuição. Mais de 10 anos de dados públicos do IRCC permaneciam inexplorados como ativo estratégico.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">A ESTRATÉGIA</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Modelo GradientBoosting treinado em 482K+ registros de admissão do IRCC para prever janelas de aprovação por categoria de visto e província, identificando o Q1 como o trimestre de pico para aplicantes brasileiros.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Modelo GradientBoosting treinado em mais de 482 mil registros de admissão do IRCC para prever janelas de aprovação por categoria de visto e província, identificando o Q1 como pico de aprovação para brasileiros.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
                             <div><h4 style="color: var(--gold); font-size: 1.4rem;">482K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">REGISTROS ANALISADOS</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">R2 0.79</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PRECISÃO DO MODELO</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">Q1</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">JANELA DE PICO DE APROVAÇÃO</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">R2 0,79</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PRECISÃO DO MODELO</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">Q1</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">JANELA DE PICO</p></div>
                         </div>
                         <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Solicitar Auditoria de Performance</a>
                     </div>
@@ -343,10 +355,10 @@
         <div class="container">
             <h2>Metodologia de Entrega</h2>
             <div class="timeline">
-                <div class="step"><h3>01. Descoberta</h3><p>Auditoria técnica e financeira para estabelecer uma baseline de performance.</p></div>
+                <div class="step"><h3>01. Discovery</h3><p>Auditoria técnica e financeira para estabelecer a linha de base de performance.</p></div>
                 <div class="step"><h3>02. Infraestrutura</h3><p>Implementação de pipelines de dados e arquitetura em nuvem.</p></div>
                 <div class="step"><h3>03. Inteligência</h3><p>Implantação de modelos de IA e dashboards executivos.</p></div>
-                <div class="step"><h3>04. Performance</h3><p>Sessões contínuas focadas no atingimento das metas de lucro.</p></div>
+                <div class="step"><h3>04. Performance</h3><p>Sessões contínuas focadas no alcance de metas de lucro.</p></div>
             </div>
         </div>
     </section>
@@ -354,13 +366,13 @@
     <section id="contact" class="contact">
         <div class="container">
             <h2>Maximize o EBITDA do Seu Negócio</h2>
-            <p>Diálogo estratégico direto para escala e eficiência do mercado intermediário.</p>
+            <p>Diálogo estratégico direto para escala e eficiência de médio porte.</p>
             <a href="mailto:contact@meridian.com" class="btn-navy">Agendar Diagnóstico</a>
         </div>
     </section>
 
     <footer>
-        <div class="container"><p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. ALL RIGHTS RESERVED.</p></div>
+        <div class="container"><p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. TODOS OS DIREITOS RESERVADOS.</p></div>
     </footer>
 
     <script>
