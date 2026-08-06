@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meridian | Strategy & Performance</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
 
     <style>
         /* RESET & BASE */
@@ -13,7 +13,7 @@
         html { scroll-behavior: smooth; }
         :root {
             --navy: #081321;    --silver: #C1C8D1;  --gold: #C5A059;
-            --white: #FFFFFF;   --bg-light: #F8FAFC; 
+            --white: #FFFFFF;   --bg-light: #F8FAFC;
         }
 
         body {
@@ -85,7 +85,7 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(8, 19, 33, 0.85), rgba(8, 19, 33, 0.95)), 
+            background: linear-gradient(rgba(8, 19, 33, 0.85), rgba(8, 19, 33, 0.95)),
                         url('https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
         }
         .hero h1 { color: var(--silver); font-size: 4.5rem; margin-bottom: 15px; letter-spacing: 6px; }
@@ -101,11 +101,30 @@
         }
         .btn-gold:hover { background-color: #d4ae6a; transform: translateY(-2px); }
 
-        /* ECOSYSTEM */
+        /* FOCUS PRODUCTS (was: ECOSYSTEM) */
         .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
-        .solutions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 60px; }
-        .card { background-color: var(--bg-light); border-left: 1px solid var(--silver); padding: 40px; text-align: left; transition: all 0.3s; }
-        .card:hover { border-left: 4px solid var(--navy); transform: translateY(-5px); }
+        .solutions p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
+        .focus-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 32px; margin-top: 60px; text-align: left;
+        }
+        .focus-card {
+            background-color: var(--bg-light); border: 1px solid #E2E8F0;
+            padding: 48px 42px; position: relative; transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .focus-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(8,19,33,0.08); }
+        .focus-card .eyebrow {
+            font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 2.5px; color: var(--gold); margin-bottom: 16px; display: block;
+        }
+        .focus-card h3 { font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 18px; color: var(--navy); }
+        .focus-card p.desc { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; margin-bottom: 22px; }
+        .focus-card .ideal {
+            font-size: 0.85rem; font-weight: 600; color: var(--navy);
+            text-transform: none; letter-spacing: normal; border-top: 1px solid #E2E8F0; padding-top: 18px;
+        }
+        .focus-card .ideal b { color: var(--gold); font-weight: 700; }
+        .focus-card.hub { border-top: 3px solid var(--gold); }
 
         /* PERFORMANCE LABS - CAROUSEL */
         .labs { padding: 120px 0; background-color: #050b14; }
@@ -141,6 +160,7 @@
             .navbar { flex-direction: column; gap: 20px; }
             .hero h1 { font-size: 2.5rem; }
             .case-grid { grid-template-columns: 1fr; }
+            .focus-grid { grid-template-columns: 1fr; }
             .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
         }
     </style>
@@ -152,16 +172,13 @@
             <a href="#"><img src="Ativo 8 copy.png" alt="Meridian Logo" class="logo-img"></a>
             <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center;">
                 <ul class="nav-links">
-                    <li><a href="#solutions">Ecosystem</a></li>
+                    <li><a href="#solutions">Focus</a></li>
                     <li><a href="#labs">Labs</a></li>
                     <li><a href="#about">Methodology</a></li>
                 </ul>
                 <div class="lang-switch">
                     <a href="index.html" class="active">EN</a>
                     <a href="index-pt.html">PT</a>
-                    <a href="index-es.html">ES</a>
-                    <a href="index-fr.html">FR</a>
-                    <a href="index-de.html">DE</a>
                 </div>
             </div>
         </div>
@@ -178,13 +195,21 @@
 
     <section id="solutions" class="solutions">
         <div class="container">
-            <h2>The Meridian Ecosystem</h2>
-            <p style="color: #64748b; max-width: 700px; margin: 0 auto;">Scalable software and predictive intelligence that solve operational problems and generate high-quality structured data.</p>
-            <div class="solutions-grid">
-                <div class="card"><h3>Meridian Retail</h3><p>Full inventory, sales, and KPI management tailored for physical and digital retail operations.</p></div>
-                <div class="card"><h3>Meridian Commerce</h3><p>E-commerce platform focused on conversion optimization and complete data traceability.</p></div>
-                <div class="card"><h3>Meridian Pulse - Booking</h3><p>Intelligent scheduling system designed for clinics, barbershops, and service-based businesses.</p></div>
-                <div class="card"><h3>Performance Consulting</h3><p>Data architecture, executive 360° dashboards, and AI/ML models for demand and LTV forecasting.</p></div>
+            <h2>Where We Focus</h2>
+            <p class="lead">Two clear paths — proven system and fast-track diagnostic — instead of a scattered product list.</p>
+            <div class="focus-grid">
+                <div class="focus-card hub">
+                    <span class="eyebrow">System in Production</span>
+                    <h3>Meridian Fitness Performance Hub</h3>
+                    <p class="desc">A management and BI platform built for personal trainers and nutritionists — student tracking, engagement metrics, financials and goals, all in one live dashboard.</p>
+                    <p class="ideal">The proof: <b>this is how we build — custom, not generic, and running with real data today.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Fast-Track Entry</span>
+                    <h3>Diagnostic + Dashboard</h3>
+                    <p class="desc">A fixed-scope, 2–3 week project: we map your data, deliver a custom dashboard, and hand you an initial action plan — no recurring commitment required.</p>
+                    <p class="ideal">Best for: <b>businesses that need to get their house in order before scaling.</b></p>
+                </div>
             </div>
         </div>
     </section>
