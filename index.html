@@ -179,11 +179,11 @@
         .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
         .solutions p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
         .focus-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 32px; margin-top: 60px; text-align: left;
         }
         .focus-card {
-            background-color: var(--bg-light); border: 1px solid #E2E8F0;
+            background-color: var(--bg-light); border: 1px solid #E2E8F0; border-top: 3px solid var(--gold);
             padding: 48px 42px; position: relative; transition: transform 0.3s, box-shadow 0.3s;
         }
         .focus-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(8,19,33,0.08); }
@@ -198,7 +198,6 @@
             text-transform: none; letter-spacing: normal; border-top: 1px solid #E2E8F0; padding-top: 18px;
         }
         .focus-card .ideal b { color: var(--gold); font-weight: 700; }
-        .focus-card.hub { border-top: 3px solid var(--gold); }
 
         /* PERFORMANCE LABS - CAROUSEL */
         .labs { padding: 120px 0; background-color: #050b14; }
@@ -386,20 +385,26 @@
 
     <section id="solutions" class="solutions">
         <div class="container">
-            <h2>Where We Focus</h2>
-            <p class="lead">Two clear paths, a proven system and a fast-track diagnostic, instead of a scattered product list.</p>
+            <h2>How We Work With You</h2>
+            <p class="lead">Three ways to start: from a fast diagnostic to a full performance partnership.</p>
             <div class="focus-grid">
-                <div class="focus-card hub">
-                    <span class="eyebrow">System in Production</span>
-                    <h3>Meridian Fitness Performance Hub</h3>
-                    <p class="desc">A management and BI platform built for personal trainers and nutritionists: student tracking, engagement metrics, financials and goals, all in one live dashboard.</p>
-                    <p class="ideal">The proof: <b>this is how we build. Custom, not generic, and running with real data today.</b></p>
-                </div>
                 <div class="focus-card">
                     <span class="eyebrow">Fast-Track Entry</span>
                     <h3>Diagnostic + Dashboard</h3>
                     <p class="desc">A fixed-scope, 2–3 week project: we map your data, deliver a custom dashboard, and hand you an initial action plan. No recurring commitment required.</p>
                     <p class="ideal">Best for: <b>businesses that need to get their house in order before scaling.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Direct Advisory</span>
+                    <h3>1:1 Strategic Sessions</h3>
+                    <p class="desc">Recurring working sessions focused on your specific numbers, reviewing performance, unblocking decisions, and adjusting priorities as your business moves.</p>
+                    <p class="ideal">Best for: <b>founders who want a strategic partner in the room, not just a report.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Full Engagement</span>
+                    <h3>Infrastructure &amp; Intelligence Build</h3>
+                    <p class="desc">End-to-end delivery: data pipelines, cloud architecture, and AI-powered executive dashboards, the same methodology behind the Fitness Performance Hub, applied to your business.</p>
+                    <p class="ideal">Best for: <b>businesses ready to build the system, not just see a snapshot of it.</b></p>
                 </div>
             </div>
         </div>

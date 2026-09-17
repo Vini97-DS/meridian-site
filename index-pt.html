@@ -176,11 +176,11 @@
         .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
         .solutions p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
         .focus-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 32px; margin-top: 60px; text-align: left;
         }
         .focus-card {
-            background-color: var(--bg-light); border: 1px solid #E2E8F0;
+            background-color: var(--bg-light); border: 1px solid #E2E8F0; border-top: 3px solid var(--gold);
             padding: 48px 42px; position: relative; transition: transform 0.3s, box-shadow 0.3s;
         }
         .focus-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(8,19,33,0.08); }
@@ -195,7 +195,6 @@
             text-transform: none; letter-spacing: normal; border-top: 1px solid #E2E8F0; padding-top: 18px;
         }
         .focus-card .ideal b { color: var(--gold); font-weight: 700; }
-        .focus-card.hub { border-top: 3px solid var(--gold); }
 
         .labs { padding: 120px 0; background-color: #050b14; }
         .case-grid { display: none; grid-template-columns: 3fr 2fr; gap: 40px; align-items: flex-start; }
@@ -378,20 +377,26 @@
 
     <section id="solutions" class="solutions">
         <div class="container">
-            <h2>Onde Focamos</h2>
-            <p class="lead">Dois caminhos claros, sistema comprovado e diagnóstico rápido, em vez de uma lista dispersa de produtos.</p>
+            <h2>Como Trabalhamos com Você</h2>
+            <p class="lead">Três formas de começar: do diagnóstico rápido a uma parceria completa de performance.</p>
             <div class="focus-grid">
-                <div class="focus-card hub">
-                    <span class="eyebrow">Sistema em Produção</span>
-                    <h3>Meridian Fitness Performance Hub</h3>
-                    <p class="desc">Plataforma de gestão e BI para personal trainers e nutricionistas: acompanhamento de alunos, métricas de engajamento, financeiro e metas, tudo em um painel vivo.</p>
-                    <p class="ideal">A prova: <b>é assim que construímos. Sob medida, não genérico, e rodando com dado real hoje.</b></p>
-                </div>
                 <div class="focus-card">
                     <span class="eyebrow">Entrada Rápida</span>
                     <h3>Diagnóstico + Dashboard</h3>
                     <p class="desc">Projeto de escopo fechado, 2–3 semanas: mapeamos seus dados, entregamos um dashboard sob medida e um plano de ação inicial. Sem compromisso de recorrência.</p>
                     <p class="ideal">Ideal para: <b>negócios que precisam organizar a casa antes de escalar.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Consultoria Direta</span>
+                    <h3>Sessões Estratégicas 1:1</h3>
+                    <p class="desc">Sessões de trabalho recorrentes focadas nos seus números específicos, revisando performance, destravando decisões e ajustando prioridades conforme o negócio se move.</p>
+                    <p class="ideal">Ideal para: <b>fundadores que querem um parceiro estratégico na sala, não só um relatório.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Engajamento Completo</span>
+                    <h3>Construção de Infraestrutura e Inteligência</h3>
+                    <p class="desc">Entrega de ponta a ponta: pipelines de dados, arquitetura em nuvem e dashboards executivos com IA, a mesma metodologia por trás do Fitness Performance Hub, aplicada ao seu negócio.</p>
+                    <p class="ideal">Ideal para: <b>negócios prontos para construir o sistema, não só ver uma foto dele.</b></p>
                 </div>
             </div>
         </div>

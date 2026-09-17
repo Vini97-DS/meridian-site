@@ -176,11 +176,11 @@
         .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
         .solutions p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
         .focus-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 32px; margin-top: 60px; text-align: left;
         }
         .focus-card {
-            background-color: var(--bg-light); border: 1px solid #E2E8F0;
+            background-color: var(--bg-light); border: 1px solid #E2E8F0; border-top: 3px solid var(--gold);
             padding: 48px 42px; position: relative; transition: transform 0.3s, box-shadow 0.3s;
         }
         .focus-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(8,19,33,0.08); }
@@ -195,7 +195,6 @@
             text-transform: none; letter-spacing: normal; border-top: 1px solid #E2E8F0; padding-top: 18px;
         }
         .focus-card .ideal b { color: var(--gold); font-weight: 700; }
-        .focus-card.hub { border-top: 3px solid var(--gold); }
 
         .labs { padding: 120px 0; background-color: #050b14; }
         .case-grid { display: none; grid-template-columns: 3fr 2fr; gap: 40px; align-items: flex-start; }
@@ -378,20 +377,26 @@
 
     <section id="solutions" class="solutions">
         <div class="container">
-            <h2>Unser Fokus</h2>
-            <p class="lead">Zwei klare Wege, bewährtes System und schneller Diagnose-Einstieg, statt einer verstreuten Produktliste.</p>
+            <h2>Wie Wir Mit Dir Arbeiten</h2>
+            <p class="lead">Drei Wege, um zu starten: von einer schnellen Diagnose bis zu einer vollständigen Performance-Partnerschaft.</p>
             <div class="focus-grid">
-                <div class="focus-card hub">
-                    <span class="eyebrow">System im Produktivbetrieb</span>
-                    <h3>Meridian Fitness Performance Hub</h3>
-                    <p class="desc">Eine Management- und BI-Plattform für Personal Trainer und Ernährungsberater: Kundenbetreuung, Engagement-Kennzahlen, Finanzen und Ziele, alles in einem lebendigen Dashboard.</p>
-                    <p class="ideal">Der Beweis: <b>so bauen wir. Maßgeschneidert, nicht generisch, und heute mit echten Daten im Einsatz.</b></p>
-                </div>
                 <div class="focus-card">
                     <span class="eyebrow">Schneller Einstieg</span>
                     <h3>Diagnose + Dashboard</h3>
                     <p class="desc">Projekt mit festem Umfang, 2–3 Wochen: Wir kartieren deine Daten, liefern ein maßgeschneidertes Dashboard und einen ersten Aktionsplan. Ohne Verpflichtung zu einer laufenden Zusammenarbeit.</p>
                     <p class="ideal">Ideal für: <b>Unternehmen, die vor der Skalierung erst mal Ordnung schaffen müssen.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Direkte Beratung</span>
+                    <h3>1:1 Strategie-Sessions</h3>
+                    <p class="desc">Wiederkehrende Arbeitssitzungen mit Fokus auf deine konkreten Zahlen, mit Performance-Review, dem Auflösen von Entscheidungsblockaden und der Anpassung von Prioritäten, während sich dein Geschäft weiterentwickelt.</p>
+                    <p class="ideal">Ideal für: <b>Gründer, die einen strategischen Partner im Raum wollen, nicht nur einen Bericht.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Vollständiges Engagement</span>
+                    <h3>Aufbau von Infrastruktur und Intelligenz</h3>
+                    <p class="desc">Lieferung von Anfang bis Ende: Datenpipelines, Cloud-Architektur und KI-gestützte Executive-Dashboards, dieselbe Methodik, die hinter dem Fitness Performance Hub steckt, angewendet auf dein Unternehmen.</p>
+                    <p class="ideal">Ideal für: <b>Unternehmen, die bereit sind, das System zu bauen, nicht nur einen Schnappschuss davon zu sehen.</b></p>
                 </div>
             </div>
         </div>
