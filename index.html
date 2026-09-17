@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meridian | Strategy & Performance</title>
+    <title>Meridian | Fitness Performance Hub & Strategy</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
 
@@ -79,18 +79,28 @@
         }
         .lang-switch a.active { color: var(--gold); }
 
+        /* GENERIC EYEBROW LABEL */
+        .eyebrow {
+            font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 3px; color: var(--gold); margin-bottom: 16px; display: inline-block;
+        }
+
         /* HERO SECTION */
         .hero {
             height: 100vh;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(8, 19, 33, 0.85), rgba(8, 19, 33, 0.95)),
-                        url('https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
+            background-color: var(--navy);
+            background-image:
+                radial-gradient(ellipse 900px 600px at 80% 10%, rgba(197,160,89,0.16), transparent 60%),
+                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+            background-size: auto, 46px 46px, 46px 46px;
         }
-        .hero h1 { color: var(--silver); font-size: 4.5rem; margin-bottom: 15px; letter-spacing: 6px; }
-        .hero h2 { font-size: 1.2rem; font-weight: 300; margin-bottom: 40px; color: var(--silver); letter-spacing: 5px; opacity: 0.8; }
-        .hero p { max-width: 700px; margin: 0 auto 40px auto; font-size: 1.1rem; }
+        .hero h1 { color: var(--silver); font-size: 3.2rem; max-width: 920px; margin: 0 auto 20px auto; letter-spacing: 1px; line-height: 1.3; }
+        .hero h2 { font-size: 1.1rem; font-weight: 300; margin-bottom: 30px; color: var(--silver); letter-spacing: 3px; opacity: 0.85; }
+        .hero p { max-width: 650px; margin: 0 auto 40px auto; font-size: 1.05rem; color: rgba(255,255,255,0.75); }
 
         .btn-gold {
             background-color: var(--gold); color: var(--navy);
@@ -101,7 +111,71 @@
         }
         .btn-gold:hover { background-color: #d4ae6a; transform: translateY(-2px); }
 
-        /* FOCUS PRODUCTS (was: ECOSYSTEM) */
+        /* PROBLEM */
+        .problem { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
+        .problem p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
+        .problem-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px; margin-top: 60px; text-align: left;
+        }
+        .problem-card { background-color: var(--bg-light); border: 1px solid #E2E8F0; padding: 40px 32px; }
+        .problem-card h3 { font-size: 1.2rem; color: var(--navy); margin-bottom: 14px; letter-spacing: 1px; overflow-wrap: break-word; hyphens: auto; }
+        .problem-card p { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; }
+
+        /* PRODUCT FEATURES */
+        .product { background-color: #050b14; padding: 120px 0; text-align: center; }
+        .product p.lead { color: rgba(255,255,255,0.6); max-width: 700px; margin: 0 auto; }
+        .feature-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px; margin-top: 60px; text-align: left;
+        }
+        .feature-card { background-color: rgba(255,255,255,0.02); border: 1px solid rgba(193,200,209,0.1); padding: 36px 30px; }
+        .feature-card h3 { color: var(--silver); font-size: 1.15rem; margin-bottom: 14px; letter-spacing: 1px; overflow-wrap: break-word; hyphens: auto; }
+        .feature-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: none; letter-spacing: normal; }
+
+        /* PROOF / SCREENSHOTS */
+        .proof { background-color: #03080e; padding: 120px 0; text-align: center; }
+        .proof p.lead { color: rgba(255,255,255,0.5); max-width: 700px; margin: 0 auto; }
+        .proof-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px; margin-top: 60px;
+        }
+        .proof-placeholder {
+            aspect-ratio: 16 / 10; border: 1px dashed rgba(197,160,89,0.4); background: rgba(255,255,255,0.02);
+            display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center;
+            color: var(--gold); font-family: 'Montserrat', sans-serif; font-size: 0.8rem; letter-spacing: 1.5px;
+        }
+        .proof-note { margin-top: 40px; color: rgba(255,255,255,0.4); font-size: 0.8rem; letter-spacing: 0.5px; }
+
+        /* WAITLIST */
+        .waitlist { background-color: var(--silver); color: var(--navy); padding: 120px 0; text-align: center; }
+        .waitlist p.lead { color: #3d4b58; max-width: 600px; margin: 0 auto; }
+        .waitlist-form { max-width: 560px; margin: 50px auto 0 auto; text-align: left; background: var(--white); padding: 48px; border: 1px solid rgba(8,19,33,0.08); }
+        .form-row { margin-bottom: 24px; }
+        .form-row label {
+            display: block; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 1.5px; color: var(--navy); margin-bottom: 10px; text-transform: uppercase;
+        }
+        .form-row input[type="text"], .form-row textarea {
+            width: 100%; padding: 14px 16px; border: 1px solid #CBD5E1; font-family: 'Inter', sans-serif;
+            font-size: 0.95rem; background: var(--bg-light); color: var(--navy);
+        }
+        .form-row textarea { resize: vertical; }
+        .radio-pills { display: flex; gap: 24px; flex-wrap: wrap; }
+        .radio-pills label {
+            display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+            font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--navy); margin-bottom: 0;
+        }
+        .radio-pills input[type="radio"] { accent-color: var(--gold); width: 16px; height: 16px; }
+        .waitlist-form button { width: 100%; margin-top: 10px; }
+        .form-status { margin-top: 18px; font-size: 0.85rem; color: var(--navy); min-height: 1.2em; }
+
+        /* CONSULTING DIVIDER */
+        .consulting-intro { padding: 90px 0 0 0; text-align: center; }
+        .consulting-intro h3 { color: var(--silver); font-size: 1.3rem; margin-bottom: 14px; }
+        .consulting-intro p { color: rgba(255,255,255,0.5); max-width: 600px; margin: 0 auto; font-size: 0.9rem; }
+
+        /* FOCUS (CONSULTING) */
         .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
         .solutions p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
         .focus-grid {
@@ -147,6 +221,16 @@
         .contact { background-color: var(--silver); color: var(--navy); padding: 100px 0; text-align: center; }
         .btn-navy { background-color: var(--navy); color: var(--white); padding: 18px 45px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 30px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
 
+        /* FAQ */
+        .faq { padding: 120px 0; text-align: center; }
+        .faq-list { max-width: 760px; margin: 60px auto 0 auto; text-align: left; }
+        .faq-item { background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(193, 200, 209, 0.1); margin-bottom: 16px; padding: 6px 30px; }
+        .faq-item summary { cursor: pointer; padding: 22px 0; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; letter-spacing: 1px; color: var(--silver); list-style: none; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '+'; float: right; color: var(--gold); font-size: 1.3rem; }
+        .faq-item[open] summary::after { content: '\2212'; }
+        .faq-item p { padding-bottom: 24px; color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: none; letter-spacing: normal; }
+
         footer { padding: 40px 0; background-color: #03080e; color: rgba(255, 255, 255, 0.3); text-align: center; font-size: 0.75rem; }
 
         /* KEYFRAMES */
@@ -158,9 +242,12 @@
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .navbar { flex-direction: column; gap: 20px; }
-            .hero h1 { font-size: 2.5rem; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 14px 24px; }
+            .hero h1 { font-size: 1.9rem; }
+            .hero h2 { font-size: 0.9rem; }
             .case-grid { grid-template-columns: 1fr; }
             .focus-grid { grid-template-columns: 1fr; }
+            .waitlist-form { padding: 32px 24px; }
             .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
         }
     </style>
@@ -172,13 +259,15 @@
             <a href="#"><img src="Ativo 8 copy.png" alt="Meridian Logo" class="logo-img"></a>
             <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center;">
                 <ul class="nav-links">
-                    <li><a href="#solutions">Focus</a></li>
-                    <li><a href="#labs">Labs</a></li>
-                    <li><a href="#about">Methodology</a></li>
+                    <li><a href="#product">Product</a></li>
+                    <li><a href="#waitlist">Early Access</a></li>
+                    <li><a href="#consulting">Consulting</a></li>
+                    <li><a href="#faq">FAQ</a></li>
                 </ul>
                 <div class="lang-switch">
                     <a href="index.html" class="active">EN</a>
                     <a href="index-pt.html">PT</a>
+                    <a href="index-de.html">DE</a>
                 </div>
             </div>
         </div>
@@ -186,12 +275,114 @@
 
     <section class="hero">
         <div class="container">
-            <h1>MERIDIAN</h1>
-            <h2>Transforming Evidence into Performance</h2>
-            <p>We don't sell IT. We sell your business's profitable future through data intelligence and AI.</p>
-            <a href="#contact" class="btn-gold">Get a Free Diagnostic</a>
+            <span class="eyebrow">Meridian Fitness Performance Hub</span>
+            <h1>Stop Running Your Business From Memory.</h1>
+            <h2>The All-In-One Dashboard for Personal Trainers &amp; Nutritionists</h2>
+            <p>Student tracking, financial health and business metrics — all in one place. No spreadsheets, no paper, no guesswork.</p>
+            <a href="#waitlist" class="btn-gold">Request Early Access</a>
         </div>
     </section>
+
+    <section id="problem" class="problem">
+        <div class="container">
+            <span class="eyebrow">The Problem</span>
+            <h2>Every Day Without Visibility Is a Decision Made Blind.</h2>
+            <p class="lead">Most personal trainers and nutritionists run their business the same way they run their first client — by memory, instinct and whatever fits in a notebook.</p>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h3>Flying Blind</h3>
+                    <p>You don't have solid numbers to know if your business is actually growing — or just staying busy.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Scattered Everywhere</h3>
+                    <p>Student data lives in a spreadsheet, financial data in a notebook, and everything else in WhatsApp threads you'll never find again.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>No Real Business View</h3>
+                    <p>You know your students. You don't know your MRR, your churn, or which channel actually brings in clients.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="product" class="product">
+        <div class="container">
+            <span class="eyebrow">What the Hub Does</span>
+            <h2>Everything Your Practice Needs, in One Place.</h2>
+            <p class="lead">Built specifically for personal trainers and nutritionists — not a generic CRM adapted to fit.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Student Tracking</h3>
+                    <p>Progress, attendance and engagement for every student — always up to date, always in one view.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Business Metrics</h3>
+                    <p>MRR, LTV and your top acquisition channel, tracked automatically — no more guessing what's actually working.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Business Health &amp; Risk</h3>
+                    <p>Early warnings on churn, cash flow and client concentration — before they become a crisis.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Consolidated Sales View</h3>
+                    <p>Every sale, renewal and pending payment in a single dashboard — no more chasing numbers across apps.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proof" class="proof">
+        <div class="container">
+            <span class="eyebrow">See It In Action</span>
+            <h2>Real Product. Real Screens. Coming Soon.</h2>
+            <p class="lead">The Hub is live and running on real data today. Screens below will be published directly from its environment.</p>
+            <div class="proof-grid">
+                <div class="proof-placeholder">[ STUDENT DASHBOARD SCREENSHOT ]</div>
+                <div class="proof-placeholder">[ BUSINESS METRICS SCREENSHOT ]</div>
+                <div class="proof-placeholder">[ FINANCIAL HEALTH SCREENSHOT ]</div>
+            </div>
+            <p class="proof-note">Screens will be published here directly from the Hub's environment, using demonstration data.</p>
+        </div>
+    </section>
+
+    <section id="waitlist" class="waitlist">
+        <div class="container">
+            <span class="eyebrow">Early Access</span>
+            <h2>Be Among the First to Run Your Practice on the Hub.</h2>
+            <p class="lead">We're opening early access to a limited group of personal trainers and nutritionists. Join the waitlist and we'll reach out as soon as a spot opens.</p>
+            <form class="waitlist-form" id="waitlist-form">
+                <div class="form-row">
+                    <label for="wl-name">Name</label>
+                    <input type="text" id="wl-name" name="name" required>
+                </div>
+                <div class="form-row">
+                    <label for="wl-contact">Email or WhatsApp</label>
+                    <input type="text" id="wl-contact" name="contact" required>
+                </div>
+                <div class="form-row">
+                    <label>I am a</label>
+                    <div class="radio-pills">
+                        <label><input type="radio" name="role" value="Personal Trainer" required> Personal Trainer</label>
+                        <label><input type="radio" name="role" value="Nutritionist"> Nutritionist</label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="wl-notes">Tell Us About Your Practice (Optional)</label>
+                    <textarea id="wl-notes" name="notes" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-navy">Join the Waitlist</button>
+                <p class="form-status" id="waitlist-status"></p>
+            </form>
+        </div>
+    </section>
+
+    <div id="consulting" class="consulting-intro">
+        <div class="container">
+            <span class="eyebrow">Also Offering</span>
+            <h3>Data &amp; AI Consulting for Mid-Market Businesses</h3>
+            <p>The same engineering discipline behind the Hub, applied to your business's data and AI strategy.</p>
+        </div>
+    </div>
 
     <section id="solutions" class="solutions">
         <div class="container">
@@ -384,6 +575,31 @@
         </div>
     </section>
 
+    <section id="faq" class="faq">
+        <div class="container">
+            <span class="eyebrow">FAQ</span>
+            <h2>Common Questions</h2>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>What is the Meridian Fitness Performance Hub?</summary>
+                    <p>A management and BI platform built specifically for personal trainers and nutritionists — bringing student tracking, business metrics and financial health into a single dashboard.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>How does early access work?</summary>
+                    <p>Join the waitlist above. We're onboarding a limited group first to refine the product with real usage before opening it more broadly.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Do I need any technical knowledge to use it?</summary>
+                    <p>No. The Hub is built to replace spreadsheets and notebooks — if you can use WhatsApp, you can use the Hub.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Is my students' data secure?</summary>
+                    <p>Yes. Each account has isolated access to its own data, with no sharing between practices.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="container"><p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. ALL RIGHTS RESERVED.</p></div>
     </footer>
@@ -410,6 +626,37 @@
         function prevSlide() {
             currentSlide = (currentSlide - 1 + slides.length) % slides.length;
             showSlide(currentSlide);
+        }
+
+        const WAITLIST_ENDPOINT = "https://script.google.com/macros/s/AKfycbyk8GDGsEpUa89Y_AA3M9ooQlugtoYHs8AOad5lh0yvRq6upZSQB_o9BwWPfq14l3Oz6g/exec";
+        const waitlistForm = document.getElementById('waitlist-form');
+        const waitlistStatus = document.getElementById('waitlist-status');
+
+        if (waitlistForm) {
+            waitlistForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const data = new FormData(waitlistForm);
+                const payload = {
+                    name: data.get('name'),
+                    contact: data.get('contact'),
+                    role: data.get('role'),
+                    notes: data.get('notes'),
+                    lang: 'en',
+                    page: window.location.href
+                };
+                waitlistStatus.textContent = 'Sending...';
+                fetch(WAITLIST_ENDPOINT, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                }).then(function () {
+                    waitlistStatus.textContent = "Thank you — you're on the list. We'll be in touch soon.";
+                    waitlistForm.reset();
+                }).catch(function () {
+                    waitlistStatus.textContent = 'Something went wrong. Please try again or email us directly.';
+                });
+            });
         }
     </script>
 </body>

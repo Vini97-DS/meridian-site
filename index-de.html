@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meridian | Strategie & Performance</title>
+    <title>Meridian | Fitness Performance Hub & Strategie</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
 
     <style>
         /* RESET & BASE */
@@ -13,7 +13,7 @@
         html { scroll-behavior: smooth; }
         :root {
             --navy: #081321;    --silver: #C1C8D1;  --gold: #C5A059;
-            --white: #FFFFFF;   --bg-light: #F8FAFC; 
+            --white: #FFFFFF;   --bg-light: #F8FAFC;
         }
 
         body {
@@ -37,7 +37,6 @@
             width: 100%;
         }
 
-        /* SOLID NAVBAR */
         header {
             position: absolute;
             top: 0; left: 0; width: 100%;
@@ -66,7 +65,6 @@
         }
         .nav-links a:hover { color: var(--white); }
 
-        /* LANGUAGE SELECTOR */
         .lang-switch {
             display: flex; gap: 15px; margin-left: 30px;
             border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -79,18 +77,27 @@
         }
         .lang-switch a.active { color: var(--gold); }
 
-        /* HERO SECTION */
+        /* GENERIC EYEBROW LABEL */
+        .eyebrow {
+            font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 3px; color: var(--gold); margin-bottom: 16px; display: inline-block;
+        }
+
         .hero {
             height: 100vh;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(8, 19, 33, 0.85), rgba(8, 19, 33, 0.95)), 
-                        url('https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
+            background-color: var(--navy);
+            background-image:
+                radial-gradient(ellipse 900px 600px at 80% 10%, rgba(197,160,89,0.16), transparent 60%),
+                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+            background-size: auto, 46px 46px, 46px 46px;
         }
-        .hero h1 { color: var(--silver); font-size: 4.5rem; margin-bottom: 15px; letter-spacing: 6px; }
-        .hero h2 { font-size: 1.2rem; font-weight: 300; margin-bottom: 40px; color: var(--silver); letter-spacing: 5px; opacity: 0.8; }
-        .hero p { max-width: 700px; margin: 0 auto 40px auto; font-size: 1.1rem; }
+        .hero h1 { color: var(--silver); font-size: 3.2rem; max-width: 920px; margin: 0 auto 20px auto; letter-spacing: 1px; line-height: 1.3; }
+        .hero h2 { font-size: 1.1rem; font-weight: 300; margin-bottom: 30px; color: var(--silver); letter-spacing: 3px; opacity: 0.85; }
+        .hero p { max-width: 650px; margin: 0 auto 40px auto; font-size: 1.05rem; color: rgba(255,255,255,0.75); }
 
         .btn-gold {
             background-color: var(--gold); color: var(--navy);
@@ -101,13 +108,95 @@
         }
         .btn-gold:hover { background-color: #d4ae6a; transform: translateY(-2px); }
 
-        /* ECOSYSTEM */
-        .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
-        .solutions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 60px; }
-        .card { background-color: var(--bg-light); border-left: 1px solid var(--silver); padding: 40px; text-align: left; transition: all 0.3s; }
-        .card:hover { border-left: 4px solid var(--navy); transform: translateY(-5px); }
+        /* PROBLEM */
+        .problem { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
+        .problem p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
+        .problem-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px; margin-top: 60px; text-align: left;
+        }
+        .problem-card { background-color: var(--bg-light); border: 1px solid #E2E8F0; padding: 40px 32px; }
+        .problem-card h3 { font-size: 1.2rem; color: var(--navy); margin-bottom: 14px; letter-spacing: 1px; overflow-wrap: break-word; hyphens: auto; }
+        .problem-card p { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; }
 
-        /* PERFORMANCE LABS - CAROUSEL */
+        /* PRODUKTFUNKTIONEN */
+        .product { background-color: #050b14; padding: 120px 0; text-align: center; }
+        .product p.lead { color: rgba(255,255,255,0.6); max-width: 700px; margin: 0 auto; }
+        .feature-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px; margin-top: 60px; text-align: left;
+        }
+        .feature-card { background-color: rgba(255,255,255,0.02); border: 1px solid rgba(193,200,209,0.1); padding: 36px 30px; }
+        .feature-card h3 { color: var(--silver); font-size: 1.15rem; margin-bottom: 14px; letter-spacing: 1px; overflow-wrap: break-word; hyphens: auto; }
+        .feature-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: none; letter-spacing: normal; }
+
+        /* NACHWEIS / SCREENSHOTS */
+        .proof { background-color: #03080e; padding: 120px 0; text-align: center; }
+        .proof p.lead { color: rgba(255,255,255,0.5); max-width: 700px; margin: 0 auto; }
+        .proof-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px; margin-top: 60px;
+        }
+        .proof-placeholder {
+            aspect-ratio: 16 / 10; border: 1px dashed rgba(197,160,89,0.4); background: rgba(255,255,255,0.02);
+            display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center;
+            color: var(--gold); font-family: 'Montserrat', sans-serif; font-size: 0.8rem; letter-spacing: 1.5px;
+        }
+        .proof-note { margin-top: 40px; color: rgba(255,255,255,0.4); font-size: 0.8rem; letter-spacing: 0.5px; }
+
+        /* WARTELISTE */
+        .waitlist { background-color: var(--silver); color: var(--navy); padding: 120px 0; text-align: center; }
+        .waitlist p.lead { color: #3d4b58; max-width: 600px; margin: 0 auto; }
+        .waitlist-form { max-width: 560px; margin: 50px auto 0 auto; text-align: left; background: var(--white); padding: 48px; border: 1px solid rgba(8,19,33,0.08); }
+        .form-row { margin-bottom: 24px; }
+        .form-row label {
+            display: block; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 1.5px; color: var(--navy); margin-bottom: 10px; text-transform: uppercase;
+        }
+        .form-row input[type="text"], .form-row textarea {
+            width: 100%; padding: 14px 16px; border: 1px solid #CBD5E1; font-family: 'Inter', sans-serif;
+            font-size: 0.95rem; background: var(--bg-light); color: var(--navy);
+        }
+        .form-row textarea { resize: vertical; }
+        .radio-pills { display: flex; gap: 24px; flex-wrap: wrap; }
+        .radio-pills label {
+            display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+            font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--navy); margin-bottom: 0;
+        }
+        .radio-pills input[type="radio"] { accent-color: var(--gold); width: 16px; height: 16px; }
+        .waitlist-form button { width: 100%; margin-top: 10px; }
+        .form-status { margin-top: 18px; font-size: 0.85rem; color: var(--navy); min-height: 1.2em; }
+
+        /* ÜBERGANG ZUR BERATUNG */
+        .consulting-intro { padding: 90px 0 0 0; text-align: center; }
+        .consulting-intro h3 { color: var(--silver); font-size: 1.3rem; margin-bottom: 14px; }
+        .consulting-intro p { color: rgba(255,255,255,0.5); max-width: 600px; margin: 0 auto; font-size: 0.9rem; }
+
+        /* FOKUS (BERATUNG) */
+        .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
+        .solutions p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
+        .focus-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 32px; margin-top: 60px; text-align: left;
+        }
+        .focus-card {
+            background-color: var(--bg-light); border: 1px solid #E2E8F0;
+            padding: 48px 42px; position: relative; transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .focus-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(8,19,33,0.08); }
+        .focus-card .eyebrow {
+            font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 2.5px; color: var(--gold); margin-bottom: 16px; display: block;
+        }
+        .focus-card h3 { font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 18px; color: var(--navy); }
+        .focus-card p.desc { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; margin-bottom: 22px; }
+        .focus-card .ideal {
+            font-size: 0.85rem; font-weight: 600; color: var(--navy);
+            text-transform: none; letter-spacing: normal; border-top: 1px solid #E2E8F0; padding-top: 18px;
+        }
+        .focus-card .ideal b { color: var(--gold); font-weight: 700; }
+        .focus-card.hub { border-top: 3px solid var(--gold); }
+
         .labs { padding: 120px 0; background-color: #050b14; }
         .case-grid { display: none; grid-template-columns: 3fr 2fr; gap: 40px; align-items: flex-start; }
         .case-grid.active { display: grid; animation: fadeIn 0.6s ease forwards; }
@@ -119,28 +208,38 @@
         .dashboard-wrapper { position: relative; padding-top: 95%; height: 0; }
         .dashboard-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
-        /* METHODOLOGY */
         .methodology { padding: 120px 0; text-align: center; }
         .timeline { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 60px; }
         .step { flex: 1; min-width: 260px; background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(193, 200, 209, 0.1); padding: 40px 25px; }
 
-        /* CONTACT */
         .contact { background-color: var(--silver); color: var(--navy); padding: 100px 0; text-align: center; }
         .btn-navy { background-color: var(--navy); color: var(--white); padding: 18px 45px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 30px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
 
+        /* FAQ */
+        .faq { padding: 120px 0; text-align: center; }
+        .faq-list { max-width: 760px; margin: 60px auto 0 auto; text-align: left; }
+        .faq-item { background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(193, 200, 209, 0.1); margin-bottom: 16px; padding: 6px 30px; }
+        .faq-item summary { cursor: pointer; padding: 22px 0; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; letter-spacing: 1px; color: var(--silver); list-style: none; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '+'; float: right; color: var(--gold); font-size: 1.3rem; }
+        .faq-item[open] summary::after { content: '\2212'; }
+        .faq-item p { padding-bottom: 24px; color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: none; letter-spacing: normal; }
+
         footer { padding: 40px 0; background-color: #03080e; color: rgba(255, 255, 255, 0.3); text-align: center; font-size: 0.75rem; }
 
-        /* KEYFRAMES */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .navbar { flex-direction: column; gap: 20px; }
-            .hero h1 { font-size: 2.5rem; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 14px 24px; }
+            .hero h1 { font-size: 1.9rem; }
+            .hero h2 { font-size: 0.9rem; }
             .case-grid { grid-template-columns: 1fr; }
+            .focus-grid { grid-template-columns: 1fr; }
+            .waitlist-form { padding: 32px 24px; }
             .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
         }
     </style>
@@ -152,15 +251,14 @@
             <a href="#"><img src="Ativo 8 copy.png" alt="Meridian Logo" class="logo-img"></a>
             <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center;">
                 <ul class="nav-links">
-                    <li><a href="#solutions">Ökosystem</a></li>
-                    <li><a href="#labs">Labs</a></li>
-                    <li><a href="#about">Methodik</a></li>
+                    <li><a href="#product">Produkt</a></li>
+                    <li><a href="#waitlist">Früher Zugang</a></li>
+                    <li><a href="#consulting">Beratung</a></li>
+                    <li><a href="#faq">FAQ</a></li>
                 </ul>
                 <div class="lang-switch">
                     <a href="index.html">EN</a>
                     <a href="index-pt.html">PT</a>
-                    <a href="index-es.html">ES</a>
-                    <a href="index-fr.html">FR</a>
                     <a href="index-de.html" class="active">DE</a>
                 </div>
             </div>
@@ -169,22 +267,132 @@
 
     <section class="hero">
         <div class="container">
-            <h1>MERIDIAN</h1>
-            <h2>Daten in Performance verwandeln</h2>
-            <p>Wir verkaufen keine IT. Wir verkaufen die profitable Zukunft Ihres Unternehmens durch Datenintelligenz und KI.</p>
-            <a href="#contact" class="btn-gold">Kostenlose Diagnose</a>
+            <span class="eyebrow">Meridian Fitness Performance Hub</span>
+            <h1>Führe Dein Geschäft Nicht Aus Dem Gedächtnis.</h1>
+            <h2>Das All-in-One-Dashboard für Personal Trainer &amp; Ernährungsberater</h2>
+            <p>Kundenbetreuung, finanzielle Gesundheit und Geschäftskennzahlen — alles an einem Ort. Ohne Excel, ohne Papier, ohne Rätselraten.</p>
+            <a href="#waitlist" class="btn-gold">Frühzeitigen Zugang Anfragen</a>
         </div>
     </section>
 
+    <section id="problem" class="problem">
+        <div class="container">
+            <span class="eyebrow">Das Problem</span>
+            <h2>Jeder Tag Ohne Überblick Ist Eine Entscheidung Im Blindflug.</h2>
+            <p class="lead">Die meisten Personal Trainer und Ernährungsberater führen ihr Geschäft genauso, wie sie ihren ersten Kunden betreut haben — aus dem Gedächtnis, nach Gefühl und mit dem, was ins Notizbuch passt.</p>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h3>Blindflug</h3>
+                    <p>Du hast keine verlässlichen Zahlen, um zu wissen, ob dein Geschäft wirklich wächst — oder nur beschäftigt aussieht.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Überall Verstreut</h3>
+                    <p>Kundendaten in der Excel-Tabelle, Finanzen im Notizbuch, der Rest verloren in WhatsApp-Chats, die du nie wiederfindest.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Kein Überblick Übers Geschäft</h3>
+                    <p>Du kennst deine Kunden. Du kennst nicht deinen MRR, deine Abwanderung oder welcher Kanal wirklich neue Kunden bringt.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="product" class="product">
+        <div class="container">
+            <span class="eyebrow">Was der Hub Leistet</span>
+            <h2>Alles, Was Dein Betrieb Braucht, An Einem Ort.</h2>
+            <p class="lead">Speziell für Personal Trainer und Ernährungsberater entwickelt — kein generisches CRM, das notdürftig angepasst wurde.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Kundenbetreuung</h3>
+                    <p>Fortschritt, Anwesenheit und Engagement jedes Kunden — immer aktuell, immer auf einen Blick.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Geschäftskennzahlen</h3>
+                    <p>MRR, LTV und dein wichtigster Akquisekanal, automatisch berechnet — Schluss mit Rätselraten, was wirklich funktioniert.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Geschäftsgesundheit &amp; Risiken</h3>
+                    <p>Frühwarnungen bei Abwanderung, Cashflow und Kundenkonzentration — bevor daraus eine Krise wird.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Konsolidierte Umsatzübersicht</h3>
+                    <p>Jeder Verkauf, jede Verlängerung und jede offene Zahlung in einem Dashboard — ohne Zahlen in drei Apps zu suchen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proof" class="proof">
+        <div class="container">
+            <span class="eyebrow">In der Praxis</span>
+            <h2>Echtes Produkt. Echte Screens. Bald Verfügbar.</h2>
+            <p class="lead">Der Hub ist bereits live und läuft heute mit echten Daten. Die Screens unten werden direkt aus der Produktumgebung veröffentlicht.</p>
+            <div class="proof-grid">
+                <div class="proof-placeholder">[ SCREENSHOT KUNDEN-DASHBOARD ]</div>
+                <div class="proof-placeholder">[ SCREENSHOT GESCHÄFTSKENNZAHLEN ]</div>
+                <div class="proof-placeholder">[ SCREENSHOT FINANZGESUNDHEIT ]</div>
+            </div>
+            <p class="proof-note">Die Screens werden hier direkt aus der Hub-Umgebung veröffentlicht, mit Demodaten.</p>
+        </div>
+    </section>
+
+    <section id="waitlist" class="waitlist">
+        <div class="container">
+            <span class="eyebrow">Früher Zugang</span>
+            <h2>Sei Unter Den Ersten, Die Ihr Geschäft Mit Dem Hub Führen.</h2>
+            <p class="lead">Wir öffnen den frühzeitigen Zugang für eine begrenzte Gruppe von Personal Trainern und Ernährungsberatern. Trag dich in die Warteliste ein — wir melden uns, sobald ein Platz frei wird.</p>
+            <form class="waitlist-form" id="waitlist-form">
+                <div class="form-row">
+                    <label for="wl-name">Name</label>
+                    <input type="text" id="wl-name" name="name" required>
+                </div>
+                <div class="form-row">
+                    <label for="wl-contact">E-Mail oder WhatsApp</label>
+                    <input type="text" id="wl-contact" name="contact" required>
+                </div>
+                <div class="form-row">
+                    <label>Ich Bin</label>
+                    <div class="radio-pills">
+                        <label><input type="radio" name="role" value="Personal Trainer" required> Personal Trainer</label>
+                        <label><input type="radio" name="role" value="Ernährungsberater"> Ernährungsberater</label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="wl-notes">Erzähl Uns Kurz Von Deinem Geschäft (Optional)</label>
+                    <textarea id="wl-notes" name="notes" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-navy">Zur Warteliste Anmelden</button>
+                <p class="form-status" id="waitlist-status"></p>
+            </form>
+        </div>
+    </section>
+
+    <div id="consulting" class="consulting-intro">
+        <div class="container">
+            <span class="eyebrow">Außerdem Im Angebot</span>
+            <h3>Daten- und KI-Beratung für Mittelständische Unternehmen</h3>
+            <p>Die gleiche Ingenieursdisziplin, die hinter dem Hub steckt — angewendet auf die Daten- und KI-Strategie deines Unternehmens.</p>
+        </div>
+    </div>
+
     <section id="solutions" class="solutions">
         <div class="container">
-            <h2>Das Meridian-Ökosystem</h2>
-            <p style="color: #64748b; max-width: 700px; margin: 0 auto;">Skalierbare Software und prädiktive Intelligenz, die operative Probleme lösen und hochwertige strukturierte Daten erzeugen.</p>
-            <div class="solutions-grid">
-                <div class="card"><h3>Meridian Retail</h3><p>Vollständiges Inventar-, Verkaufs- und KPI-Management für physische und digitale Handelsbetriebe.</p></div>
-                <div class="card"><h3>Meridian Commerce</h3><p>E-Commerce-Plattform mit Fokus auf Konversionsoptimierung und vollständige Datenverfolgbarkeit.</p></div>
-                <div class="card"><h3>Meridian Pulse - Booking</h3><p>Intelligentes Terminplanungssystem für Kliniken, Friseure und Dienstleistungsunternehmen.</p></div>
-                <div class="card"><h3>Performance Consulting</h3><p>Datenarchitektur, 360°-Executive-Dashboards und KI/ML-Modelle für Nachfrage- und LTV-Prognosen.</p></div>
+            <h2>Unser Fokus</h2>
+            <p class="lead">Zwei klare Wege — bewährtes System und schneller Diagnose-Einstieg — statt einer verstreuten Produktliste.</p>
+            <div class="focus-grid">
+                <div class="focus-card hub">
+                    <span class="eyebrow">System im Produktivbetrieb</span>
+                    <h3>Meridian Fitness Performance Hub</h3>
+                    <p class="desc">Eine Management- und BI-Plattform für Personal Trainer und Ernährungsberater — Kundenbetreuung, Engagement-Kennzahlen, Finanzen und Ziele, alles in einem lebendigen Dashboard.</p>
+                    <p class="ideal">Der Beweis: <b>so bauen wir — maßgeschneidert, nicht generisch, und heute mit echten Daten im Einsatz.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Schneller Einstieg</span>
+                    <h3>Diagnose + Dashboard</h3>
+                    <p class="desc">Projekt mit festem Umfang, 2–3 Wochen: Wir kartieren deine Daten, liefern ein maßgeschneidertes Dashboard und einen ersten Aktionsplan — ohne Verpflichtung zu einer laufenden Zusammenarbeit.</p>
+                    <p class="ideal">Ideal für: <b>Unternehmen, die vor der Skalierung erst mal Ordnung schaffen müssen.</b></p>
+                </div>
             </div>
         </div>
     </section>
@@ -208,19 +416,19 @@
                     <div style="text-align: left;">
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Strategische Finanzen: EBITDA-Optimierung</h3>
                         <div style="margin-bottom: 25px;">
-                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">A 5-year P&L model for a fintech operation lacked the granularity to track margin erosion across revenue streams, Interchange, FX and Interest, while managing churn, CAC and OPEX growth simultaneously. Financial decisions were made without a clear bridge between top-line growth and bottom-line protection.</p>
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE HERAUSFORDERUNG</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Ein 5-Jahres-P&L-Modell für eine Fintech-Operation bot nicht die nötige Granularität, um die Margenerosion über Umsatzströme, Interchange, FX und Zinsen hinweg zu verfolgen — bei gleichzeitiger Steuerung von Churn, CAC und OPEX-Wachstum. Finanzielle Entscheidungen wurden ohne klare Brücke zwischen Umsatzwachstum und Ergebnisschutz getroffen.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
-                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Full FP&A architecture built from scratch: revenue decomposition by stream, variable cost modeling per cohort, and OPEX growth controls tied to client acquisition. A waterfall P&L structure exposed the exact levers driving margin — taking EBITDA from 2.66% in Year 1 to 23.63% in Year 5 with a 2,199% absolute gain.</p>
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE STRATEGIE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Vollständige FP&A-Architektur von Grund auf aufgebaut: Umsatzzerlegung nach Strom, variable Kostenmodellierung pro Kohorte und OPEX-Wachstumskontrollen gekoppelt an die Kundenakquise. Eine Wasserfall-P&L-Struktur legte genau die Hebel offen, die die Marge treiben — und hob das EBITDA von 2,66 % in Jahr 1 auf 23,63 % in Jahr 5, ein absoluter Zuwachs von 2.199 %.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">+2,199%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EBITDA-WACHSTUM J1→J5</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">23.6%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EBITDA-MARGE JAHR 5</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">2,218B</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">GESAMTUMSATZ JAHR 5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">+2.199%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EBITDA-WACHSTUM J1→J5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">23,6%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EBITDA-MARGE JAHR 5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">2.218B</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">GESAMTUMSATZ JAHR 5</p></div>
                         </div>
-                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit anfordern</a>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit Anfordern</a>
                     </div>
                 </div>
 
@@ -235,18 +443,18 @@
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Dynamische Preisgestaltung (KI)</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE HERAUSFORDERUNG</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">354K Gebrauchtwagen in Echtzeit für einen Marktplatz bepreisen — mit hoher Vorhersagegenauigkeit, um Margenerosion zu vermeiden und Konversionsraten zu maximieren.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">354.000 Gebrauchtwagen in Echtzeit für eine Verbraucher-Marktplatz-App bepreisen — mit hoher Vorhersagegenauigkeit, um Margenerosion zu vermeiden und die Konversionsrate zu maximieren.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE STRATEGIE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Benchmark von 3 Modellen (Lineare Regression, Random Forest, LightGBM) in Qualität, Trainingsgeschwindigkeit und Vorhersagelatenz. LightGBM gewann auf allen Fronten — niedrigstes REQM bei €1.670, trainiert in 12,9s und Vorhersage in 0,25s.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Benchmark von 3 Modellen (Lineare Regression, Random Forest, LightGBM) in Qualität, Trainingsgeschwindigkeit und Vorhersagelatenz. LightGBM gewann auf ganzer Linie — niedrigstes REQM bei 1.670 €, trainiert in 12,9 s und Vorhersage in 0,25 s, für ein nahtloses Echtzeit-Nutzererlebnis.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">€1,670</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">BESTES REQM</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.25s</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">VORHERSAGELATENZ</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">€1.670</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">BESTES REQM</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0,25s</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">VORHERSAGELATENZ</p></div>
                             <div><h4 style="color: var(--gold); font-size: 1.4rem;">354K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">ANALYSIERTE FAHRZEUGE</p></div>
                         </div>
-                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit anfordern</a>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit Anfordern</a>
                     </div>
                 </div>
 
@@ -261,18 +469,18 @@
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">CapEx-Risikointelligenz (KI)</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE HERAUSFORDERUNG</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Zuweisung eines CapEx-Budgets von $100 Mio. auf 3 Ölexplorationsregionen — mit striktem Mandat für eine Verlustwahrscheinlichkeit unter 2,5%. Zwei von drei Regionen scheiterten am Schwellenwert.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Zuweisung eines CapEx-Budgets von 100 Mio. $ auf 3 Ölexplorationsregionen — mit striktem Mandat, dass die Verlustwahrscheinlichkeit unter 2,5 % bleiben muss. Zwei von drei Regionen scheiterten an dieser Schwelle.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE STRATEGIE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Lineares Regressionsmodell auf 300K Bohrlochaufzeichnungen trainiert (REQM 0,89) kombiniert mit 1.000 Bootstrap-Simulationen zur Rentabilitätsprüfung. Region 1 war der einzig tragfähige Kandidat — höchste erwartete Rendite bei $6,65 Mio. mit nur 0,20% Verlustrisiko.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Lineares Regressionsmodell, trainiert auf 300.000 Bohrlochdatensätzen (REQM 0,89), kombiniert mit 1.000 Bootstrap-Simulationen zum Stresstest der Rentabilität. Region 1 erwies sich als einzig tragfähiger Kandidat — höchste erwartete Rendite bei 6,65 Mio. $ mit nur 0,20 % Verlustrisiko.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$6.65M</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">ERWARTETER GEWINN</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.20%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">VERLUSTRISIKO</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.89</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MODELL REQM</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$6,65M</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">ERWARTETER GEWINN</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0,20%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">VERLUSTRISIKO</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0,89</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MODELL-REQM</p></div>
                         </div>
-                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit anfordern</a>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit Anfordern</a>
                     </div>
                 </div>
 
@@ -284,21 +492,21 @@
                         </div>
                     </div>
                     <div style="text-align: left;">
-                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Revenue & Margin Optimization</h3>
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Umsatz- und Margenoptimierung</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE HERAUSFORDERUNG</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">48.620 Transaktionen enthüllten ein kritisches Ungleichgewicht: 59,5% des Jahresumsatzes wurde zwischen 12 und 17 Uhr generiert, während die Abendschicht proportionale Arbeits- und Lagerkosten für nur 8,1% des Umsatzes verursachte — ein direkter Einfluss auf die Betriebsmarge.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">48.620 Transaktionen offenbarten ein kritisches Ungleichgewicht: 59,5 % des Jahresumsatzes wurden zwischen 12 und 17 Uhr erzielt, während die Abend-/Schlussschicht proportional Personal und Lagerbestand für nur 8,1 % des Gesamtumsatzes band — eine direkte Belastung der Betriebsmarge.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE STRATEGIE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Datengesteuerte Schichtverlagerung: 50% der Belegschaft und des Lagerbestands in das Spitzenfenster 12–17 Uhr umgeleitet. KPI-Einsatz richtet Logistik an Echtzeit-Nachfragemustern aus — Freitag als ertragreichster Tag (+37% vs. Sonntag) und große Pizzen als Hauptumsatztreiber mit 45,9% der Verkäufe.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Datengesteuerte Schichtumverteilung: 50 % der Belegschaft und des Lagerbestands auf das Spitzenfenster 12–17 Uhr umgelenkt. Der KPI-Einsatz richtete die Logistik an Echtzeit-Nachfragemustern aus, wobei sich Freitag als umsatzstärkster Tag (+37 % ggü. Sonntag) und große Pizzen mit 45,9 % des Gesamtumsatzes als Top-Umsatztreiber erwiesen.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">59.5%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">ANTEIL SPITZENFENSTER</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">−7.2%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">NACHT-OPEX-SENKUNG</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">59,5%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">ANTEIL SPITZENFENSTER</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">−7,2%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">NACHT-OPEX-SENKUNG</p></div>
                             <div><h4 style="color: var(--gold); font-size: 1.4rem;">$817K</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">KARTIERTER JAHRESUMSATZ</p></div>
                         </div>
-                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit anfordern</a>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit Anfordern</a>
                     </div>
                 </div>
 
@@ -313,18 +521,18 @@
                         <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Einwanderungs-Intelligenz (KI)</h3>
                         <div style="margin-bottom: 25px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE HERAUSFORDERUNG</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Einwanderungsberatungsunternehmen treffen kritische Timing-Entscheidungen auf Basis von Intuition. Über 10 Jahre öffentlicher IRCC-Daten blieben als strategisches Asset ungenutzt.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Einwanderungsberatungen treffen kritische Timing-Entscheidungen aus dem Bauch heraus. Über 10 Jahre öffentliche IRCC-Daten blieben als strategisches Asset ungenutzt.</p>
                         </div>
                         <div style="margin-bottom: 30px;">
                             <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">DIE STRATEGIE</h4>
-                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">GradientBoosting-Modell auf 482K+ IRCC-Zulassungsaufzeichnungen trainiert, um Genehmigungsfenster nach Visakategorie und Provinz vorherzusagen — Q1 als Spitzenquartal für brasilianische Antragsteller identifiziert.</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">GradientBoosting-Modell, trainiert auf über 482.000 IRCC-Zulassungsdatensätzen, um Genehmigungsfenster nach Visakategorie und Provinz vorherzusagen — Q1 wurde als Spitzenquartal für brasilianische Antragsteller identifiziert.</p>
                         </div>
                         <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
                             <div><h4 style="color: var(--gold); font-size: 1.4rem;">482K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">ANALYSIERTE DATENSÄTZE</p></div>
-                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">R2 0.79</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MODELLGENAUIGKEIT</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">R2 0,79</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MODELLGENAUIGKEIT</p></div>
                             <div><h4 style="color: var(--gold); font-size: 1.4rem;">Q1</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">SPITZEN-GENEHMIGUNGSFENSTER</p></div>
                         </div>
-                        <a href="mailto:contact@meridian.com" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit anfordern</a>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Performance-Audit Anfordern</a>
                     </div>
                 </div>
 
@@ -355,12 +563,37 @@
         <div class="container">
             <h2>Maximieren Sie das EBITDA Ihres Unternehmens</h2>
             <p>Direkter strategischer Dialog für Skalierung und Effizienz im Mittelstand.</p>
-            <a href="mailto:contact@meridian.com" class="btn-navy">Diagnose vereinbaren</a>
+            <a href="mailto:contact@meridianstrategy.de" class="btn-navy">Diagnose Vereinbaren</a>
+        </div>
+    </section>
+
+    <section id="faq" class="faq">
+        <div class="container">
+            <span class="eyebrow">FAQ</span>
+            <h2>Häufige Fragen</h2>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Was ist der Meridian Fitness Performance Hub?</summary>
+                    <p>Eine Management- und BI-Plattform speziell für Personal Trainer und Ernährungsberater — sie bringt Kundenbetreuung, Geschäftskennzahlen und finanzielle Gesundheit in ein einziges Dashboard.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Wie funktioniert der frühzeitige Zugang?</summary>
+                    <p>Trag dich oben in die Warteliste ein. Wir schalten zunächst eine begrenzte Gruppe frei, um das Produkt mit echter Nutzung zu verfeinern, bevor wir breiter öffnen.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Brauche ich technisches Wissen, um den Hub zu nutzen?</summary>
+                    <p>Nein. Der Hub ersetzt Excel und Notizbuch — wenn du WhatsApp nutzen kannst, kannst du den Hub nutzen.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Sind die Daten meiner Kunden sicher?</summary>
+                    <p>Ja. Jedes Konto hat isolierten Zugriff auf seine eigenen Daten, ohne Austausch zwischen Betrieben.</p>
+                </details>
+            </div>
         </div>
     </section>
 
     <footer>
-        <div class="container"><p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. ALL RIGHTS RESERVED.</p></div>
+        <div class="container"><p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. ALLE RECHTE VORBEHALTEN.</p></div>
     </footer>
 
     <script>
@@ -385,6 +618,37 @@
         function prevSlide() {
             currentSlide = (currentSlide - 1 + slides.length) % slides.length;
             showSlide(currentSlide);
+        }
+
+        const WAITLIST_ENDPOINT = "https://script.google.com/macros/s/AKfycbyk8GDGsEpUa89Y_AA3M9ooQlugtoYHs8AOad5lh0yvRq6upZSQB_o9BwWPfq14l3Oz6g/exec";
+        const waitlistForm = document.getElementById('waitlist-form');
+        const waitlistStatus = document.getElementById('waitlist-status');
+
+        if (waitlistForm) {
+            waitlistForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const data = new FormData(waitlistForm);
+                const payload = {
+                    name: data.get('name'),
+                    contact: data.get('contact'),
+                    role: data.get('role'),
+                    notes: data.get('notes'),
+                    lang: 'de',
+                    page: window.location.href
+                };
+                waitlistStatus.textContent = 'Wird gesendet...';
+                fetch(WAITLIST_ENDPOINT, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                }).then(function () {
+                    waitlistStatus.textContent = 'Danke — du stehst auf der Liste. Wir melden uns in Kürze.';
+                    waitlistForm.reset();
+                }).catch(function () {
+                    waitlistStatus.textContent = 'Etwas ist schiefgelaufen. Bitte versuch es erneut oder schreib uns direkt.';
+                });
+            });
         }
     </script>
 </body>
