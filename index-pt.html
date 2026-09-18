@@ -12,8 +12,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         :root {
-            --navy: #081321;    --silver: #C1C8D1;  --gold: #C5A059;
-            --white: #FFFFFF;   --bg-light: #F8FAFC;
+            --navy: #013A40;    --silver: #C7D3D1;  --gold: #02C39A;
+            --white: #FFFFFF;   --bg-light: #F2F7F6;
         }
 
         body {
@@ -106,11 +106,11 @@
             text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s;
             display: inline-block; cursor: pointer; border: none;
         }
-        .btn-gold:hover { background-color: #d4ae6a; transform: translateY(-2px); }
+        .btn-gold:hover { background-color: #00A896; transform: translateY(-2px); }
 
         /* PROBLEMA */
         .problem { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
-        .problem p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
+        .problem p.lead { color: #4B6367; max-width: 700px; margin: 0 auto; }
         .problem-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 32px; margin-top: 60px; text-align: left;
@@ -120,7 +120,7 @@
         .problem-card p { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; }
 
         /* FUNCIONALIDADES DO PRODUTO */
-        .product { background-color: #050b14; padding: 120px 0; text-align: center; }
+        .product { background-color: #012B30; padding: 120px 0; text-align: center; }
         .product p.lead { color: rgba(255,255,255,0.6); max-width: 700px; margin: 0 auto; }
         .feature-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -133,7 +133,7 @@
         /* TOUR DO HUB (ZIGUEZAGUE) */
         .hub-tour { background-color: var(--white); color: var(--navy); padding: 120px 0; }
         .hub-tour-intro { text-align: center; margin-bottom: 90px; }
-        .hub-tour-intro p.lead { color: #64748b; max-width: 650px; margin: 0 auto; }
+        .hub-tour-intro p.lead { color: #4B6367; max-width: 650px; margin: 0 auto; }
         .tour-row {
             display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
             margin-bottom: 110px;
@@ -180,7 +180,7 @@
 
         /* FOCO (CONSULTORIA) */
         .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
-        .solutions p.lead { color: #64748b; max-width: 700px; margin: 0 auto; }
+        .solutions p.lead { color: #4B6367; max-width: 700px; margin: 0 auto; }
         .focus-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 32px; margin-top: 60px; text-align: left;
@@ -202,7 +202,7 @@
         }
         .focus-card .ideal b { color: var(--gold); font-weight: 700; }
 
-        .labs { padding: 120px 0; background-color: #050b14; }
+        .labs { padding: 120px 0; background-color: #012B30; }
         .case-grid { display: none; grid-template-columns: 3fr 2fr; gap: 40px; align-items: flex-start; }
         .case-grid.active { display: grid; animation: fadeIn 0.6s ease forwards; }
 
@@ -230,7 +230,7 @@
         .faq-item[open] summary::after { content: '\2212'; }
         .faq-item p { padding-bottom: 24px; color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: none; letter-spacing: normal; }
 
-        footer { padding: 40px 0; background-color: #03080e; color: rgba(255, 255, 255, 0.3); text-align: center; font-size: 0.75rem; }
+        footer { padding: 40px 0; background-color: #011E22; color: rgba(255, 255, 255, 0.3); text-align: center; font-size: 0.75rem; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
