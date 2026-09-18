@@ -130,19 +130,25 @@
         .feature-card h3 { color: var(--silver); font-size: 1.15rem; margin-bottom: 14px; letter-spacing: 1px; overflow-wrap: break-word; hyphens: auto; }
         .feature-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: none; letter-spacing: normal; }
 
-        /* NACHWEIS / SCREENSHOTS */
-        .proof { background-color: #03080e; padding: 120px 0; text-align: center; }
-        .proof p.lead { color: rgba(255,255,255,0.5); max-width: 700px; margin: 0 auto; }
-        .proof-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 28px; margin-top: 60px;
+        /* HUB-TOUR (ZICKZACK) */
+        .hub-tour { background-color: var(--white); color: var(--navy); padding: 120px 0; }
+        .hub-tour-intro { text-align: center; margin-bottom: 90px; }
+        .hub-tour-intro p.lead { color: #64748b; max-width: 650px; margin: 0 auto; }
+        .tour-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+            margin-bottom: 110px;
         }
-        .proof-placeholder {
-            aspect-ratio: 16 / 10; border: 1px dashed rgba(197,160,89,0.4); background: rgba(255,255,255,0.02);
-            display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center;
-            color: var(--gold); font-family: 'Montserrat', sans-serif; font-size: 0.8rem; letter-spacing: 1.5px;
+        .tour-row:last-child { margin-bottom: 0; }
+        .tour-row.reverse .tour-image { order: 2; }
+        .tour-row.reverse .tour-text { order: 1; }
+        .tour-image img {
+            width: 100%; display: block; border-radius: 2px; border: 1px solid rgba(8,19,33,0.08);
+            box-shadow: 0 25px 50px -12px rgba(8,19,33,0.25);
         }
-        .proof-note { margin-top: 40px; color: rgba(255,255,255,0.4); font-size: 0.8rem; letter-spacing: 0.5px; }
+        .tour-text { text-align: left; }
+        .tour-text h3 { font-size: 1.6rem; letter-spacing: 1px; margin-bottom: 20px; color: var(--navy); }
+        .tour-text p { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; margin-bottom: 16px; }
+        .tour-text p:last-child { margin-bottom: 0; }
 
         /* WARTELISTE */
         .waitlist { background-color: var(--silver); color: var(--navy); padding: 120px 0; text-align: center; }
@@ -238,6 +244,9 @@
             .hero h2 { font-size: 0.9rem; }
             .case-grid { grid-template-columns: 1fr; }
             .focus-grid { grid-template-columns: 1fr; }
+            .tour-row { grid-template-columns: 1fr; gap: 24px; margin-bottom: 60px; }
+            .tour-row.reverse .tour-image { order: 1; }
+            .tour-row.reverse .tour-text { order: 2; }
             .waitlist-form { padding: 32px 24px; }
             .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
         }
@@ -322,17 +331,48 @@
         </div>
     </section>
 
-    <section id="proof" class="proof">
+    <section id="hub-tour" class="hub-tour">
         <div class="container">
-            <span class="eyebrow">In der Praxis</span>
-            <h2>Echtes Produkt. Echte Screens. Bald Verfügbar.</h2>
-            <p class="lead">Der Hub ist bereits live und läuft heute mit echten Daten. Die Screens unten werden direkt aus der Produktumgebung veröffentlicht.</p>
-            <div class="proof-grid">
-                <div class="proof-placeholder">[ SCREENSHOT KUNDEN-DASHBOARD ]</div>
-                <div class="proof-placeholder">[ SCREENSHOT GESCHÄFTSKENNZAHLEN ]</div>
-                <div class="proof-placeholder">[ SCREENSHOT FINANZGESUNDHEIT ]</div>
+            <div class="hub-tour-intro">
+                <span class="eyebrow">Ein System. Jede Entscheidung.</span>
+                <p class="lead">Drei Tabs, ein Login, null Excel-Tabellen. So sieht dein Tag im Hub tatsächlich aus.</p>
             </div>
-            <p class="proof-note">Die Screens werden hier direkt aus der Hub-Umgebung veröffentlicht, mit Demodaten.</p>
+
+            <div class="tour-row">
+                <div class="tour-image">
+                    <img src="images/hub-student-tracking.png" alt="Kundenbetreuungs-Ansicht im Meridian Fitness Performance Hub">
+                </div>
+                <div class="tour-text">
+                    <h3>Kundenbetreuung, Ohne Rätselraten</h3>
+                    <p>Die meisten Trainer verlieren Kunden auf dieselbe Art: leise. Ein verpasster Check-in hier, ein Stimmungstief dort, eine Woche ohne Training, und bis du es merkst, hat der Kunde schon beschlossen zu gehen.</p>
+                    <p>Der Hub verwandelt jeden wöchentlichen und monatlichen Check-in in eine lebendige Zeitleiste pro Kunde: Gewichtsverlauf, Trainingsfrequenz gemessen am eigenen Ziel, und Stimmung auf einer einfachen Skala, alles in einer Karte. Statt WhatsApp-Verläufe zu durchsuchen, um dich zu erinnern, wie es jemandem geht, öffnest du das Profil und siehst die ganze Geschichte.</p>
+                    <p>Die wichtigste Funktion hier: "Nur Abwanderungsrisiko anzeigen." Ein Klick filtert deine gesamte Kundenbasis auf die Personen, die diese Woche deine Aufmerksamkeit brauchen, nicht erst nachdem sie schon gekündigt haben.</p>
+                </div>
+            </div>
+
+            <div class="tour-row reverse">
+                <div class="tour-image">
+                    <img src="images/hub-bi-negocio.png" alt="BI- und Geschäftsdashboard im Meridian Fitness Performance Hub">
+                </div>
+                <div class="tour-text">
+                    <h3>Die Gesundheit Deines Geschäfts, auf Einen Blick</h3>
+                    <p>Training als Geschäft zu führen bedeutet, Fragen zu beantworten, die die meisten Trainer nur schätzen. Wächst der Umsatz wirklich? Welche Kunden sind über die Zeit am wertvollsten? Woher kommen neue Kunden tatsächlich?</p>
+                    <p>Der BI-Tab zeigt deinen MRR, aktive Kunden, durchschnittlichen Ticketpreis, Verlängerungsrate, Abwanderungsrate und LTV auf einem einzigen Bildschirm, automatisch aktualisiert, nicht einmal im Monat von Hand neu berechnet. Darunter liefert ein Zielgruppenprofil deine eigenen Check-in- und Verkaufsdaten zurück: dominantes Geschlecht, häufigste Altersgruppe, Hauptziel, bevorzugter Plan, wichtigster Kanal, Aktivitätsspitzen. Es ist die Art von Segmentierung, für die Agenturen Geld verlangen, hier bereits eingebaut.</p>
+                    <p>Und während deine Daten wachsen, wächst auch das System: Das integrierte ML-Forecast-Modell aktiviert sich automatisch, sobald genug Verlauf vorhanden ist, und zeigt, wohin sich deine Zahlen entwickeln, statt nur, wo sie herkamen.</p>
+                </div>
+            </div>
+
+            <div class="tour-row">
+                <div class="tour-image">
+                    <img src="images/hub-vendas.png" alt="Vertriebspipeline im Meridian Fitness Performance Hub">
+                </div>
+                <div class="tour-text">
+                    <h3>Vom Lead zur Zahlung, an Einem Ort</h3>
+                    <p>Ein Lead, der nur in deinen Direktnachrichten existiert, ist ein Lead, den du irgendwann aus den Augen verlierst. Der Sales-Tab sorgt dafür, dass das nicht passiert.</p>
+                    <p>Erfasse einen neuen Lead, wähle seinen Plan und erstelle sofort einen Zahlungslink, ohne separates Checkout-Tool, ohne manuelle Rechnung. Jeder Lead durchläuft danach eine visuelle Pipeline (Neu &rarr; Kontakt &rarr; Angebot &rarr; Abgeschlossen &rarr; Verloren), sodass du immer genau weißt, wie viele Personen nur ein Gespräch von einem zahlenden Kunden entfernt sind, und wie viele im letzten Monat verloren gingen.</p>
+                    <p>Das ist der Unterschied zwischen hoffen, dass dein Vertriebsprozess funktioniert, und live zusehen, wie er funktioniert.</p>
+                </div>
+            </div>
         </div>
     </section>
 

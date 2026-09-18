@@ -130,19 +130,25 @@
         .feature-card h3 { color: var(--silver); font-size: 1.15rem; margin-bottom: 14px; letter-spacing: 1px; overflow-wrap: break-word; hyphens: auto; }
         .feature-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: none; letter-spacing: normal; }
 
-        /* PROVA / SCREENSHOTS */
-        .proof { background-color: #03080e; padding: 120px 0; text-align: center; }
-        .proof p.lead { color: rgba(255,255,255,0.5); max-width: 700px; margin: 0 auto; }
-        .proof-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 28px; margin-top: 60px;
+        /* TOUR DO HUB (ZIGUEZAGUE) */
+        .hub-tour { background-color: var(--white); color: var(--navy); padding: 120px 0; }
+        .hub-tour-intro { text-align: center; margin-bottom: 90px; }
+        .hub-tour-intro p.lead { color: #64748b; max-width: 650px; margin: 0 auto; }
+        .tour-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+            margin-bottom: 110px;
         }
-        .proof-placeholder {
-            aspect-ratio: 16 / 10; border: 1px dashed rgba(197,160,89,0.4); background: rgba(255,255,255,0.02);
-            display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center;
-            color: var(--gold); font-family: 'Montserrat', sans-serif; font-size: 0.8rem; letter-spacing: 1.5px;
+        .tour-row:last-child { margin-bottom: 0; }
+        .tour-row.reverse .tour-image { order: 2; }
+        .tour-row.reverse .tour-text { order: 1; }
+        .tour-image img {
+            width: 100%; display: block; border-radius: 2px; border: 1px solid rgba(8,19,33,0.08);
+            box-shadow: 0 25px 50px -12px rgba(8,19,33,0.25);
         }
-        .proof-note { margin-top: 40px; color: rgba(255,255,255,0.4); font-size: 0.8rem; letter-spacing: 0.5px; }
+        .tour-text { text-align: left; }
+        .tour-text h3 { font-size: 1.6rem; letter-spacing: 1px; margin-bottom: 20px; color: var(--navy); }
+        .tour-text p { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; margin-bottom: 16px; }
+        .tour-text p:last-child { margin-bottom: 0; }
 
         /* LISTA DE ESPERA */
         .waitlist { background-color: var(--silver); color: var(--navy); padding: 120px 0; text-align: center; }
@@ -238,6 +244,9 @@
             .hero h2 { font-size: 0.9rem; }
             .case-grid { grid-template-columns: 1fr; }
             .focus-grid { grid-template-columns: 1fr; }
+            .tour-row { grid-template-columns: 1fr; gap: 24px; margin-bottom: 60px; }
+            .tour-row.reverse .tour-image { order: 1; }
+            .tour-row.reverse .tour-text { order: 2; }
             .waitlist-form { padding: 32px 24px; }
             .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
         }
@@ -322,17 +331,48 @@
         </div>
     </section>
 
-    <section id="proof" class="proof">
+    <section id="hub-tour" class="hub-tour">
         <div class="container">
-            <span class="eyebrow">Veja na Prática</span>
-            <h2>Produto Real. Telas Reais. Em Breve.</h2>
-            <p class="lead">O Hub já está no ar e rodando com dado real hoje. As telas abaixo serão publicadas direto do ambiente do produto.</p>
-            <div class="proof-grid">
-                <div class="proof-placeholder">[ PRINT DO PAINEL DE ALUNO ]</div>
-                <div class="proof-placeholder">[ PRINT DE MÉTRICAS DE NEGÓCIO ]</div>
-                <div class="proof-placeholder">[ PRINT DE SAÚDE FINANCEIRA ]</div>
+            <div class="hub-tour-intro">
+                <span class="eyebrow">Um Sistema. Toda Decisão.</span>
+                <p class="lead">Três abas, um login, zero planilha. Veja exatamente como fica o seu dia dentro do Hub.</p>
             </div>
-            <p class="proof-note">As telas serão publicadas aqui direto do ambiente do Hub, com dados demonstrativos.</p>
+
+            <div class="tour-row">
+                <div class="tour-image">
+                    <img src="images/hub-student-tracking.png" alt="Tela de acompanhamento de alunos dentro do Meridian Fitness Performance Hub">
+                </div>
+                <div class="tour-text">
+                    <h3>Acompanhamento de Aluno, Sem Achismo</h3>
+                    <p>A maioria dos personal trainers perde aluno do mesmo jeito: em silêncio. Um check-in perdido aqui, uma queda de humor ali, uma semana sem treinar, e quando você percebe, o aluno já decidiu sair.</p>
+                    <p>O Hub transforma cada check-in semanal e mensal numa linha do tempo viva por aluno: evolução de peso, frequência de treino contra a própria meta, e humor numa escala simples, tudo num só card. Em vez de rolar histórico de WhatsApp pra lembrar como alguém está, você abre o perfil e vê a história completa.</p>
+                    <p>O recurso que mais importa aqui: "Ver Apenas Churn Risk." Um clique filtra toda a sua base de alunos pras pessoas que precisam da sua atenção nesta semana, não depois que já cancelaram.</p>
+                </div>
+            </div>
+
+            <div class="tour-row reverse">
+                <div class="tour-image">
+                    <img src="images/hub-bi-negocio.png" alt="Painel de BI e negócio dentro do Meridian Fitness Performance Hub">
+                </div>
+                <div class="tour-text">
+                    <h3>A Saúde do Seu Negócio, em Uma Só Tela</h3>
+                    <p>Tocar treino como negócio significa responder perguntas que a maioria dos personal trainers só chuta. A receita está realmente crescendo? Quais alunos valem mais ao longo do tempo? De onde os novos alunos realmente vêm?</p>
+                    <p>A aba de BI coloca seu MRR, alunos ativos, ticket médio, taxa de renovação, churn rate e LTV numa única tela, atualizada automaticamente, não recalculada na mão uma vez por mês. Abaixo disso, um perfil de audiência devolve seus próprios dados de check-in e vendas: gênero dominante, faixa etária top, objetivo principal, plano preferido, canal principal, horário de pico de atividade. É o tipo de segmentação que agência cobra caro, e já vem embutido.</p>
+                    <p>E conforme seus dados crescem, o sistema também evolui: o modelo ML Forecast embutido ativa automaticamente assim que você tem histórico suficiente, projetando pra onde seus números estão indo, não só de onde vieram.</p>
+                </div>
+            </div>
+
+            <div class="tour-row">
+                <div class="tour-image">
+                    <img src="images/hub-vendas.png" alt="Pipeline de vendas dentro do Meridian Fitness Performance Hub">
+                </div>
+                <div class="tour-text">
+                    <h3>Do Lead ao Pagamento, em Um Só Lugar</h3>
+                    <p>Um lead que vive só no seu direct é um lead que, cedo ou tarde, você perde de vista. A aba de Vendas existe pra tornar isso impossível.</p>
+                    <p>Cadastre um novo lead, escolha o plano dele e gere o link de pagamento na hora, sem ferramenta de checkout separada, sem fatura manual. Cada lead então percorre um pipeline visual (Novo &rarr; Contato &rarr; Proposta &rarr; Fechado &rarr; Perdido), então você sempre sabe exatamente quantas pessoas estão a uma conversa de virar aluno pagante, e quantas escaparam mês passado.</p>
+                    <p>É a diferença entre torcer pro seu processo de vendas funcionar e ver ele funcionando, em tempo real.</p>
+                </div>
+            </div>
         </div>
     </section>
 
