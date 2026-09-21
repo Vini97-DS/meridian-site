@@ -138,24 +138,53 @@
         .hub-tour-intro { text-align: center; margin-bottom: 90px; }
         .hub-tour-intro p.lead { color: #4B6367; max-width: 650px; margin: 0 auto; }
         .tour-row {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+            display: grid; grid-template-columns: 3fr 2fr; gap: 60px; align-items: center;
             margin-bottom: 110px;
         }
         .tour-row:last-child { margin-bottom: 0; }
+        .tour-row.reverse { grid-template-columns: 2fr 3fr; }
         .tour-row.reverse .tour-image { order: 2; }
         .tour-row.reverse .tour-text { order: 1; }
+        .tour-image { cursor: zoom-in; position: relative; }
         .tour-image img {
             width: 100%; display: block; border-radius: 2px; border: 1px solid rgba(8,19,33,0.08);
-            box-shadow: 0 25px 50px -12px rgba(8,19,33,0.25);
+            box-shadow: 0 25px 50px -12px rgba(8,19,33,0.25); cursor: zoom-in;
         }
         .tour-text { text-align: left; }
         .tour-text h3 { font-size: 1.6rem; letter-spacing: 1px; margin-bottom: 20px; color: var(--navy); }
         .tour-text p { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; margin-bottom: 16px; }
         .tour-text p:last-child { margin-bottom: 0; }
 
+        /* LIGHTBOX */
+        .lightbox-overlay {
+            display: none; position: fixed; inset: 0; z-index: 1000;
+            background: rgba(1,58,64,0.92);
+            align-items: center; justify-content: center; padding: 40px;
+        }
+        .lightbox-overlay.active { display: flex; }
+        .lightbox-content { max-width: 92vw; max-height: 88vh; }
+        .lightbox-content img, .lightbox-content video {
+            max-width: 92vw; max-height: 88vh; display: block; border-radius: 2px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        }
+        .lightbox-close {
+            position: fixed; top: 24px; right: 32px; background: transparent; border: none;
+            color: var(--white); font-size: 2.4rem; line-height: 1; cursor: pointer; z-index: 1001;
+        }
+
         /* PRICING */
         .pricing { background-color: #012B30; padding: 120px 0; text-align: center; }
         .pricing p.lead { color: rgba(255,255,255,0.6); max-width: 650px; margin: 0 auto; }
+        .pricing-banner {
+            max-width: 720px; margin: 36px auto 0 auto; padding: 20px 28px;
+            background-color: rgba(2,195,154,0.08); border: 1px solid rgba(2,195,154,0.35);
+            border-radius: 4px; text-align: center;
+        }
+        .pricing-banner-title {
+            font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 800;
+            letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+        }
+        .pricing-banner-sub { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
         .pricing-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 32px; margin-top: 60px; text-align: left; align-items: stretch;
@@ -284,7 +313,7 @@
             .hero h2 { font-size: 0.9rem; }
             .case-grid { grid-template-columns: 1fr; }
             .focus-grid { grid-template-columns: 1fr; }
-            .tour-row { grid-template-columns: 1fr; gap: 24px; margin-bottom: 60px; }
+            .tour-row, .tour-row.reverse { grid-template-columns: 1fr; gap: 24px; margin-bottom: 60px; }
             .tour-row.reverse .tour-image { order: 1; }
             .tour-row.reverse .tour-text { order: 2; }
             .waitlist-form { padding: 32px 24px; }
@@ -379,8 +408,8 @@
             </div>
 
             <div class="tour-row">
-                <div class="tour-image">
-                    <img src="images/hub-student-tracking.png" alt="Student tracking view inside the Meridian Fitness Performance Hub">
+                <div class="tour-image" data-media-type="image">
+                    <img src="images/hub-student-tracking.png" alt="Student tracking view inside the Meridian Fitness Performance Hub" onclick="openLightbox(this)">
                 </div>
                 <div class="tour-text">
                     <h3>Student Tracking, Without the Guesswork</h3>
@@ -391,8 +420,8 @@
             </div>
 
             <div class="tour-row reverse">
-                <div class="tour-image">
-                    <img src="images/hub-bi-negocio.png" alt="Business intelligence dashboard inside the Meridian Fitness Performance Hub">
+                <div class="tour-image" data-media-type="image">
+                    <img src="images/hub-bi-negocio.png" alt="Business intelligence dashboard inside the Meridian Fitness Performance Hub" onclick="openLightbox(this)">
                 </div>
                 <div class="tour-text">
                     <h3>Your Business Health, in One View</h3>
@@ -403,8 +432,8 @@
             </div>
 
             <div class="tour-row">
-                <div class="tour-image">
-                    <img src="images/hub-vendas.png" alt="Sales pipeline view inside the Meridian Fitness Performance Hub">
+                <div class="tour-image" data-media-type="image">
+                    <img src="images/hub-vendas.png" alt="Sales pipeline view inside the Meridian Fitness Performance Hub" onclick="openLightbox(this)">
                 </div>
                 <div class="tour-text">
                     <h3>From Lead to Payment, in One Place</h3>
@@ -421,6 +450,10 @@
             <span class="eyebrow">Pricing</span>
             <h2>Choose Your Plan</h2>
             <p class="lead">Start with 14 days free. No commitment during your trial.</p>
+            <div class="pricing-banner">
+                <p class="pricing-banner-title">Early Access Pricing. Limited to the First 20 Members.</p>
+                <p class="pricing-banner-sub">Price increases permanently once early access ends. No advance notice. Lock in this rate now.</p>
+            </div>
             <div class="pricing-grid">
                 <div class="pricing-card">
                     <span class="plan-name">Monthly</span>
@@ -732,6 +765,11 @@
         <div class="container"><p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. ALL RIGHTS RESERVED.</p></div>
     </footer>
 
+    <div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightboxOnOverlay(event)">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+        <div class="lightbox-content" id="lightbox-content"></div>
+    </div>
+
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.carousel-slide');
@@ -786,6 +824,43 @@
                 });
             });
         }
+
+        function openLightbox(mediaEl) {
+            const wrapper = mediaEl.closest('.tour-image');
+            const mediaType = wrapper ? wrapper.dataset.mediaType : 'image';
+            const content = document.getElementById('lightbox-content');
+            content.innerHTML = '';
+
+            let el;
+            if (mediaType === 'video') {
+                el = document.createElement('video');
+                el.src = mediaEl.dataset.full || mediaEl.src;
+                el.controls = true;
+                el.autoplay = true;
+            } else {
+                el = document.createElement('img');
+                el.src = mediaEl.dataset.full || mediaEl.src;
+                el.alt = mediaEl.alt || '';
+            }
+            content.appendChild(el);
+
+            document.getElementById('lightbox-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-overlay').classList.remove('active');
+            document.getElementById('lightbox-content').innerHTML = '';
+            document.body.style.overflow = '';
+        }
+
+        function closeLightboxOnOverlay(e) {
+            if (e.target.id === 'lightbox-overlay') closeLightbox();
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
     </script>
 </body>
 </html>
