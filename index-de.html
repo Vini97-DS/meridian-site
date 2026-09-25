@@ -7,6 +7,25 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
 
+    <!-- Meta Pixel Code (network load deferred until cookie consent is accepted, see the cookie banner script) -->
+    <script>
+        function loadMetaPixel() {
+            if (window.fbqLoaded) return;
+            window.fbqLoaded = true;
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '3211113885756692');
+            fbq('track', 'PageView');
+        }
+    </script>
+    <!-- End Meta Pixel Code -->
+
     <style>
         /* RESET & BASE */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -293,6 +312,30 @@
 
         footer { padding: 40px 0; background-color: #011E22; color: rgba(255, 255, 255, 0.3); text-align: center; font-size: 0.75rem; }
 
+        /* COOKIE-EINWILLIGUNGSBANNER */
+        .cookie-banner {
+            display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 2000;
+            background-color: var(--navy); color: var(--white);
+            padding: 22px 32px; box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner p {
+            font-size: 0.85rem; color: rgba(255,255,255,0.8); max-width: 640px; margin: 0;
+            text-transform: none; letter-spacing: normal; font-family: 'Inter', sans-serif;
+        }
+        .cookie-banner-actions { display: flex; gap: 12px; flex-shrink: 0; }
+        .cookie-btn {
+            font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase; padding: 12px 24px; border-radius: 2px;
+            cursor: pointer; border: none; transition: all 0.2s;
+        }
+        .cookie-btn-accept { background-color: var(--gold); color: var(--navy); }
+        .cookie-btn-accept:hover { background-color: #00A896; }
+        .cookie-btn-decline { background-color: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.3); }
+        .cookie-btn-decline:hover { border-color: var(--white); }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
@@ -310,10 +353,19 @@
             .tour-row.reverse .tour-text { order: 2; }
             .waitlist-form { padding: 32px 24px; }
             .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
+            .cookie-banner { flex-direction: column; text-align: center; padding: 20px; }
         }
     </style>
 </head>
 <body>
+
+    <div class="cookie-banner" id="cookie-banner">
+        <p>Wir verwenden Cookies, um zu verstehen, wie Besucher diese Website nutzen. Du kannst nicht notwendige Cookies jederzeit akzeptieren oder ablehnen.</p>
+        <div class="cookie-banner-actions">
+            <button class="cookie-btn cookie-btn-decline" onclick="handleCookieConsent(false)">Ablehnen</button>
+            <button class="cookie-btn cookie-btn-accept" onclick="handleCookieConsent(true)">Akzeptieren</button>
+        </div>
+    </div>
 
     <header>
         <div class="container navbar">
@@ -811,6 +863,9 @@
                 }).then(function () {
                     waitlistStatus.textContent = 'Danke, du stehst auf der Liste. Wir melden uns in Kürze.';
                     waitlistForm.reset();
+                    if (typeof fbq === 'function') {
+                        fbq('track', 'CompleteRegistration');
+                    }
                 }).catch(function () {
                     waitlistStatus.textContent = 'Etwas ist schiefgelaufen. Bitte versuch es erneut oder schreib uns direkt.';
                 });
@@ -853,6 +908,23 @@
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') closeLightbox();
         });
+
+        function handleCookieConsent(accepted) {
+            localStorage.setItem('meridian_cookie_consent', accepted ? 'accepted' : 'declined');
+            const banner = document.getElementById('cookie-banner');
+            if (banner) banner.classList.remove('visible');
+            if (accepted) loadMetaPixel();
+        }
+
+        (function initCookieConsent() {
+            const consent = localStorage.getItem('meridian_cookie_consent');
+            if (consent === 'accepted') {
+                loadMetaPixel();
+            } else if (!consent) {
+                const banner = document.getElementById('cookie-banner');
+                if (banner) banner.classList.add('visible');
+            }
+        })();
     </script>
 </body>
 </html>
