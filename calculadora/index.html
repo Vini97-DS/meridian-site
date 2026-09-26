@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Calculadora do vazamento — quanto você vai perder com alunos que vão sair</title>
+<meta name="description" content="Descubra em 30 segundos quantos alunos devem sair nos próximos 90 dias e quanto isso custa para o seu negócio. Gratuito, sem cadastro." />
+<link rel="canonical" href="https://www.meridianstrategy.de/calculadora">
+<meta property="og:title" content="Calculadora do vazamento">
+<meta property="og:description" content="Descubra em 30 segundos quantos alunos devem sair nos próximos 90 dias e quanto isso custa.">
+<meta property="og:url" content="https://www.meridianstrategy.de/calculadora">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code (network load deferred until cookie consent is accepted, see the cookie banner script) -->
+<script>
+    function loadMetaPixel() {
+        if (window.fbqLoaded) return;
+        window.fbqLoaded = true;
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '3211113885756692');
+        fbq('track', 'PageView');
+    }
+</script>
+<!-- End Meta Pixel Code -->
+
+<style>
+:root{
+  --navy:#081321; --navy2:#0d1e30; --navy3:#112540;
+  --gold:#C9A84C; --silver:#A8B2BD; --white:#F0F4F8; --dim:#6B7F94;
+  --alert:#D9695F; --line:#1a2f4a; --gold-line:rgba(201,168,76,.45);
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--navy);}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:var(--navy);color:var(--white);font-family:var(--sans);
+  font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%;}
+.wrap{max-width:34rem;margin:0 auto;padding:2.4rem 1.25rem 3rem;}
+
+.kicker{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 .8rem;}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,8vw,2.6rem);
+  line-height:1.08;margin:0 0 .8rem;}
+.lede{margin:0 0 2rem;color:var(--silver);}
+
+form{background:var(--navy2);border:1px solid var(--line);border-top:1px solid var(--gold-line);
+  border-radius:4px;padding:1.4rem 1.2rem 1.5rem;}
+.field{margin-bottom:1.25rem;}
+label{display:block;font-weight:500;font-size:.98rem;margin-bottom:.2rem;color:var(--white);}
+.hint{display:block;font-size:.82rem;color:var(--dim);margin-bottom:.5rem;}
+.input{display:flex;align-items:center;background:var(--navy3);border:1px solid var(--line);
+  border-radius:3px;transition:border-color .15s;}
+.input:focus-within{border-color:var(--gold);}
+.input span{padding-left:.85rem;color:var(--dim);font-family:var(--mono);font-size:.9rem;}
+input{flex:1;width:100%;min-width:0;border:0;background:transparent;color:var(--white);
+  font:500 1.2rem var(--mono);padding:.72rem .85rem;outline:none;}
+input::placeholder{color:var(--dim);opacity:.7;}
+button{width:100%;border:0;border-radius:3px;background:var(--gold);color:var(--navy);
+  font:600 1.02rem var(--sans);padding:.95rem 1rem;cursor:pointer;margin-top:.3rem;}
+button:hover{filter:brightness(1.06);}
+button:focus-visible,.cta:focus-visible,.share:focus-visible{outline:2px solid var(--white);outline-offset:3px;}
+.error{color:var(--alert);font-size:.9rem;margin:.65rem 0 0;}
+
+#result{display:none;margin-top:2.4rem;}
+#result.show{display:block;}
+
+.alertbar{display:flex;align-items:flex-start;gap:.7rem;background:#15101a;
+  border:1px solid #3a2226;border-radius:3px;padding:.85rem 1rem;margin-bottom:1.6rem;
+  font-family:var(--mono);font-size:.86rem;line-height:1.45;color:var(--white);}
+.alertbar i{flex:0 0 auto;width:.55rem;height:.55rem;border-radius:50%;background:var(--alert);margin-top:.35rem;}
+.alertbar .dim{color:var(--silver);}
+
+.card{background:var(--navy2);border:1px solid var(--line);border-top:1px solid var(--gold-line);
+  border-radius:3px;padding:1rem 1.1rem 1.05rem;margin-bottom:.8rem;}
+.card .label{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--silver);margin:0 0 .35rem;}
+.card .value{font-family:var(--serif);font-weight:600;font-size:2.1rem;line-height:1.1;color:var(--gold);margin:0;}
+.card .sub{font-size:.88rem;color:var(--dim);margin:.3rem 0 0;}
+.card.main{padding:1.25rem 1.15rem 1.3rem;}
+.card.main .value{font-size:clamp(2.7rem,12vw,3.5rem);}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.grid .card{margin-bottom:0;}
+.grid .card .value{font-size:1.65rem;}
+.note{font-size:.8rem;color:var(--dim);margin:1rem 0 2.2rem;}
+.special{background:var(--navy2);border:1px solid var(--line);border-top:1px solid var(--gold-line);
+  border-radius:3px;padding:1.15rem 1.15rem;margin-bottom:2.2rem;color:var(--silver);}
+.special p{margin:0;}
+.special strong{color:var(--white);font-weight:600;}
+
+.panel{background:var(--navy3);border:1px solid var(--gold-line);border-radius:4px;padding:1.7rem 1.3rem 1.5rem;}
+.panel h2{font-family:var(--serif);font-weight:600;font-size:1.75rem;line-height:1.15;margin:0 0 .8rem;}
+.panel p{margin:0 0 1.3rem;color:var(--silver);}
+.panel p strong{color:var(--white);font-weight:600;}
+.cta{display:block;text-align:center;background:var(--gold);color:var(--navy);text-decoration:none;
+  font-weight:600;padding:.95rem 1rem;border-radius:3px;}
+.cta-sub{text-align:center;font-family:var(--mono);font-size:.78rem;color:var(--dim);margin:.75rem 0 0 !important;}
+
+.share-box{margin-top:2rem;text-align:center;}
+.share-box p{margin:0 0 .7rem;font-size:.93rem;color:var(--silver);}
+.share{display:inline-block;color:var(--gold);font-weight:500;text-decoration:none;
+  border:1px solid var(--gold-line);border-radius:3px;padding:.6rem 1.05rem;}
+footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72rem;color:var(--dim);}
+
+/* BANNER DE CONSENTIMENTO DE COOKIES */
+.cookie-banner{
+  display:none; position:fixed; left:0; right:0; bottom:0; z-index:2000;
+  background:var(--navy2); color:var(--white);
+  padding:18px 24px; box-shadow:0 -10px 30px rgba(0,0,0,.35);
+  align-items:center; justify-content:center; gap:20px; flex-wrap:wrap;
+  border-top:1px solid var(--gold-line);
+}
+.cookie-banner.visible{display:flex;}
+.cookie-banner p{
+  font-size:.85rem; color:var(--silver); max-width:640px; margin:0;
+  font-family:var(--sans);
+}
+.cookie-banner-actions{display:flex; gap:10px; flex-shrink:0;}
+.cookie-btn{
+  font-family:var(--sans); font-size:.85rem; font-weight:600;
+  padding:.65rem 1.1rem; border-radius:3px; cursor:pointer; border:0; transition:filter .15s;
+}
+.cookie-btn-accept{background:var(--gold); color:var(--navy);}
+.cookie-btn-accept:hover{filter:brightness(1.06);}
+.cookie-btn-decline{background:transparent; color:var(--white); border:1px solid var(--line);}
+.cookie-btn-decline:hover{border-color:var(--dim);}
+
+@media (max-width:520px){
+  .cookie-banner{flex-direction:column; text-align:center; padding:16px;}
+}
+</style>
+</head>
+<body>
+<div class="cookie-banner" id="cookie-banner">
+    <p>Usamos cookies para entender como os visitantes usam este site. Você pode aceitar ou recusar cookies não essenciais a qualquer momento.</p>
+    <div class="cookie-banner-actions">
+        <button class="cookie-btn cookie-btn-decline" onclick="handleCookieConsent(false)">Recusar</button>
+        <button class="cookie-btn cookie-btn-accept" onclick="handleCookieConsent(true)">Aceitar</button>
+    </div>
+</div>
+<main class="wrap">
+  <p class="kicker">Calculadora do vazamento</p>
+  <h1>Quanto você vai perder com os alunos que vão sair?</h1>
+  <p class="lede">Quatro números, 30 segundos, sem cadastro. Use seus dados reais — o resultado é só seu e não fica salvo em lugar nenhum.</p>
+
+  <form id="calc" novalidate>
+    <div class="field">
+      <label for="alunos">Quantos alunos ativos você tem hoje?</label>
+      <span class="hint">Todos que estão pagando agora, online e presencial.</span>
+      <div class="input"><input id="alunos" type="number" inputmode="numeric" min="1" placeholder="150" required></div>
+    </div>
+    <div class="field">
+      <label for="ticket">Quanto um aluno paga por mês, em média?</label>
+      <span class="hint">Se tiver planos diferentes, uma média aproximada basta.</span>
+      <div class="input"><span>R$</span><input id="ticket" type="number" inputmode="decimal" min="1" placeholder="200" required></div>
+    </div>
+    <div class="field">
+      <label for="saidas">Quantos alunos saíram nos últimos 3 meses?</label>
+      <span class="hint">Cancelaram, sumiram ou pararam de pagar.</span>
+      <div class="input"><input id="saidas" type="number" inputmode="numeric" min="0" placeholder="9" required></div>
+    </div>
+    <div class="field">
+      <label for="meses">Quantos meses um aluno costuma ficar com você?</label>
+      <span class="hint">Do primeiro pagamento até sair. Um chute honesto serve.</span>
+      <div class="input"><input id="meses" type="number" inputmode="numeric" min="1" placeholder="8" required></div>
+    </div>
+    <button type="submit">Calcular meu vazamento</button>
+    <p class="error" id="error" role="alert"></p>
+  </form>
+
+  <section id="result" aria-live="polite">
+    <div id="normal">
+      <div class="alertbar"><i aria-hidden="true"></i><div><span class="dim">Próximos 90 dias, no ritmo atual:</span><br><span id="r-alert"></span></div></div>
+
+      <div class="card main">
+        <p class="label">Receita que para de entrar</p>
+        <p class="value" id="r-mrr"></p>
+        <p class="sub">todo mês, até alguém novo ocupar o lugar desses alunos</p>
+      </div>
+      <div class="card">
+        <p class="label">Em 12 meses, se o ritmo continuar</p>
+        <p class="value" id="r-ano"></p>
+        <p class="sub" id="r-ano-sub"></p>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <p class="label">Churn mensal</p>
+          <p class="value" id="r-churn"></p>
+          <p class="sub">dos alunos saem por mês</p>
+        </div>
+        <div class="card">
+          <p class="label">LTV médio</p>
+          <p class="value" id="r-ltv"></p>
+          <p class="sub">quanto vale um aluno que fica o tempo médio</p>
+        </div>
+      </div>
+      <p class="note">Conta conservadora: considera o mesmo ritmo de saída dos últimos 3 meses, que cada aluno sai no fim do mês, e que ninguém entra para repor. Não inclui o custo de conquistar alunos novos.</p>
+    </div>
+
+    <div id="zero" class="special" hidden>
+      <p><strong>Nenhuma saída nos últimos 3 meses?</strong> Se for verdade, seu negócio está num lugar raro. Se a resposta veio de cabeça, vale conferir: aluno que some sem avisar e pagamento em dinheiro que não foi anotado costumam não aparecer em lugar nenhum — e são justamente as saídas mais caras, porque ninguém percebe.</p>
+    </div>
+
+    <div class="panel">
+      <h2>A calculadora mostra quantos. Não mostra quais.</h2>
+      <p>O <strong>Meridian Fitness Hub</strong> mostra quem são esses alunos, pelo nome, antes de eles saírem: quem faltou check-in, quem parou de responder, quem está com pagamento atrasado. Você recebe o aviso enquanto ainda dá tempo de conversar.</p>
+      <a class="cta" id="cta" href="https://www.meridianstrategy.de/index-pt.html?utm_source=calculadora&utm_medium=ferramenta&utm_campaign=vazamento#waitlist" target="_blank" rel="noopener">Testar 14 dias grátis</a>
+      <p class="cta-sub">Sem cartão · 20 vagas nesta fase</p>
+    </div>
+
+    <div class="share-box">
+      <p>Conhece um personal que precisa ver o número dele?</p>
+      <a class="share" id="share" href="#" target="_blank" rel="noopener">Mandar a calculadora no WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>Meridian Fitness Hub</footer>
+</main>
+
+<script>
+(function(){
+  var brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+  var pct = new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1});
+  var $ = function(id){ return document.getElementById(id); };
+  function num(id){ var v = $(id).value.replace(',', '.'); return v === '' ? NaN : Number(v); }
+  function plural(n, um, varios){ return n === 1 ? um : varios; }
+
+  $('share').href = 'https://wa.me/?text=' + encodeURIComponent('Calculei quanto vou perder com alunos que vão sair. Faz a sua em 30 segundos: ' + window.location.href);
+
+  $('calc').addEventListener('submit', function(e){
+    e.preventDefault();
+    var alunos = num('alunos'), ticket = num('ticket'), saidas = num('saidas'), meses = num('meses');
+    var err = $('error'); err.textContent = '';
+
+    if (!(alunos >= 1) || !(ticket > 0) || !(saidas >= 0) || !(meses >= 1)) {
+      err.textContent = 'Preencha os quatro campos com números para calcular.'; return;
+    }
+    if (saidas > alunos * 3) {
+      err.textContent = 'As saídas estão muito acima da sua base atual. Confere os números antes de calcular.'; return;
+    }
+    alunos = Math.round(alunos); saidas = Math.round(saidas); meses = Math.round(meses);
+
+    if (typeof fbq === 'function') {
+      fbq('trackCustom', 'CalculadoraUsada');
+    }
+
+    if (saidas === 0) {
+      $('normal').hidden = true; $('zero').hidden = false;
+    } else {
+      $('normal').hidden = false; $('zero').hidden = true;
+      var porMes = saidas / 3;
+      var mrrPerdido = saidas * ticket;
+      var anual = ticket * porMes * 66; // saída no fim do mês k => perde (12 - k) meses no ano; soma = 66
+      var n12 = saidas * 4;
+
+      $('r-alert').textContent = saidas + ' ' + plural(saidas, 'aluno', 'alunos') + ' — ' + brl.format(mrrPerdido) + ' em risco';
+      $('r-mrr').textContent = brl.format(mrrPerdido) + '/mês';
+      $('r-ano').textContent = brl.format(anual);
+      $('r-ano-sub').textContent = 'a menos, com ' + n12 + ' ' + plural(n12, 'aluno saindo', 'alunos saindo') + ' ao longo do ano';
+      $('r-churn').textContent = pct.format(porMes / alunos * 100) + '%';
+      $('r-ltv').textContent = brl.format(ticket * meses);
+    }
+    var r = $('result'); r.classList.add('show');
+    r.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+})();
+
+function handleCookieConsent(accepted) {
+    localStorage.setItem('meridian_cookie_consent', accepted ? 'accepted' : 'declined');
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.classList.remove('visible');
+    if (accepted) loadMetaPixel();
+}
+
+(function initCookieConsent() {
+    const consent = localStorage.getItem('meridian_cookie_consent');
+    if (consent === 'accepted') {
+        loadMetaPixel();
+    } else if (!consent) {
+        const banner = document.getElementById('cookie-banner');
+        if (banner) banner.classList.add('visible');
+    }
+})();
+</script>
+</body>
+</html>
