@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="de">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Calculadora do vazamento — quanto você vai perder com alunos que vão sair</title>
-<meta name="description" content="Descubra em 30 segundos quantos alunos devem sair nos próximos 90 dias e quanto isso custa para o seu negócio. Gratuito, sem cadastro." />
-<link rel="canonical" href="https://www.meridianstrategy.de/calculadora">
-<meta property="og:title" content="Calculadora do vazamento">
-<meta property="og:description" content="Descubra em 30 segundos quantos alunos devem sair nos próximos 90 dias e quanto isso custa.">
-<meta property="og:url" content="https://www.meridianstrategy.de/calculadora">
+<title>Abwanderungsrechner — wie viel du durch kündigende Kunden verlierst</title>
+<meta name="description" content="Finde in 30 Sekunden heraus, wie viele Kunden in den nächsten 90 Tagen wahrscheinlich kündigen und wie viel dich das kostet. Kostenlos, ohne Anmeldung." />
+<link rel="canonical" href="https://www.meridianstrategy.de/calculadora/de">
+<meta property="og:title" content="Abwanderungsrechner">
+<meta property="og:description" content="Finde in 30 Sekunden heraus, wie viele Kunden in den nächsten 90 Tagen wahrscheinlich kündigen und wie viel dich das kostet.">
+<meta property="og:url" content="https://www.meridianstrategy.de/calculadora/de">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="pt_BR">
+<meta property="og:locale" content="de_DE">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -124,7 +124,7 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
 .calc-lang-switch a{color:var(--dim);text-decoration:none;margin-left:.5rem;}
 .calc-lang-switch a.active{color:var(--gold);}
 
-/* BANNER DE CONSENTIMENTO DE COOKIES */
+/* COOKIE-CONSENT-BANNER */
 .cookie-banner{
   display:none; position:fixed; left:0; right:0; bottom:0; z-index:2000;
   background:var(--navy2); color:var(--white);
@@ -154,57 +154,57 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
 </head>
 <body>
 <div class="cookie-banner" id="cookie-banner">
-    <p>Usamos cookies para entender como os visitantes usam este site. Você pode aceitar ou recusar cookies não essenciais a qualquer momento.</p>
+    <p>Wir verwenden Cookies, um zu verstehen, wie Besucher diese Website nutzen. Du kannst nicht notwendige Cookies jederzeit akzeptieren oder ablehnen.</p>
     <div class="cookie-banner-actions">
-        <button class="cookie-btn cookie-btn-decline" onclick="handleCookieConsent(false)">Recusar</button>
-        <button class="cookie-btn cookie-btn-accept" onclick="handleCookieConsent(true)">Aceitar</button>
+        <button class="cookie-btn cookie-btn-decline" onclick="handleCookieConsent(false)">Ablehnen</button>
+        <button class="cookie-btn cookie-btn-accept" onclick="handleCookieConsent(true)">Akzeptieren</button>
     </div>
 </div>
 <main class="wrap">
-  <div class="calc-lang-switch"><a href="/calculadora" class="active">PT</a><a href="/calculadora/en">EN</a><a href="/calculadora/de">DE</a></div>
-  <p class="kicker">Calculadora do vazamento</p>
-  <h1>Quanto você vai perder com os alunos que vão sair?</h1>
-  <p class="lede">Quatro números, 30 segundos, sem cadastro. Use seus dados reais — o resultado é só seu e não fica salvo em lugar nenhum.</p>
+  <div class="calc-lang-switch"><a href="/calculadora">PT</a><a href="/calculadora/en">EN</a><a href="/calculadora/de" class="active">DE</a></div>
+  <p class="kicker">Abwanderungsrechner</p>
+  <h1>Wie Viel Verlierst Du Durch Kunden, Die Kündigen?</h1>
+  <p class="lede">Vier Zahlen, 30 Sekunden, ohne Anmeldung. Nutze deine echten Zahlen: Das Ergebnis gehört nur dir und wird nirgendwo gespeichert.</p>
 
   <form id="calc" novalidate>
     <div class="field">
-      <label for="alunos">Quantos alunos ativos você tem hoje?</label>
-      <span class="hint">Todos que estão pagando agora, online e presencial.</span>
+      <label for="alunos">Wie viele aktive Kunden hast du heute?</label>
+      <span class="hint">Alle, die gerade zahlen, online und vor Ort.</span>
       <div class="input"><input id="alunos" type="number" inputmode="numeric" min="1" placeholder="150" required></div>
     </div>
     <div class="field">
-      <label for="ticket">Quanto um aluno paga por mês, em média?</label>
-      <span class="hint">Se tiver planos diferentes, uma média aproximada basta.</span>
+      <label for="ticket">Wie viel zahlt ein Kunde im Schnitt pro Monat?</label>
+      <span class="hint">Bei unterschiedlichen Plänen reicht ein ungefährer Durchschnitt.</span>
       <div class="input"><span>R$</span><input id="ticket" type="number" inputmode="decimal" min="1" placeholder="200" required></div>
     </div>
     <div class="field">
-      <label for="saidas">Quantos alunos saíram nos últimos 3 meses?</label>
-      <span class="hint">Cancelaram, sumiram ou pararam de pagar.</span>
+      <label for="saidas">Wie viele Kunden haben in den letzten 3 Monaten gekündigt?</label>
+      <span class="hint">Gekündigt, verschwunden oder haben aufgehört zu zahlen.</span>
       <div class="input"><input id="saidas" type="number" inputmode="numeric" min="0" placeholder="9" required></div>
     </div>
     <div class="field">
-      <label for="meses">Quantos meses um aluno costuma ficar com você?</label>
-      <span class="hint">Do primeiro pagamento até sair. Um chute honesto serve.</span>
+      <label for="meses">Wie viele Monate bleibt ein Kunde normalerweise bei dir?</label>
+      <span class="hint">Von der ersten Zahlung bis zur Kündigung. Eine ehrliche Schätzung reicht.</span>
       <div class="input"><input id="meses" type="number" inputmode="numeric" min="1" placeholder="8" required></div>
     </div>
-    <button type="submit">Calcular meu vazamento</button>
+    <button type="submit">Meine Abwanderung Berechnen</button>
     <p class="error" id="error" role="alert"></p>
   </form>
 
   <section id="gate" aria-live="polite">
     <div class="panel">
-      <h2>Veja Quanto Você Está Perdendo por Mês Sem Perceber</h2>
-      <p>Informe seu nome e WhatsApp pra ver o resultado agora, na tela.</p>
+      <h2>Sieh, Wie Viel Du Jeden Monat Verlierst, Ohne Es Zu Merken</h2>
+      <p>Gib deinen Namen und WhatsApp ein, um das Ergebnis jetzt auf dem Bildschirm zu sehen.</p>
       <form id="gate-form" novalidate>
         <div class="field">
-          <label for="gate-name">Nome</label>
+          <label for="gate-name">Name</label>
           <div class="input"><input id="gate-name" type="text" name="name" required></div>
         </div>
         <div class="field">
           <label for="gate-whatsapp">WhatsApp</label>
           <div class="input"><input id="gate-whatsapp" type="tel" name="whatsapp" required placeholder="(11) 91234-5678"></div>
         </div>
-        <button type="submit">Ver Meu Resultado</button>
+        <button type="submit">Mein Ergebnis Ansehen</button>
         <p class="error" id="gate-error" role="alert"></p>
       </form>
     </div>
@@ -212,47 +212,47 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
 
   <section id="result" aria-live="polite">
     <div id="normal">
-      <div class="alertbar"><i aria-hidden="true"></i><div><span class="dim">Próximos 90 dias, no ritmo atual:</span><br><span id="r-alert"></span></div></div>
+      <div class="alertbar"><i aria-hidden="true"></i><div><span class="dim">Nächste 90 Tage, beim aktuellen Tempo:</span><br><span id="r-alert"></span></div></div>
 
       <div class="card main">
-        <p class="label">Receita que para de entrar</p>
+        <p class="label">Umsatz, der wegfällt</p>
         <p class="value" id="r-mrr"></p>
-        <p class="sub">todo mês, até alguém novo ocupar o lugar desses alunos</p>
+        <p class="sub">jeden Monat, bis jemand Neues den Platz dieser Kunden einnimmt</p>
       </div>
       <div class="card">
-        <p class="label">Em 12 meses, se o ritmo continuar</p>
+        <p class="label">In 12 Monaten, wenn das Tempo anhält</p>
         <p class="value" id="r-ano"></p>
         <p class="sub" id="r-ano-sub"></p>
       </div>
       <div class="grid">
         <div class="card">
-          <p class="label">Churn mensal</p>
+          <p class="label">Monatliche Abwanderung</p>
           <p class="value" id="r-churn"></p>
-          <p class="sub">dos alunos saem por mês</p>
+          <p class="sub">der Kunden kündigen pro Monat</p>
         </div>
         <div class="card">
-          <p class="label">LTV médio</p>
+          <p class="label">Durchschnittlicher LTV</p>
           <p class="value" id="r-ltv"></p>
-          <p class="sub">quanto vale um aluno que fica o tempo médio</p>
+          <p class="sub">wie viel ein Kunde wert ist, der die durchschnittliche Zeit bleibt</p>
         </div>
       </div>
-      <p class="note">Conta conservadora: considera o mesmo ritmo de saída dos últimos 3 meses, que cada aluno sai no fim do mês, e que ninguém entra para repor. Não inclui o custo de conquistar alunos novos.</p>
+      <p class="note">Konservative Schätzung: Geht vom gleichen Abwanderungstempo der letzten 3 Monate aus, davon, dass jeder Kunde am Monatsende kündigt, und dass niemand nachrückt. Berücksichtigt nicht die Kosten für die Gewinnung neuer Kunden.</p>
     </div>
 
     <div id="zero" class="special" hidden>
-      <p><strong>Nenhuma saída nos últimos 3 meses?</strong> Se for verdade, seu negócio está num lugar raro. Se a resposta veio de cabeça, vale conferir: aluno que some sem avisar e pagamento em dinheiro que não foi anotado costumam não aparecer em lugar nenhum — e são justamente as saídas mais caras, porque ninguém percebe.</p>
+      <p><strong>Keine Kündigung in den letzten 3 Monaten?</strong> Wenn das stimmt, ist dein Geschäft an einem seltenen Punkt. Falls die Antwort aus dem Bauch kam, lohnt sich ein Blick: Kunden, die ohne Ankündigung verschwinden, und Barzahlungen, die nie erfasst wurden, tauchen meist nirgendwo auf, und genau das sind die teuersten Abgänge, weil sie niemand bemerkt.</p>
     </div>
 
     <div class="panel">
-      <h2>A calculadora mostra quantos. Não mostra quais.</h2>
-      <p>O <strong>Meridian Fitness Hub</strong> mostra quem são esses alunos, pelo nome, antes de eles saírem: quem faltou check-in, quem parou de responder, quem está com pagamento atrasado. Você recebe o aviso enquanto ainda dá tempo de conversar.</p>
-      <a class="cta" id="cta" href="https://www.meridianstrategy.de/index-pt.html?utm_source=calculadora&utm_medium=ferramenta&utm_campaign=vazamento#waitlist" target="_blank" rel="noopener">Testar 14 dias grátis</a>
-      <p class="cta-sub">Sem cartão · 20 vagas nesta fase</p>
+      <h2>Der Rechner Zeigt Wie Viele. Er Zeigt Nicht, Wer.</h2>
+      <p>Der <strong>Meridian Fitness Hub</strong> zeigt dir, wer diese Kunden sind, namentlich, bevor sie kündigen: wer den Check-in verpasst hat, wer nicht mehr antwortet, wer mit der Zahlung im Rückstand ist. Du bekommst die Warnung, solange noch Zeit für ein Gespräch bleibt.</p>
+      <a class="cta" id="cta" href="https://www.meridianstrategy.de/index-de.html?utm_source=calculadora&utm_medium=ferramenta&utm_campaign=vazamento#waitlist" target="_blank" rel="noopener">14 Tage Kostenlos Testen</a>
+      <p class="cta-sub">Keine Kreditkarte &middot; 20 Plätze in dieser Phase</p>
     </div>
 
     <div class="share-box">
-      <p>Conhece um personal que precisa ver o número dele?</p>
-      <a class="share" id="share" href="#" target="_blank" rel="noopener">Mandar a calculadora no WhatsApp</a>
+      <p>Kennst du einen Trainer, der seine Zahl sehen muss?</p>
+      <a class="share" id="share" href="#" target="_blank" rel="noopener">Rechner per WhatsApp Teilen</a>
     </div>
   </section>
 
@@ -261,13 +261,13 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
 
 <script>
 (function(){
-  var brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
-  var pct = new Intl.NumberFormat('pt-BR',{maximumFractionDigits:1});
+  var brl = new Intl.NumberFormat('de-DE',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+  var pct = new Intl.NumberFormat('de-DE',{maximumFractionDigits:1});
   var $ = function(id){ return document.getElementById(id); };
   function num(id){ var v = $(id).value.replace(',', '.'); return v === '' ? NaN : Number(v); }
-  function plural(n, um, varios){ return n === 1 ? um : varios; }
+  function plural(n, one, many){ return n === 1 ? one : many; }
 
-  $('share').href = 'https://wa.me/?text=' + encodeURIComponent('Calculei quanto vou perder com alunos que vão sair. Faz a sua em 30 segundos: ' + window.location.href);
+  $('share').href = 'https://wa.me/?text=' + encodeURIComponent('Ich habe gerade berechnet, wie viel ich durch kündigende Kunden verliere. Mach deine in 30 Sekunden: ' + window.location.href);
 
   $('calc').addEventListener('submit', function(e){
     e.preventDefault();
@@ -275,10 +275,10 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
     var err = $('error'); err.textContent = '';
 
     if (!(alunos >= 1) || !(ticket > 0) || !(saidas >= 0) || !(meses >= 1)) {
-      err.textContent = 'Preencha os quatro campos com números para calcular.'; return;
+      err.textContent = 'Fülle alle vier Felder mit Zahlen aus, um zu berechnen.'; return;
     }
     if (saidas > alunos * 3) {
-      err.textContent = 'As saídas estão muito acima da sua base atual. Confere os números antes de calcular.'; return;
+      err.textContent = 'Die Anzahl der Kündigungen liegt weit über deiner aktuellen Basis. Prüfe die Zahlen vor der Berechnung.'; return;
     }
     alunos = Math.round(alunos); saidas = Math.round(saidas); meses = Math.round(meses);
 
@@ -292,13 +292,13 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
       $('normal').hidden = false; $('zero').hidden = true;
       var porMes = saidas / 3;
       var mrrPerdido = saidas * ticket;
-      var anual = ticket * porMes * 66; // saída no fim do mês k => perde (12 - k) meses no ano; soma = 66
+      var anual = ticket * porMes * 66; // Kündigung am Monatsende k => verliert (12 - k) Monate im Jahr; Summe = 66
       var n12 = saidas * 4;
 
-      $('r-alert').textContent = saidas + ' ' + plural(saidas, 'aluno', 'alunos') + ' — ' + brl.format(mrrPerdido) + ' em risco';
-      $('r-mrr').textContent = brl.format(mrrPerdido) + '/mês';
+      $('r-alert').textContent = saidas + ' ' + plural(saidas, 'Kunde', 'Kunden') + ', ' + brl.format(mrrPerdido) + ' gefährdet';
+      $('r-mrr').textContent = brl.format(mrrPerdido) + '/Monat';
       $('r-ano').textContent = brl.format(anual);
-      $('r-ano-sub').textContent = 'a menos, com ' + n12 + ' ' + plural(n12, 'aluno saindo', 'alunos saindo') + ' ao longo do ano';
+      $('r-ano-sub').textContent = 'weniger, bei ' + n12 + ' kündigenden ' + plural(n12, 'Kunden', 'Kunden') + ' im Laufe des Jahres';
       $('r-churn').textContent = pct.format(porMes / alunos * 100) + '%';
       $('r-ltv').textContent = brl.format(ticket * meses);
     }
@@ -315,14 +315,14 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
     var gateErr = $('gate-error'); gateErr.textContent = '';
 
     if (!name || !whatsapp) {
-      gateErr.textContent = 'Preencha nome e WhatsApp pra ver o resultado.'; return;
+      gateErr.textContent = 'Gib Namen und WhatsApp ein, um das Ergebnis zu sehen.'; return;
     }
 
     var payload = {
       name: name,
       whatsapp: whatsapp,
       source: 'calculadora',
-      lang: 'pt',
+      lang: 'de',
       page: window.location.href
     };
 
@@ -336,7 +336,7 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
       var r = $('result'); r.classList.add('show');
       r.scrollIntoView({behavior:'smooth', block:'start'});
     }).catch(function () {
-      gateErr.textContent = 'Algo deu errado. Tente novamente.';
+      gateErr.textContent = 'Etwas ist schiefgelaufen. Bitte versuche es erneut.';
     });
   });
 })();

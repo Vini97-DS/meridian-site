@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meridian | Data & AI Consulting</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Meta Pixel Code (network load deferred until cookie consent is accepted, see the cookie banner script) -->
+    <script>
+        function loadMetaPixel() {
+            if (window.fbqLoaded) return;
+            window.fbqLoaded = true;
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '851834087957988');
+            fbq('track', 'PageView');
+        }
+    </script>
+    <!-- End Meta Pixel Code -->
+
+    <style>
+        /* RESET & BASE */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        :root {
+            --navy: #013A40;    --silver: #C7D3D1;  --gold: #02C39A;
+            --white: #FFFFFF;   --bg-light: #F2F7F6;  --primary: #028090;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--navy);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* SOLID NAVBAR */
+        header {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            background-color: var(--navy);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo-img { height: 80px; width: auto; transition: transform 0.3s; }
+
+        .nav-links { list-style: none; display: flex; gap: 40px; }
+        .nav-links a {
+            color: var(--silver);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--white); }
+
+        /* LANGUAGE SELECTOR */
+        .lang-switch {
+            display: flex; gap: 15px; margin-left: 30px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 30px; align-items: center;
+        }
+        .lang-switch a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none; font-size: 0.75rem;
+            font-weight: 600; letter-spacing: 1px;
+        }
+        .lang-switch a.active { color: var(--gold); }
+
+        /* MAIN NAV HIERARCHY */
+        .nav-links .nav-hub { color: var(--white); font-weight: 700; font-size: 0.85rem; }
+        .nav-links .nav-calc { color: var(--gold); font-weight: 600; }
+        .nav-links .nav-consulting { color: rgba(255,255,255,0.35); font-size: 0.7rem; }
+        .nav-links .nav-consulting:hover { color: rgba(255,255,255,0.6); }
+
+        /* GENERIC EYEBROW LABEL */
+        .eyebrow {
+            font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 800;
+            letter-spacing: 2.5px; color: var(--gold); margin-bottom: 18px; display: inline-block;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
+            background-color: var(--navy);
+            background-image:
+                radial-gradient(ellipse 900px 600px at 80% 10%, rgba(197,160,89,0.16), transparent 60%),
+                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+            background-size: auto, 46px 46px, 46px 46px;
+        }
+        .hero h1 { color: var(--silver); font-size: 2.2rem; max-width: 920px; margin: 0 auto 20px auto; letter-spacing: 1px; line-height: 1.3; }
+        .hero h2 { font-size: 1.1rem; font-weight: 300; margin-bottom: 30px; color: var(--silver); letter-spacing: 3px; opacity: 0.85; }
+        .hero p { max-width: 650px; margin: 0 auto 40px auto; font-size: 1.05rem; color: rgba(255,255,255,0.75); }
+
+        .btn-gold {
+            background-color: var(--gold); color: var(--navy);
+            padding: 18px 40px; text-decoration: none;
+            font-weight: 700; border-radius: 2px; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s;
+            display: inline-block; cursor: pointer; border: none;
+        }
+        .btn-gold:hover { background-color: #00A896; transform: translateY(-2px); }
+
+        /* PROBLEM */
+        .problem { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
+        .problem p.lead { color: #4B6367; max-width: 700px; margin: 0 auto; }
+        .problem-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px; margin-top: 60px; text-align: left;
+        }
+        .problem-card { background-color: var(--bg-light); border: 1px solid #E2E8F0; padding: 40px 32px; }
+        .problem-card h3 { font-size: 1.2rem; color: var(--navy); margin-bottom: 14px; letter-spacing: 1px; overflow-wrap: break-word; hyphens: auto; }
+        .problem-card p { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; }
+
+        /* PRODUCT FEATURES */
+        .product { background-color: #012B30; padding: 120px 0; text-align: center; }
+        .product p.lead { color: rgba(255,255,255,0.6); max-width: 700px; margin: 0 auto; }
+        .feature-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px; margin-top: 60px; text-align: left;
+        }
+        .feature-card { background-color: rgba(255,255,255,0.02); border: 1px solid rgba(193,200,209,0.1); padding: 36px 30px; }
+        .feature-card h3 { color: var(--silver); font-size: 1.15rem; margin-bottom: 14px; letter-spacing: 1px; overflow-wrap: break-word; hyphens: auto; }
+        .feature-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: none; letter-spacing: normal; }
+
+        /* HUB TOUR (ZIGZAG) */
+        .hub-tour { background-color: var(--white); color: var(--navy); padding: 120px 0; }
+        .hub-tour-intro { text-align: center; margin-bottom: 90px; }
+        .hub-tour-intro p.lead { color: #4B6367; max-width: 650px; margin: 0 auto; }
+        .tour-row {
+            display: grid; grid-template-columns: 3fr 2fr; gap: 60px; align-items: center;
+            margin-bottom: 110px;
+        }
+        .tour-row:last-child { margin-bottom: 0; }
+        .tour-row.reverse { grid-template-columns: 2fr 3fr; }
+        .tour-row.reverse .tour-image { order: 2; }
+        .tour-row.reverse .tour-text { order: 1; }
+        .tour-image { cursor: zoom-in; position: relative; }
+        .tour-image img {
+            width: 100%; display: block; border-radius: 2px; border: 1px solid rgba(8,19,33,0.08);
+            box-shadow: 0 25px 50px -12px rgba(8,19,33,0.25); cursor: zoom-in;
+        }
+        .tour-text { text-align: left; }
+        .tour-text h3 { font-size: 1.6rem; letter-spacing: 1px; margin-bottom: 20px; color: var(--navy); }
+        .tour-text p { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; margin-bottom: 16px; }
+        .tour-text p:last-child { margin-bottom: 0; }
+
+        /* LIGHTBOX */
+        .lightbox-overlay {
+            display: none; position: fixed; inset: 0; z-index: 1000;
+            background: rgba(1,58,64,0.92);
+            align-items: center; justify-content: center; padding: 40px;
+        }
+        .lightbox-overlay.active { display: flex; }
+        .lightbox-content { max-width: 92vw; max-height: 88vh; }
+        .lightbox-content img, .lightbox-content video {
+            max-width: 92vw; max-height: 88vh; display: block; border-radius: 2px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        }
+        .lightbox-close {
+            position: fixed; top: 24px; right: 32px; background: transparent; border: none;
+            color: var(--white); font-size: 2.4rem; line-height: 1; cursor: pointer; z-index: 1001;
+        }
+
+        /* PRICING */
+        .pricing { background-color: #012B30; padding: 120px 0; text-align: center; }
+        .pricing p.lead { color: rgba(255,255,255,0.6); max-width: 650px; margin: 0 auto; }
+        .pricing-banner {
+            max-width: 720px; margin: 36px auto 0 auto; padding: 20px 28px;
+            background-color: rgba(2,195,154,0.08); border: 1px solid rgba(2,195,154,0.35);
+            border-radius: 4px; text-align: center;
+        }
+        .pricing-banner-title {
+            font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 800;
+            letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+        }
+        .pricing-banner-sub { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
+        .pricing-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px; margin-top: 60px; text-align: left; align-items: stretch;
+        }
+        .pricing-card {
+            background-color: var(--white); color: var(--navy); border: 1px solid rgba(2,195,154,0.15);
+            border-radius: 2px; padding: 48px 40px; position: relative;
+            display: flex; flex-direction: column;
+        }
+        .pricing-card.featured { border: 2px solid var(--gold); box-shadow: 0 25px 50px -12px rgba(2,195,154,0.3); }
+        .pricing-badge {
+            position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+            background-color: var(--gold); color: var(--navy); font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 6px 18px; border-radius: 2px; white-space: nowrap;
+        }
+        .plan-name {
+            font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 800;
+            letter-spacing: 2px; color: var(--primary); text-transform: uppercase; margin-bottom: 16px;
+        }
+        .plan-price { font-family: 'Montserrat', sans-serif; font-size: 2.3rem; font-weight: 800; color: var(--navy); letter-spacing: 0.5px; }
+        .plan-price span { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 400; text-transform: none; letter-spacing: normal; color: #4B6367; }
+        .plan-billed { font-size: 0.85rem; color: #4B6367; margin-top: 6px; margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid #E2E8F0; }
+        .plan-features { list-style: none; margin-bottom: 32px; flex-grow: 1; }
+        .plan-features li { font-size: 0.9rem; color: #334155; padding: 10px 0; display: flex; gap: 10px; align-items: flex-start; }
+        .plan-features li::before { content: '\2713'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+        .pricing-card .btn-navy { width: 100%; text-align: center; margin-top: 0; }
+        .pricing-note { margin-top: 40px; color: rgba(255,255,255,0.45); font-size: 0.8rem; letter-spacing: 0.3px; }
+
+        /* WAITLIST */
+        .waitlist { background-color: var(--silver); color: var(--navy); padding: 120px 0; text-align: center; }
+        .waitlist p.lead { color: #3d4b58; max-width: 600px; margin: 0 auto; }
+        .waitlist-form { max-width: 560px; margin: 50px auto 0 auto; text-align: left; background: var(--white); padding: 48px; border: 1px solid rgba(8,19,33,0.08); }
+        .form-row { margin-bottom: 24px; }
+        .form-row label {
+            display: block; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 1.5px; color: var(--navy); margin-bottom: 10px; text-transform: uppercase;
+        }
+        .form-row input[type="text"], .form-row textarea {
+            width: 100%; padding: 14px 16px; border: 1px solid #CBD5E1; font-family: 'Inter', sans-serif;
+            font-size: 0.95rem; background: var(--bg-light); color: var(--navy);
+        }
+        .form-row textarea { resize: vertical; }
+        .radio-pills { display: flex; gap: 24px; flex-wrap: wrap; }
+        .radio-pills label {
+            display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+            font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--navy); margin-bottom: 0;
+        }
+        .radio-pills input[type="radio"] { accent-color: var(--gold); width: 16px; height: 16px; }
+        .waitlist-form button { width: 100%; margin-top: 10px; }
+        .form-status { margin-top: 18px; font-size: 0.85rem; color: var(--navy); min-height: 1.2em; }
+
+        /* CONSULTING DIVIDER */
+        .consulting-intro { padding: 90px 0 0 0; text-align: center; }
+        .consulting-intro h3 { color: var(--silver); font-size: 1.3rem; margin-bottom: 14px; }
+        .consulting-intro p { color: rgba(255,255,255,0.5); max-width: 600px; margin: 0 auto; font-size: 0.9rem; }
+
+        /* FOCUS (CONSULTING) */
+        .solutions { background-color: var(--white); color: var(--navy); padding: 120px 0; text-align: center; }
+        .solutions p.lead { color: #4B6367; max-width: 700px; margin: 0 auto; }
+        .focus-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px; margin-top: 60px; text-align: left;
+        }
+        .focus-card {
+            background-color: var(--bg-light); border: 1px solid #E2E8F0; border-top: 3px solid var(--gold);
+            padding: 48px 42px; position: relative; transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .focus-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(8,19,33,0.08); }
+        .focus-card .eyebrow {
+            font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 800;
+            letter-spacing: 2px; color: var(--gold); margin-bottom: 18px; display: block;
+        }
+        .focus-card h3 { font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 18px; color: var(--navy); }
+        .focus-card p.desc { font-size: 0.95rem; color: #475569; text-transform: none; letter-spacing: normal; margin-bottom: 22px; }
+        .focus-card .ideal {
+            font-size: 0.85rem; font-weight: 600; color: var(--navy);
+            text-transform: none; letter-spacing: normal; border-top: 1px solid #E2E8F0; padding-top: 18px;
+        }
+        .focus-card .ideal b { color: var(--gold); font-weight: 700; }
+
+        /* PERFORMANCE LABS - CAROUSEL */
+        .labs { padding: 120px 0; background-color: #012B30; }
+        .case-grid { display: none; grid-template-columns: 3fr 2fr; gap: 40px; align-items: flex-start; }
+        .case-grid.active { display: grid; animation: fadeIn 0.6s ease forwards; }
+
+        .dashboard-container {
+            width: 100%; background: #000; border: 1px solid rgba(193, 200, 209, 0.1);
+            border-radius: 2px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .dashboard-wrapper { position: relative; padding-top: 95%; height: 0; }
+        .dashboard-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* METHODOLOGY */
+        .methodology { padding: 120px 0; text-align: center; }
+        .timeline { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 60px; }
+        .step { flex: 1; min-width: 260px; background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(193, 200, 209, 0.1); padding: 40px 25px; }
+
+        /* CONTACT */
+        .contact { background-color: var(--silver); color: var(--navy); padding: 100px 0; text-align: center; }
+        .btn-navy { background-color: var(--navy); color: var(--white); padding: 18px 45px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 30px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
+
+        /* FAQ */
+        .faq { padding: 120px 0; text-align: center; }
+        .faq-list { max-width: 760px; margin: 60px auto 0 auto; text-align: left; }
+        .faq-item { background-color: rgba(255, 255, 255, 0.02); border: 1px solid rgba(193, 200, 209, 0.1); margin-bottom: 16px; padding: 6px 30px; }
+        .faq-item summary { cursor: pointer; padding: 22px 0; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; letter-spacing: 1px; color: var(--silver); list-style: none; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '+'; float: right; color: var(--gold); font-size: 1.3rem; }
+        .faq-item[open] summary::after { content: '\2212'; }
+        .faq-item p { padding-bottom: 24px; color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: none; letter-spacing: normal; }
+
+        footer { padding: 40px 0; background-color: #011E22; color: rgba(255, 255, 255, 0.3); text-align: center; font-size: 0.75rem; }
+
+        /* COOKIE CONSENT BANNER */
+        .cookie-banner {
+            display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 2000;
+            background-color: var(--navy); color: var(--white);
+            padding: 22px 32px; box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .cookie-banner.visible { display: flex; }
+        .cookie-banner p {
+            font-size: 0.85rem; color: rgba(255,255,255,0.8); max-width: 640px; margin: 0;
+            text-transform: none; letter-spacing: normal; font-family: 'Inter', sans-serif;
+        }
+        .cookie-banner-actions { display: flex; gap: 12px; flex-shrink: 0; }
+        .cookie-btn {
+            font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase; padding: 12px 24px; border-radius: 2px;
+            cursor: pointer; border: none; transition: all 0.2s;
+        }
+        .cookie-btn-accept { background-color: var(--gold); color: var(--navy); }
+        .cookie-btn-accept:hover { background-color: #00A896; }
+        .cookie-btn-decline { background-color: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.3); }
+        .cookie-btn-decline:hover { border-color: var(--white); }
+
+        /* KEYFRAMES */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 20px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 14px 24px; }
+            .hero h1 { font-size: 1.9rem; }
+            .hero h2 { font-size: 0.9rem; }
+            .case-grid { grid-template-columns: 1fr; }
+            .focus-grid { grid-template-columns: 1fr; }
+            .tour-row, .tour-row.reverse { grid-template-columns: 1fr; gap: 24px; margin-bottom: 60px; }
+            .tour-row.reverse .tour-image { order: 1; }
+            .tour-row.reverse .tour-text { order: 2; }
+            .waitlist-form { padding: 32px 24px; }
+            .lang-switch { margin-left: 0; border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-left: 0; padding-top: 15px; margin-top: 5px; }
+            .cookie-banner { flex-direction: column; text-align: center; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cookie-banner" id="cookie-banner">
+        <p>We use cookies to understand how visitors use this site. You can accept or decline non-essential cookies at any time.</p>
+        <div class="cookie-banner-actions">
+            <button class="cookie-btn cookie-btn-decline" onclick="handleCookieConsent(false)">Decline</button>
+            <button class="cookie-btn cookie-btn-accept" onclick="handleCookieConsent(true)">Accept</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="container navbar">
+            <a href="index.html"><img src="Ativo 8 copy.png" alt="Meridian Logo" class="logo-img"></a>
+            <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center;">
+                <ul class="nav-links">
+                    <li><a href="index.html#product" class="nav-hub">Fitness Hub</a></li>
+                    <li><a href="/calculadora/en" class="nav-calc">Calculator</a></li>
+                    <li><a href="consulting.html" class="nav-consulting">Consulting</a></li>
+                </ul>
+                <div class="lang-switch">
+                    <a href="consulting.html" class="active">EN</a>
+                    <a href="consulting-pt.html">PT</a>
+                    <a href="consulting-de.html">DE</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <span class="eyebrow">Consulting</span>
+            <h1>Data & AI Consulting for Mid-Market Businesses</h1>
+            <h2>The Same Engineering Discipline Behind the Hub, Applied to Your Business</h2>
+            <p>Data diagnostics, cloud architecture, and executive dashboards with AI for mid-market businesses that need better decisions, faster.</p>
+            <a href="#contact" class="btn-gold">Book a Diagnostic</a>
+        </div>
+    </section>
+
+    <section id="solutions" class="solutions">
+        <div class="container">
+            <h2>How We Work With You</h2>
+            <p class="lead">Three ways to start: from a fast diagnostic to a full performance partnership.</p>
+            <div class="focus-grid">
+                <div class="focus-card">
+                    <span class="eyebrow">Fast-Track Entry</span>
+                    <h3>Diagnostic + Dashboard</h3>
+                    <p class="desc">A fixed-scope, 2–3 week project: we map your data, deliver a custom dashboard, and hand you an initial action plan. No recurring commitment required.</p>
+                    <p class="ideal">Best for: <b>businesses that need to get their house in order before scaling.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Direct Advisory</span>
+                    <h3>1:1 Strategic Sessions</h3>
+                    <p class="desc">Recurring working sessions focused on your specific numbers, reviewing performance, unblocking decisions, and adjusting priorities as your business moves.</p>
+                    <p class="ideal">Best for: <b>founders who want a strategic partner in the room, not just a report.</b></p>
+                </div>
+                <div class="focus-card">
+                    <span class="eyebrow">Full Engagement</span>
+                    <h3>Infrastructure &amp; Intelligence Build</h3>
+                    <p class="desc">End-to-end delivery: data pipelines, cloud architecture, and AI-powered executive dashboards, the same methodology behind the Fitness Performance Hub, applied to your business.</p>
+                    <p class="ideal">Best for: <b>businesses ready to build the system, not just see a snapshot of it.</b></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="labs" class="labs">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="color: var(--silver); font-size: 2.5rem; margin-bottom: 10px;">Performance Labs</h2>
+                <p style="color: rgba(255,255,255,0.5); letter-spacing: 2px;">WHERE DATA ARCHITECTURE MEETS BUSINESS STRATEGY</p>
+            </div>
+
+            <div class="carousel-container" style="position: relative;">
+
+                <!-- ── SLIDE 01: EBITDA OPTIMIZATION ── -->
+                <div class="case-grid carousel-slide active">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/ebitda_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Strategic Finance: EBITDA Optimization</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">A 5-year P&L model for a fintech operation lacked the granularity to track margin erosion across revenue streams, Interchange, FX and Interest, while managing churn, CAC and OPEX growth simultaneously. Financial decisions were made without a clear bridge between top-line growth and bottom-line protection.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Full FP&A architecture built from scratch: revenue decomposition by stream, variable cost modeling per cohort, and OPEX growth controls tied to client acquisition. A waterfall P&L structure exposed the exact levers driving margin, taking EBITDA from 2.66% in Year 1 to 23.63% in Year 5 with a 2,199% absolute gain.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">+2,199%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EBITDA GROWTH Y1→Y5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">23.6%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EBITDA MARGIN YEAR 5</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">2,218B</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">TOTAL REVENUE YEAR 5</p></div>
+                        </div>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
+                    </div>
+                </div>
+
+                <!-- ── SLIDE 02: AI PRICING ENGINE ── -->
+                <div class="case-grid carousel-slide">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/ai_pricing_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Dynamic Pricing Engine (AI)</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Price 354K used vehicles in real-time for a consumer marketplace app, requiring high prediction accuracy to prevent margin erosion and maximize conversion rates.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Benchmarked 3 models (Linear Regression, Random Forest, LightGBM) across quality, training speed and prediction latency. LightGBM won on all fronts: lowest REQM at €1,670, trained in 12.9s and predicts in 0.25s, enabling a seamless real-time user experience.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">€1,670</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">BEST REQM</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.25s</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PREDICTION LATENCY</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">354K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">VEHICLES ANALYZED</p></div>
+                        </div>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
+                    </div>
+                </div>
+
+                <!-- ── SLIDE 03: CAPEX OPTIMIZATION ── -->
+                <div class="case-grid carousel-slide">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/capex_oil_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">CapEx Risk Intelligence (AI)</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Allocate a $100M Capital Expenditure budget across 3 oil exploration regions, with a hard mandate that loss probability must stay below 2.5%. Two of three regions failed this threshold.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Linear Regression model trained on 300K well records (REQM 0.89) combined with 1,000 Bootstrap simulations to stress-test profitability. Region 1 emerged as the sole viable candidate: highest expected return at $6.65M with only 0.20% loss risk.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$6.65M</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">EXPECTED PROFIT</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.20%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">LOSS RISK</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">0.89</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MODEL REQM</p></div>
+                        </div>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
+                    </div>
+                </div>
+
+                <!-- ── SLIDE 04: REVENUE & MARGIN (PIZZARIA) ── -->
+                <div class="case-grid carousel-slide">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/pizzaria_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Revenue & Margin Optimization</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">48,620 transactions revealed a critical imbalance: 59.5% of annual revenue was generated between 12PM and 5PM, while the evening/closing shift consumed proportional labor and inventory for only 8.1% of total revenue, a direct drag on operating margin.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Data-driven shift reallocation: 50% of workforce and stock redirected to the 12PM–5PM peak window. KPI deployment aligned logistics to real-time demand patterns, exposing Friday as the highest-yield day (+37% vs Sunday) and Large pizzas as the top revenue driver at 45.9% of total sales.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">59.5%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PEAK WINDOW SHARE</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">−7.2%</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">NIGHT OPEX REDUCTION</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">$817K</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">ANNUAL REVENUE MAPPED</p></div>
+                        </div>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
+                    </div>
+                </div>
+
+                <!-- ── SLIDE 05: IMMIGRATION INTELLIGENCE ── -->
+                <div class="case-grid carousel-slide">
+                    <div class="dashboard-container">
+                        <div class="dashboard-wrapper">
+                            <iframe src="/labs/immigration_intelligence_dashboard.html" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--gold); font-size: 1.8rem; margin-bottom: 25px;">Immigration Intelligence (AI)</h3>
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE CHALLENGE</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Immigration consulting firms make critical timing decisions based on intuition. Over 10 years of IRCC public data remained unexplored as a strategic asset.</p>
+                        </div>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="color: var(--silver); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 5px;">THE STRATEGY</h4>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">GradientBoosting model trained on 482K+ IRCC admission records to predict approval windows by visa category and province, identifying Q1 as the peak approval quarter for Brazilian applicants.</p>
+                        </div>
+                        <div style="margin-bottom: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">482K+</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">RECORDS ANALYZED</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">R2 0.79</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">MODEL ACCURACY</p></div>
+                            <div><h4 style="color: var(--gold); font-size: 1.4rem;">Q1</h4><p style="color: rgba(255,255,255,0.4); font-size: 0.65rem;">PEAK APPROVAL WINDOW</p></div>
+                        </div>
+                        <a href="mailto:contact@meridianstrategy.de" class="btn-gold" style="font-size: 0.75rem;">Request a Performance Audit</a>
+                    </div>
+                </div>
+
+            </div><!-- end carousel-container -->
+
+            <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 50px;">
+                <button onclick="prevSlide()" style="background: transparent; border: 1px solid var(--silver); color: var(--gold); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: all 0.3s;">&#10094;</button>
+                <span id="slide-indicator" style="color: var(--silver); letter-spacing: 3px; font-size: 0.9rem; font-weight: 600;">01 / 05</span>
+                <button onclick="nextSlide()" style="background: transparent; border: 1px solid var(--silver); color: var(--gold); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: all 0.3s;">&#10095;</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="about" class="methodology">
+        <div class="container">
+            <h2>Delivery Methodology</h2>
+            <div class="timeline">
+                <div class="step"><h3>01. Discovery</h3><p>Technical and financial audit to establish a performance baseline.</p></div>
+                <div class="step"><h3>02. Infrastructure</h3><p>Implementation of data pipelines and cloud architecture.</p></div>
+                <div class="step"><h3>03. Intelligence</h3><p>Deployment of AI models and executive dashboards.</p></div>
+                <div class="step"><h3>04. Performance</h3><p>Ongoing sessions focused on profit-target achievement.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Maximize Your Business EBITDA</h2>
+            <p>Direct strategic dialogue for mid-market scale and efficiency.</p>
+            <a href="mailto:contact@meridianstrategy.de" class="btn-navy">Schedule Diagnostic</a>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="container"><p>&copy; 2026 MERIDIAN STRATEGY & PERFORMANCE. ALL RIGHTS RESERVED.</p></div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicator = document.getElementById('slide-indicator');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            const total = slides.length;
+            const current = index + 1;
+            indicator.innerText = `0${current} / 0${total}`;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function handleCookieConsent(accepted) {
+            localStorage.setItem('meridian_cookie_consent', accepted ? 'accepted' : 'declined');
+            const banner = document.getElementById('cookie-banner');
+            if (banner) banner.classList.remove('visible');
+            if (accepted) loadMetaPixel();
+        }
+
+        (function initCookieConsent() {
+            const consent = localStorage.getItem('meridian_cookie_consent');
+            if (consent === 'accepted') {
+                loadMetaPixel();
+            } else if (!consent) {
+                const banner = document.getElementById('cookie-banner');
+                if (banner) banner.classList.add('visible');
+            }
+        })();
+    </script>
+</body>
+</html>
