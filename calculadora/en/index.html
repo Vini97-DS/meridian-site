@@ -53,6 +53,21 @@ body{margin:0;background:var(--navy);color:var(--white);font-family:var(--sans);
   font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%;}
 .wrap{max-width:34rem;margin:0 auto;padding:2.4rem 1.25rem 3rem;}
 
+.container{max-width:1200px;margin:0 auto;padding:0 24px;width:100%;}
+header{background:var(--navy2);border-bottom:1px solid var(--line);}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:16px 0;}
+.logo-img{height:52px;width:auto;}
+.nav-links{list-style:none;display:flex;gap:32px;margin:0;padding:0;}
+.nav-links a{color:var(--dim);text-decoration:none;font-family:var(--sans);font-size:.78rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--white);}
+.nav-links .nav-hub{color:var(--white);font-weight:700;}
+.nav-links .nav-calc{color:var(--gold);font-weight:700;}
+.nav-links .nav-consulting{color:var(--dim);font-size:.68rem;}
+@media (max-width:600px){
+  .navbar{flex-direction:column;gap:12px;padding:16px 0;}
+  .nav-links{gap:16px;flex-wrap:wrap;justify-content:center;}
+}
+
 .kicker{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--gold);margin:0 0 .8rem;}
 h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,8vw,2.6rem);
@@ -160,11 +175,21 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
         <button class="cookie-btn cookie-btn-accept" onclick="handleCookieConsent(true)">Accept</button>
     </div>
 </div>
+<header>
+    <div class="container navbar">
+        <a href="/index.html"><img src="/Ativo 8 copy.png" alt="Meridian Logo" class="logo-img"></a>
+        <ul class="nav-links">
+            <li><a href="/index.html#product" class="nav-hub">Fitness Hub</a></li>
+            <li><a href="/calculadora/en" class="nav-calc">Risk Calculator</a></li>
+            <li><a href="/consulting.html" class="nav-consulting">Consulting</a></li>
+        </ul>
+    </div>
+</header>
 <main class="wrap">
   <div class="calc-lang-switch"><a href="/calculadora">PT</a><a href="/calculadora/en" class="active">EN</a><a href="/calculadora/de">DE</a></div>
   <p class="kicker">Leak Calculator</p>
-  <h1>How Much Will You Lose From Students Who Quit?</h1>
-  <p class="lede">Four numbers, 30 seconds, no signup. Use your real numbers: the result is yours alone and isn't saved anywhere.</p>
+  <h1>Cancellation Risk Calculator</h1>
+  <p class="lede">Find out how many students are close to canceling right now and how much that represents in monthly revenue.</p>
 
   <form id="calc" novalidate>
     <div class="field">
