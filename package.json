@@ -1,0 +1,9 @@
+{
+  "name": "meridian-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Meridian Strategy & Performance marketing site (static) plus the /api/lead serverless function.",
+  "dependencies": {
+    "pg": "^8.11.3"
+  }
+}

@@ -139,6 +139,20 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
 .calc-lang-switch a{color:var(--dim);text-decoration:none;margin-left:.5rem;}
 .calc-lang-switch a.active{color:var(--gold);}
 
+.whatsapp-float{
+  position:fixed; bottom:24px; right:24px; z-index:1500;
+  width:56px; height:56px; border-radius:50%; background:#25D366;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 6px 20px rgba(0,0,0,.3); text-decoration:none;
+  transition:transform .2s;
+}
+.whatsapp-float:hover{transform:scale(1.08);}
+.whatsapp-float svg{width:30px;height:30px;display:block;}
+@media (max-width:480px){
+  .whatsapp-float{bottom:16px;right:16px;width:50px;height:50px;}
+  .whatsapp-float svg{width:26px;height:26px;}
+}
+
 /* BANNER DE CONSENTIMENTO DE COOKIES */
 .cookie-banner{
   display:none; position:fixed; left:0; right:0; bottom:0; z-index:2000;
@@ -331,7 +345,7 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
     gate.scrollIntoView({behavior:'smooth', block:'start'});
   });
 
-  var WAITLIST_ENDPOINT = "https://script.google.com/macros/s/AKfycbyk8GDGsEpUa89Y_AA3M9ooQlugtoYHs8AOad5lh0yvRq6upZSQB_o9BwWPfq14l3Oz6g/exec";
+  var LEAD_ENDPOINT = "/api/lead";
 
   $('gate-form').addEventListener('submit', function(e){
     e.preventDefault();
@@ -351,12 +365,12 @@ footer{margin-top:2.8rem;text-align:center;font-family:var(--mono);font-size:.72
       page: window.location.href
     };
 
-    fetch(WAITLIST_ENDPOINT, {
+    fetch(LEAD_ENDPOINT, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).then(function () {
+    }).then(function (res) {
+      if (!res.ok) throw new Error('request failed');
       $('gate').classList.remove('show');
       var r = $('result'); r.classList.add('show');
       r.scrollIntoView({behavior:'smooth', block:'start'});
@@ -383,5 +397,8 @@ function handleCookieConsent(accepted) {
     }
 })();
 </script>
+    <a href="https://wa.me/4915204066998?text=Ol%C3%A1!%20Vim%20do%20site%20da%20Meridian%20e%20queria%20saber%20mais%20sobre%20o%20Fitness%20Hub." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Fale conosco no WhatsApp">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFFFF" d="M16.004 3C9.374 3 4 8.374 4 15.004c0 2.52.738 4.861 2.016 6.832L4 29l7.33-1.978a11.94 11.94 0 0 0 4.674.946h.003c6.63 0 12.004-5.374 12.004-12.004C28.01 8.374 22.636 3 16.004 3zm0 21.86a9.86 9.86 0 0 1-5.03-1.378l-.361-.214-4.35 1.174 1.16-4.24-.235-.375a9.84 9.84 0 0 1-1.51-5.823c0-5.448 4.434-9.883 9.883-9.883 5.448 0 9.883 4.434 9.883 9.883.01 5.448-4.424 9.858-9.44 9.858zm5.42-7.395c-.297-.149-1.758-.868-2.03-.967-.273-.099-.47-.149-.669.149-.198.297-.767.967-.94 1.165-.173.198-.347.223-.644.074-.297-.149-1.254-.462-2.39-1.474-.883-.787-1.48-1.76-1.653-2.058-.173-.297-.019-.458.13-.606.134-.133.297-.347.446-.52.148-.173.198-.297.297-.495.099-.198.05-.372-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.58-.487-.502-.669-.512-.173-.009-.372-.011-.57-.011-.198 0-.52.074-.792.372-.273.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.075.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.693.625.711.226 1.358.194 1.869.118.57-.085 1.758-.719 2.006-1.414.248-.694.248-1.289.173-1.414-.074-.124-.272-.198-.569-.347z"/></svg>
+    </a>
 </body>
 </html>
